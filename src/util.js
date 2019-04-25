@@ -1,0 +1,42 @@
+const moment = require('moment-timezone');
+
+/**
+ * @desc Calculate league date (used in leagueId) from given date.
+ * @param {(Number|Date)} startTime
+ * @example calculateLeagueDate(1550577600000) === calculateLeagueDate(1550584799999) === '19021912'
+ */
+const calculateLeagueDate = (startTime) => {
+  let startDate;
+  if (startTime instanceof Date) {
+    startDate = startTime;
+  } else {
+    startDate = new Date(startTime);
+  }
+
+  startDate.setUTCMinutes(0);
+  startDate.setUTCSeconds(0);
+  if (startDate.getUTCHours() % 2 === 1) {
+    startDate.setUTCHours(startDate.getUTCHours() - 1);
+  }
+  return moment(startDate).tz('UTC').format('YYMMDDHH');
+};
+
+/**
+ * @desc Inverse function of calculateLeagueDate.
+ * @example calculateStartTimeFromLeagueDate(calculateLeagueDate(startTime)) === startTime
+ */
+const calculateStartTimeFromLeagueDate = leagueDate => moment.utc(leagueDate, 'YYMMDDHH', true).local().valueOf();
+
+/**
+ * @desc Convert Date object to SQL timestamp string.
+ * @param {(Number|Date)} date
+ * @returns {String} SQL timestamp string
+ * @example dateToSqlTimestamp();
+ */
+const dateToSqlTimestamp = date => moment(date).tz('UTC').format('YYYY-MM-DD HH:mm:ss');
+
+module.exports = {
+  calculateLeagueDate,
+  calculateStartTimeFromLeagueDate,
+  dateToSqlTimestamp,
+};

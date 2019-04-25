@@ -1,0 +1,40 @@
+{
+  "name": "league-battles-stats",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "lint": "eslint . --ext .js --ignore-path .gitignore",
+    "start": "node -r dotenv/config index",
+    "start-dev": "cross-env NODE_ENV=development node -r dotenv/config index",
+    "setup": "node src/setup"
+  },
+  "author": "yukidaruman (https://github.com/yukidaruma)",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "array.prototype.flat": "^1.2.1",
+    "async": "^2.6.2",
+    "dotenv": "^7.0.0",
+    "express": "^4.16.4",
+    "extensible-custom-error": "0.0.7",
+    "knex": "^0.16.5",
+    "memoizee": "^0.4.14",
+    "moment-timezone": "^0.5.25",
+    "node-cron": "^2.0.3",
+    "node-fetch": "^2.3.0",
+    "pg": "^7.10.0",
+    "request-promise-native": "^1.0.7"
+  },
+  "devDependencies": {
+    "cross-env": "^5.2.0",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.17.2",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-react": "^7.12.4",
+    "jest": "^24.7.1"
+  }
+}
