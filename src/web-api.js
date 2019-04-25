@@ -1,9 +1,14 @@
 const express = require('express');
+const morgan = require('morgan');
 
 const { db } = require('./db');
 const { calculateStartTimeFromLeagueDate } = require('./util');
 
 const app = express();
+
+// Logging middleware
+const logFormat = process.env.NODE_ENV === 'development' ? 'dev' : 'short';
+app.use(morgan(logFormat));
 
 app.get('/', (req, res) => {
   res.send('It works.');
