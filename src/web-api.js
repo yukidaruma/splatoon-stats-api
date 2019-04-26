@@ -16,6 +16,9 @@ app.use(cors({
 const logFormat = process.env.NODE_ENV === 'development' ? 'dev' : 'short';
 app.use(morgan(logFormat));
 
+// Serve static files
+app.use('/static', express.static('cache'));
+
 app.get('/', (req, res) => {
   res.send('It works.');
 });
