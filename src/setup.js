@@ -23,7 +23,6 @@ const downloadLocales = (cb) => {
         });
         fileStream.on('finish', () => {
           resolve();
-          cb();
         });
       });
     }
