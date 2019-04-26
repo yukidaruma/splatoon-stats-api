@@ -1,10 +1,16 @@
 const express = require('express');
 const morgan = require('morgan');
+const cors = require('cors');
 
+const config = require('../config');
 const { db } = require('./db');
 const { calculateStartTimeFromLeagueDate } = require('./util');
 
 const app = express();
+
+app.use(cors({
+  origin: config.FRONTEND_ORIGIN,
+}));
 
 // Logging middleware
 const logFormat = process.env.NODE_ENV === 'development' ? 'dev' : 'short';
