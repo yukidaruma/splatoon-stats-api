@@ -23,7 +23,7 @@ const addWeapons = (statInkWeapons) => {
   // e.g.) [sshooter(main_ref: sshooter), ..., sshooter_collabo(main_ref: sshooter)]
   const weaponKeyToWeaponId = {};
 
-  db.transaction((trx) => {
+  return db.transaction((trx) => {
     const tasks = statInkWeapons.map((weapon) => {
       const weaponId = weapon.splatnet;
       weaponKeyToWeaponId[weapon.key] = weaponId;
@@ -68,7 +68,7 @@ const addWeapons = (statInkWeapons) => {
   });
 };
 
-const populateDatabase = () => {
+const populateDatabase = (statInkWeapons) => {
   async.series(
     {
       _addWeaponClasses(next) {
@@ -173,8 +173,15 @@ const populateDatabase = () => {
           });
       },
       _addWeapons(next) {
-        fetch('https://stat.ink/api/v2/weapon', { headers: { 'User-Agent': config.THIRDPARTY_API_USERAGENT } })
-          .then(res => res.json())
+        (async function () { // eslint-disable-line func-names
+          if (statInkWeapons) {
+            return statInkWeapons;
+          }
+
+          const res = await fetch('https://stat.ink/api/v2/weapon',
+            { headers: { 'User-Agent': config.THIRDPARTY_API_USERAGENT } });
+          return res.json();
+        }())
           .then(weapons => addWeapons(weapons))
           .then(() => {
             console.log('_addWeapons is successfully done.');
