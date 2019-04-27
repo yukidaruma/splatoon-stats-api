@@ -65,20 +65,29 @@ app.get('/league/:type((weapons|specials|subs))/:month([1-9]|1[012])', (req, res
   if (type === 'weapons') {
     db.raw(`
 select
-  rank() over (order by popular_weapons.count desc),
-  count,
-  popular_weapons.weapon_id,
-  sub_weapon_id,
-  special_weapon_id,
-  100 * count / sum(count) over () as percentage
-from (
-  select league_rankings.weapon_id, count(league_rankings.weapon_id) from league_rankings
-    where extract(month from start_time) = ?
-      group by league_rankings.weapon_id
-      order by count desc, league_rankings.weapon_id desc
-) as popular_weapons
-  inner join weapons on popular_weapons.weapon_id = weapons.weapon_id
-      `, [month])
+    RANK() over (order by popular_weapons.count desc),
+    count,
+    popular_weapons.temp_weapon_id as weapon_id,
+    sub_weapon_id,
+    special_weapon_id,
+    100 * count / sum(count) over () as percentage
+  from (
+    select
+        -- Group identical weapons (e.g. Hero Shot Replica and Splattershot)
+        case
+          when weapons.reskin_of is NOT NULL then weapons.reskin_of
+          else league_rankings.weapon_id
+        end as temp_weapon_id,
+        count(league_rankings.weapon_id),
+        sub_weapon_id,
+        special_weapon_id
+    from league_rankings
+      inner join weapons on league_rankings.weapon_id = weapons.weapon_id
+      where extract(month from start_time) = ?
+      group by temp_weapon_id, sub_weapon_id, special_weapon_id
+      order by count desc, temp_weapon_id desc
+  ) as popular_weapons
+        `, [month])
       .then((result) => {
         res.json(result.rows);
       });
@@ -87,17 +96,17 @@ from (
     const columnName = `${type.substring(0, type.length - 1)}_weapon_id`;
     db.raw(`
 select
-  rank() over (order by popular_weapons.count desc),
-  ${columnName},
-  count,
-  100 * count / sum(count) over () as percentage
-from (
-  select count(weapons.${columnName}), weapons.${columnName} from league_rankings
-    inner join weapons on league_rankings.weapon_id = weapons.weapon_id
-    where extract(month from start_time) = ?
-    group by weapons.${columnName}
-      order by count desc, weapons.${columnName} desc
-) as popular_weapons
+    rank() over (order by popular_weapons.count desc),
+    ${columnName},
+    count,
+    100 * count / sum(count) over () as percentage
+  from (
+    select count(weapons.${columnName}), weapons.${columnName} from league_rankings
+      inner join weapons on league_rankings.weapon_id = weapons.weapon_id
+      where extract(month from start_time) = ?
+      group by weapons.${columnName}
+        order by count desc, weapons.${columnName} desc
+  ) as popular_weapons
       `, [month])
       .then((result) => {
         res.json(result.rows);
