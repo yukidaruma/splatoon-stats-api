@@ -107,9 +107,9 @@ const fetchStageRotations = forceFetch => new Promise((resolve, reject) => {
  * @param {String} leagueId
  * @example
  * // Fetches league battle ranking for 2019-01-01 00:00 ~ 02:00 (UTC)
- * fetchNewRanking('19010100T')
+ * fetchLeagueRanking('19010100T')
  */
-const fetchNewRanking = leagueId => new Promise((resolve, reject) => {
+const fetchLeagueRanking = leagueId => new Promise((resolve, reject) => {
   /*
     ranking.league_id '19021912T'
     ranking.league_type ('team' or 'pair')
@@ -150,3 +150,4 @@ const fetchNewRanking = leagueId => new Promise((resolve, reject) => {
 });
 
 module.exports = { fetchStageRotations, fetchNewRanking };
+module.exports = { fetchStageRotations, fetchLeagueRanking };

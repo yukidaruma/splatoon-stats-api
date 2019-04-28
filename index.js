@@ -2,7 +2,7 @@ const cron = require('node-cron');
 const moment = require('moment-timezone');
 const app = require('./src/web-api');
 const config = require('./config');
-const { fetchStageRotations, fetchNewRanking } = require('./src/cron-job');
+const { fetchStageRotations, fetchLeagueRanking } = require('./src/cron-job');
 const { calculateLeagueDate } = require('./src/util');
 const { NintendoAPIError } = require('./src/errors');
 
@@ -11,12 +11,13 @@ cron.schedule('20 1-23/2 * * *', () => { // See https://crontab.guru/#20_1-23/2_
 
   // For now, this only fetches latest ranking.
   // TODO: Fetch rankings of last 24 hours (so we don't have missed rankings)
-  const fetchNewRankings = () => {
-    const tasks = [`${leagueDate}T`, `${leagueDate}P`].map(leagueId => fetchNewRanking(leagueId));
+  // TODO: Fetch league rankings of last 24 hours (so we don't have missed rankings)
+  const fetchLeagueRankings = () => {
+    const tasks = [`${leagueDate}T`, `${leagueDate}P`].map(leagueId => fetchLeagueRanking(leagueId));
     return Promise.all(tasks);
   };
 
-  Promise.all([fetchStageRotations, fetchNewRankings()])
+  Promise.all([fetchStageRotations, fetchLeagueRankings()])
     .then(() => console.log(`Successfully completed cron job at ${moment().format('YYYY-MM-DD HH:mm:ss')}.`))
     .catch((err) => {
       if (err instanceof NintendoAPIError) { // Expected errors
