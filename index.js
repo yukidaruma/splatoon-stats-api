@@ -8,7 +8,8 @@ const { NintendoAPIError } = require('./src/errors');
 
 // Fetch League Ranking every 2 hours
 cron.schedule('20 1-23/2 * * *', () => { // See https://crontab.guru/#20_1-23/2_*_*_*
-  const leagueDate = calculateLeagueDate(new Date() - 120 * 60 * 1000); // The latest ranking available is the one from 2 hours ago.
+  // The latest ranking available is the one from 2 hours ago.
+  const leagueDate = calculateLeagueDate(new Date() - 120 * 60 * 1000);
 
   // For now, this only fetches latest ranking.
   // TODO: Fetch league rankings of last 24 hours (so we don't have missed rankings)

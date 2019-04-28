@@ -28,7 +28,8 @@ const addWeapons = (statInkWeapons) => {
       const weaponId = weapon.splatnet;
       weaponKeyToWeaponId[weapon.key] = weaponId;
       const subWeaponId = findSubWeaponId(weapon.sub.key);
-      const weaponClassId = findWeaponClassId(weapon.type.category.key); // Cannot use weapon.type.key because there's type `reelgun`
+      // Cannot use weapon.type.key because there's type `reelgun`
+      const weaponClassId = findWeaponClassId(weapon.type.category.key);
 
       let specialWeaponId;
       if (weapon.special.key === 'pitcher') {
@@ -45,18 +46,20 @@ const addWeapons = (statInkWeapons) => {
         reskinOfId = weaponKeyToWeaponId[weapon.reskin_of];
       }
 
-      return trx.raw(
-        'INSERT INTO weapons (weapon_id, weapon_key, special_weapon_id, sub_weapon_id, main_reference, weapon_class_id, reskin_of) VALUES (?, ?, ?, ?, ?, ?, ?) ON CONFLICT DO NOTHING',
-        [
-          weapon.splatnet,
-          weapon.key,
-          specialWeaponId,
-          subWeaponId,
-          weaponKeyToWeaponId[weapon.main_ref],
-          weaponClassId,
-          reskinOfId,
-        ],
-      );
+      return trx.raw(`
+        INSERT
+          INTO weapons (weapon_id, weapon_key, special_weapon_id, sub_weapon_id, main_reference, weapon_class_id, reskin_of)
+          VALUES (?, ?, ?, ?, ?, ?, ?)
+          ON CONFLICT DO NOTHING`,
+      [
+        weapon.splatnet,
+        weapon.key,
+        specialWeaponId,
+        subWeaponId,
+        weaponKeyToWeaponId[weapon.main_ref],
+        weaponClassId,
+        reskinOfId,
+      ]);
     });
     Promise.all(tasks)
       .then(() => {
@@ -154,10 +157,11 @@ const populateDatabase = (statInkWeapons) => {
               const tasks = schedules.result.map((_schedule) => {
                 const schedule = convertScheduleFormat(_schedule);
                 const stageIds = [schedule.stage_a.id, schedule.stage_b.id];
-                return trx.raw(
-                  'INSERT INTO league_schedules (start_time, rule_id, stage_ids) VALUES (to_timestamp(?), ?, ?) ON CONFLICT DO NOTHING',
-                  [schedule.start_time, findRuleId(schedule.rule.key), stageIds],
-                );
+                return trx.raw(`
+                  INSERT
+                    INTO league_schedules (start_time, rule_id, stage_ids)
+                    VALUES (to_timestamp(?), ?, ?) ON CONFLICT DO NOTHING`,
+                [schedule.start_time, findRuleId(schedule.rule.key), stageIds]);
               });
               Promise.all(tasks)
                 .then(() => {
