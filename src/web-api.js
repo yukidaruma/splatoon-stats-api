@@ -59,10 +59,12 @@ app.get('/league/rankings/:leagueDate(\\d{8}):groupType([TP])', (req, res) => {
     });
 });
 
-app.get('/league/:type((weapons|specials|subs))/:year(\\d{4})/:month([1-9]|1[012])', (req, res) => {
-  const { type, year, month } = req.params;
+app.get('/:rankingType((league|x))/:weaponType((weapons|specials|subs))/:year(\\d{4})/:month([1-9]|1[012])', (req, res) => {
+  const { rankingType, weaponType, year, month } = req.params;
 
-  if (type === 'weapons') {
+  const tableName = `${rankingType}_rankings`;
+
+  if (weaponType === 'weapons') {
     db.raw(`
 select
     RANK() over (order by popular_weapons.count desc),
@@ -76,40 +78,40 @@ select
         -- Group identical weapons (e.g. Hero Shot Replica and Splattershot)
         case
           when weapons.reskin_of is NOT NULL then weapons.reskin_of
-          else league_rankings.weapon_id
+          else :tableName:.weapon_id
         end as temp_weapon_id,
-        count(league_rankings.weapon_id),
+        count(:tableName:.weapon_id),
         sub_weapon_id,
         special_weapon_id
-    from league_rankings
-      inner join weapons on league_rankings.weapon_id = weapons.weapon_id
-      where extract(year from start_time) = ?
-        AND extract(month from start_time) = ?
+    from :tableName:
+      inner join weapons on :tableName:.weapon_id = weapons.weapon_id
+      where extract(year from start_time) = :year
+        AND extract(month from start_time) = :month
       group by temp_weapon_id, sub_weapon_id, special_weapon_id
       order by count desc, temp_weapon_id desc
   ) as popular_weapons
-        `, [year, month])
+        `, { tableName, year, month })
       .then((result) => {
         res.json(result.rows);
       });
-  } else if (type === 'specials' || type === 'subs') {
+  } else if (weaponType === 'specials' || weaponType === 'subs') {
     // e.g.) specials -> special_weapon_id
-    const columnName = `${type.substring(0, type.length - 1)}_weapon_id`;
+    const weaponTypeColumnName = `${weaponType.substring(0, weaponType.length - 1)}_weapon_id`;
     db.raw(`
 select
     rank() over (order by popular_weapons.count desc),
-    ${columnName},
+    :weaponTypeColumnName:,
     count,
     100 * count / sum(count) over () as percentage
   from (
-    select count(weapons.${columnName}), weapons.${columnName} from league_rankings
-      inner join weapons on league_rankings.weapon_id = weapons.weapon_id
-      where extract(year from start_time) = ?
-        AND extract(month from start_time) = ?
-      group by weapons.${columnName}
-        order by count desc, weapons.${columnName} desc
+    select count(weapons.:weaponTypeColumnName:), weapons.:weaponTypeColumnName: from :tableName:
+      inner join weapons on :tableName:.weapon_id = weapons.weapon_id
+      where extract(year from start_time) = :year
+        AND extract(month from start_time) = :month
+      group by weapons.:weaponTypeColumnName:
+        order by count desc, weapons.:weaponTypeColumnName: desc
   ) as popular_weapons
-      `, [month, year])
+  `, { tableName, weaponTypeColumnName, year, month })
       .then((result) => {
         res.json(result.rows);
       });
