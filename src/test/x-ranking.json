@@ -1,0 +1,2716 @@
+{
+  "rule": {
+    "key": "splat_zones",
+    "multiline_name": "\u30ac\u30c1\n\u30a8\u30ea\u30a2",
+    "name": "\u30ac\u30c1\u30a8\u30ea\u30a2"
+  },
+  "end_time": 1530403200,
+  "season_id": "180601T00_180701T00_02",
+  "top_rankings": [
+    {
+      "rank": 1,
+      "x_power": 2805.8,
+      "weapon": {
+        "name": "\u30b9\u30d7\u30e9\u30b9\u30b3\u30fc\u30d7\u30b3\u30e9\u30dc",
+        "special": {
+          "image_b": "/images/special/0ee7864672be208c9ea57904eb172e942dc4471f.png",
+          "id": "3",
+          "name": "\u30ad\u30e5\u30fc\u30d0\u30f3\u30dc\u30e0\u30d4\u30c3\u30c1\u30e3\u30fc",
+          "image_a": "/images/special/0a6b11ca3d93e99fa53aa50ee8a948c6747a651d.png"
+        },
+        "sub": {
+          "id": "9",
+          "image_b": "/images/sub/42940c5ac8fea75599f8d8379f9e0c5bbd2eaedd.png",
+          "image_a": "/images/sub/b00df7ddec57c9254094c901dbb7533b61e5a3e3.png",
+          "name": "\u30b9\u30d7\u30e9\u30c3\u30b7\u30e5\u30b7\u30fc\u30eb\u30c9"
+        },
+        "id": "2021",
+        "image": "/images/weapon/20db4f5e0798f2b3ec968895353dcc06d991f943.png",
+        "thumbnail": "/images/weapon/f273f3c84188b69cb8e192003e5e7e0a527593b7.png"
+      },
+      "unique_id": "10363627171806673159",
+      "principal_id": "c92f99fc7ea1dfc2",
+      "rank_change": "up",
+      "name": "\u00b0-\u00b0",
+      "cheater": false
+    },
+    {
+      "rank": 2,
+      "x_power": 2740.9,
+      "weapon": {
+        "thumbnail": "/images/weapon/f273f3c84188b69cb8e192003e5e7e0a527593b7.png",
+        "name": "\u30b9\u30d7\u30e9\u30b9\u30b3\u30fc\u30d7\u30b3\u30e9\u30dc",
+        "special": {
+          "image_b": "/images/special/0ee7864672be208c9ea57904eb172e942dc4471f.png",
+          "id": "3",
+          "name": "\u30ad\u30e5\u30fc\u30d0\u30f3\u30dc\u30e0\u30d4\u30c3\u30c1\u30e3\u30fc",
+          "image_a": "/images/special/0a6b11ca3d93e99fa53aa50ee8a948c6747a651d.png"
+        },
+        "image": "/images/weapon/20db4f5e0798f2b3ec968895353dcc06d991f943.png",
+        "sub": {
+          "id": "9",
+          "image_b": "/images/sub/42940c5ac8fea75599f8d8379f9e0c5bbd2eaedd.png",
+          "image_a": "/images/sub/b00df7ddec57c9254094c901dbb7533b61e5a3e3.png",
+          "name": "\u30b9\u30d7\u30e9\u30c3\u30b7\u30e5\u30b7\u30fc\u30eb\u30c9"
+        },
+        "id": "2021"
+      },
+      "principal_id": "a2890d78ba40bc7d",
+      "rank_change": "up",
+      "unique_id": "2941132035944694776",
+      "name": "\u30ab\u30af\u30b3\u30ed\u30ab\u30ec\u30fc",
+      "cheater": false
+    },
+    {
+      "name": "fuzzy",
+      "cheater": false,
+      "principal_id": "156adb58b1f34c47",
+      "unique_id": "14788695280673270782",
+      "rank_change": "up",
+      "x_power": 2729.6,
+      "weapon": {
+        "thumbnail": "/images/weapon/c83b40e0bc5c913354bfd8b60c72904eab45d7e6.png",
+        "special": {
+          "name": "\u30b8\u30a7\u30c3\u30c8\u30d1\u30c3\u30af",
+          "image_a": "/images/special/9871c82952ed0141be0310ace1942c9f5f66d655.png",
+          "image_b": "/images/special/26e8117808ce17dadb0f23943359e5909fef4085.png",
+          "id": "8"
+        },
+        "name": "\u30aa\u30af\u30bf\u30b7\u30e5\u30fc\u30bf\u30fc \u30ec\u30d7\u30ea\u30ab",
+        "sub": {
+          "image_a": "/images/sub/d2eaeec524d28ef315a13f8a9e11dd1039cb78aa.png",
+          "name": "\u30b9\u30d7\u30e9\u30c3\u30b7\u30e5\u30dc\u30e0",
+          "id": "0",
+          "image_b": "/images/sub/b13bf755b279af83904892fae01cd98c866dfec7.png"
+        },
+        "id": "46",
+        "image": "/images/weapon/62cec5368a7858761cf3b2379c48acf1dec881ef.png"
+      },
+      "rank": 3
+    },
+    {
+      "name": "\u30ab\u30ca\u30d6\u30f3TV",
+      "cheater": false,
+      "principal_id": "6eba870cbd8999b2",
+      "unique_id": "16219714062271589820",
+      "rank_change": "up",
+      "x_power": 2703.2,
+      "weapon": {
+        "image": "/images/weapon/ed1aa6f4edecafba6c8d028e475a9219281f7bb4.png",
+        "id": "6021",
+        "sub": {
+          "image_b": "/images/sub/b13bf755b279af83904892fae01cd98c866dfec7.png",
+          "id": "0",
+          "name": "\u30b9\u30d7\u30e9\u30c3\u30b7\u30e5\u30dc\u30e0",
+          "image_a": "/images/sub/d2eaeec524d28ef315a13f8a9e11dd1039cb78aa.png"
+        },
+        "special": {
+          "id": "11",
+          "image_b": "/images/special/caf32476e5010e27a4ef9923dbe323978b1d7510.png",
+          "image_a": "/images/special/3e9cd3e60367fbe82d6237a10fdc826d695b9fa0.png",
+          "name": "\u30a4\u30ab\u30b9\u30d5\u30a3\u30a2"
+        },
+        "name": "\u30b9\u30d1\u30a4\u30ac\u30b8\u30a7\u30c3\u30c8\u30bd\u30ec\u30fc\u30e9",
+        "thumbnail": "/images/weapon/907517e291eb3c1d5e8b1e40a73ffa67eae104b4.png"
+      },
+      "rank": 4
+    },
+    {
+      "principal_id": "f1fbb227fd8e0e42",
+      "unique_id": "10979775895824443056",
+      "rank_change": "up",
+      "name": "\u307f\u306a\u3068\u306f\u308a\uff5e?",
+      "cheater": false,
+      "rank": 5,
+      "x_power": 2682.9,
+      "weapon": {
+        "thumbnail": "/images/weapon/c83b40e0bc5c913354bfd8b60c72904eab45d7e6.png",
+        "image": "/images/weapon/62cec5368a7858761cf3b2379c48acf1dec881ef.png",
+        "id": "46",
+        "sub": {
+          "image_b": "/images/sub/b13bf755b279af83904892fae01cd98c866dfec7.png",
+          "id": "0",
+          "name": "\u30b9\u30d7\u30e9\u30c3\u30b7\u30e5\u30dc\u30e0",
+          "image_a": "/images/sub/d2eaeec524d28ef315a13f8a9e11dd1039cb78aa.png"
+        },
+        "name": "\u30aa\u30af\u30bf\u30b7\u30e5\u30fc\u30bf\u30fc \u30ec\u30d7\u30ea\u30ab",
+        "special": {
+          "image_a": "/images/special/9871c82952ed0141be0310ace1942c9f5f66d655.png",
+          "name": "\u30b8\u30a7\u30c3\u30c8\u30d1\u30c3\u30af",
+          "id": "8",
+          "image_b": "/images/special/26e8117808ce17dadb0f23943359e5909fef4085.png"
+        }
+      }
+    },
+    {
+      "principal_id": "d6fdec767cdcc6c0",
+      "unique_id": "14119066311082009143",
+      "rank_change": "up",
+      "name": "\u3048\u3061\u307e\u308a\u3093\u266a",
+      "cheater": false,
+      "rank": 6,
+      "x_power": 2681,
+      "weapon": {
+        "id": "2021",
+        "sub": {
+          "id": "9",
+          "image_b": "/images/sub/42940c5ac8fea75599f8d8379f9e0c5bbd2eaedd.png",
+          "image_a": "/images/sub/b00df7ddec57c9254094c901dbb7533b61e5a3e3.png",
+          "name": "\u30b9\u30d7\u30e9\u30c3\u30b7\u30e5\u30b7\u30fc\u30eb\u30c9"
+        },
+        "image": "/images/weapon/20db4f5e0798f2b3ec968895353dcc06d991f943.png",
+        "name": "\u30b9\u30d7\u30e9\u30b9\u30b3\u30fc\u30d7\u30b3\u30e9\u30dc",
+        "special": {
+          "id": "3",
+          "image_b": "/images/special/0ee7864672be208c9ea57904eb172e942dc4471f.png",
+          "image_a": "/images/special/0a6b11ca3d93e99fa53aa50ee8a948c6747a651d.png",
+          "name": "\u30ad\u30e5\u30fc\u30d0\u30f3\u30dc\u30e0\u30d4\u30c3\u30c1\u30e3\u30fc"
+        },
+        "thumbnail": "/images/weapon/f273f3c84188b69cb8e192003e5e7e0a527593b7.png"
+      }
+    },
+    {
+      "principal_id": "309589048e4211d2",
+      "unique_id": "11123328133948696038",
+      "rank_change": "up",
+      "cheater": false,
+      "name": "\u00a9\u00a9_\u306f\u3093\u3057\u3083",
+      "rank": 7,
+      "weapon": {
+        "thumbnail": "/images/weapon/78f0df8c7b0f625d91f5b4ea953b10872109c77b.png",
+        "special": {
+          "name": "\u30b9\u30fc\u30d1\u30fc\u30c1\u30e3\u30af\u30c1",
+          "image_a": "/images/special/324d41e9582d84101152849bc8c96d6595c9b0ff.png",
+          "image_b": "/images/special/4eb81e00f5d707248879a7c7037d8475716a8045.png",
+          "id": "9"
+        },
+        "name": "\u30af\u30a2\u30c3\u30c9\u30db\u30c3\u30d1\u30fc\u30d6\u30e9\u30c3\u30af",
+        "sub": {
+          "image_b": "/images/sub/f0e4b4bad0e37031b8cb8ff397d4bb0ad9c86307.png",
+          "id": "4",
+          "name": "\u30ed\u30dc\u30c3\u30c8\u30dc\u30e0",
+          "image_a": "/images/sub/457de86fa079df54c7a3c96decca49a55a1686ae.png"
+        },
+        "id": "5040",
+        "image": "/images/weapon/ba750d284eb067abdc995435c3358eed4e6f90fa.png"
+      },
+      "x_power": 2678.2
+    },
+    {
+      "name": "\u3048\u3068\u30fc\u3042\u306e\u30fc\u305d\u30fc\u306e",
+      "cheater": false,
+      "rank_change": "up",
+      "unique_id": "13737386242660604979",
+      "principal_id": "480bb0fab735ff91",
+      "x_power": 2674.5,
+      "weapon": {
+        "thumbnail": "/images/weapon/9b5ece6105fd7077f6b22015d57e3a26aee93d39.png",
+        "name": "\u30e9\u30d4\u30c3\u30c9\u30d6\u30e9\u30b9\u30bf\u30fc\u30c7\u30b3",
+        "special": {
+          "image_a": "/images/special/9871c82952ed0141be0310ace1942c9f5f66d655.png",
+          "name": "\u30b8\u30a7\u30c3\u30c8\u30d1\u30c3\u30af",
+          "id": "8",
+          "image_b": "/images/special/26e8117808ce17dadb0f23943359e5909fef4085.png"
+        },
+        "sub": {
+          "id": "1",
+          "image_b": "/images/sub/9d6336b855940f6c8fc82979a972f9f3381c0e65.png",
+          "image_a": "/images/sub/79ec06c8afca6af0e14da4d9941706bb15f9927e.png",
+          "name": "\u30ad\u30e5\u30fc\u30d0\u30f3\u30dc\u30e0"
+        },
+        "id": "241",
+        "image": "/images/weapon/a90b59baa8158ec7376699488d71980fa6d9fdb2.png"
+      },
+      "rank": 8
+    },
+    {
+      "name": "\u30bf\u30fc\u30dc\u30fc",
+      "cheater": false,
+      "principal_id": "3ef067977e7faabf",
+      "rank_change": "up",
+      "unique_id": "10438780990587357395",
+      "x_power": 2673.7,
+      "weapon": {
+        "thumbnail": "/images/weapon/8b62de420955b0f0d4cf9dd9accecb49fc37c448.png",
+        "sub": {
+          "image_a": "/images/sub/46f5b9fe851d4ac8df9eb959e7270ff72526dffe.png",
+          "name": "\u30b9\u30d7\u30ea\u30f3\u30af\u30e9\u30fc",
+          "id": "6",
+          "image_b": "/images/sub/47b6c31e712634bd793d5b920288fe7b1fb3c2bd.png"
+        },
+        "id": "6005",
+        "image": "/images/weapon/d81d2a168f729fa0f18a7c402a87320c42cc4a45.png",
+        "special": {
+          "name": "\u30a2\u30e1\u30d5\u30e9\u30b7",
+          "image_a": "/images/special/b07cb8cd5b8afbf509b98a9cbb768ed0f2e34898.png",
+          "image_b": "/images/special/b2ffd060612d3ed4cfa7bee583cb28d22307064a.png",
+          "id": "10"
+        },
+        "name": "\u30d2\u30fc\u30ed\u30fc\u30b7\u30a7\u30eb\u30bf\u30fc \u30ec\u30d7\u30ea\u30ab"
+      },
+      "rank": 9
+    },
+    {
+      "weapon": {
+        "image": "/images/weapon/e32ed68bb18628c5ede5816a2fbc2b8fcdd04124.png",
+        "sub": {
+          "image_b": "/images/sub/42940c5ac8fea75599f8d8379f9e0c5bbd2eaedd.png",
+          "id": "9",
+          "name": "\u30b9\u30d7\u30e9\u30c3\u30b7\u30e5\u30b7\u30fc\u30eb\u30c9",
+          "image_a": "/images/sub/b00df7ddec57c9254094c901dbb7533b61e5a3e3.png"
+        },
+        "id": "1030",
+        "special": {
+          "image_a": "/images/special/18990f646c551ee77c5b283ec814e371f692a553.png",
+          "name": "\u30b9\u30d7\u30e9\u30c3\u30b7\u30e5\u30dc\u30e0\u30d4\u30c3\u30c1\u30e3\u30fc",
+          "id": "2",
+          "image_b": "/images/special/9e89e1d67803c3021203182ecc7f38bc2c0f5400.png"
+        },
+        "name": "\u30f4\u30a1\u30ea\u30a2\u30d6\u30eb\u30ed\u30fc\u30e9\u30fc",
+        "thumbnail": "/images/weapon/d0145bac97eabd1046263c8856f3e14c68547a90.png"
+      },
+      "x_power": 2673.3,
+      "rank": 10,
+      "cheater": false,
+      "name": "\u3068\u3042\u3089\u306a\u3044",
+      "principal_id": "7a7199f8c4906017",
+      "unique_id": "584623530923224855",
+      "rank_change": "up"
+    },
+    {
+      "rank_change": "up",
+      "principal_id": "1734fe2797ae3c83",
+      "unique_id": "15919661737096779013",
+      "cheater": false,
+      "name": "k\u03c1 Kaji",
+      "rank": 11,
+      "weapon": {
+        "thumbnail": "/images/weapon/671fa6a5866cfacdcb82119f141774cfb1ab88c3.png",
+        "special": {
+          "name": "\u30cf\u30a4\u30d1\u30fc\u30d7\u30ec\u30c3\u30b5\u30fc",
+          "image_a": "/images/special/7af300fdd872feb27b3d8e68a969457fac8b3bb7.png",
+          "image_b": "/images/special/485b748720bbf809d8b28f9f4ee1a505cbcb339b.png",
+          "id": "7"
+        },
+        "name": "\u30d2\u30fc\u30ed\u30fc\u30b9\u30d4\u30ca\u30fc \u30ec\u30d7\u30ea\u30ab",
+        "id": "4015",
+        "sub": {
+          "image_b": "/images/sub/47b6c31e712634bd793d5b920288fe7b1fb3c2bd.png",
+          "id": "6",
+          "name": "\u30b9\u30d7\u30ea\u30f3\u30af\u30e9\u30fc",
+          "image_a": "/images/sub/46f5b9fe851d4ac8df9eb959e7270ff72526dffe.png"
+        },
+        "image": "/images/weapon/db72f8ce65d8ac8e70e071e2a6dcb65d75cb4bf6.png"
+      },
+      "x_power": 2667.5
+    },
+    {
+      "weapon": {
+        "id": "46",
+        "sub": {
+          "id": "0",
+          "image_b": "/images/sub/b13bf755b279af83904892fae01cd98c866dfec7.png",
+          "image_a": "/images/sub/d2eaeec524d28ef315a13f8a9e11dd1039cb78aa.png",
+          "name": "\u30b9\u30d7\u30e9\u30c3\u30b7\u30e5\u30dc\u30e0"
+        },
+        "image": "/images/weapon/62cec5368a7858761cf3b2379c48acf1dec881ef.png",
+        "special": {
+          "image_a": "/images/special/9871c82952ed0141be0310ace1942c9f5f66d655.png",
+          "name": "\u30b8\u30a7\u30c3\u30c8\u30d1\u30c3\u30af",
+          "id": "8",
+          "image_b": "/images/special/26e8117808ce17dadb0f23943359e5909fef4085.png"
+        },
+        "name": "\u30aa\u30af\u30bf\u30b7\u30e5\u30fc\u30bf\u30fc \u30ec\u30d7\u30ea\u30ab",
+        "thumbnail": "/images/weapon/c83b40e0bc5c913354bfd8b60c72904eab45d7e6.png"
+      },
+      "x_power": 2665.3,
+      "rank": 12,
+      "cheater": false,
+      "name": "\u3058\u3087\u3046\u307b\u3046\u308d\u3046\u3048\u3044\u00d7",
+      "principal_id": "8ffab3c875381311",
+      "rank_change": "up",
+      "unique_id": "4673047567646447167"
+    },
+    {
+      "rank": 13,
+      "x_power": 2660.3,
+      "weapon": {
+        "sub": {
+          "image_b": "/images/sub/47b6c31e712634bd793d5b920288fe7b1fb3c2bd.png",
+          "id": "6",
+          "name": "\u30b9\u30d7\u30ea\u30f3\u30af\u30e9\u30fc",
+          "image_a": "/images/sub/46f5b9fe851d4ac8df9eb959e7270ff72526dffe.png"
+        },
+        "id": "3001",
+        "image": "/images/weapon/bbaff592c6040d1aba424e04c909006225034b76.png",
+        "name": "\u30d0\u30b1\u30c3\u30c8\u30b9\u30ed\u30c3\u30b7\u30e3\u30fc\u30c7\u30b3",
+        "special": {
+          "id": "11",
+          "image_b": "/images/special/caf32476e5010e27a4ef9923dbe323978b1d7510.png",
+          "image_a": "/images/special/3e9cd3e60367fbe82d6237a10fdc826d695b9fa0.png",
+          "name": "\u30a4\u30ab\u30b9\u30d5\u30a3\u30a2"
+        },
+        "thumbnail": "/images/weapon/97e0132b1f1a4d27d8d7831b429a21985bf088c3.png"
+      },
+      "rank_change": "up",
+      "principal_id": "e706dfc0271d6a01",
+      "unique_id": "9807151142848250198",
+      "name": "\u30b4\u30ea\u30e9\u4edd1\u307e\u3055\u30ad\u30f3\u30b0",
+      "cheater": false
+    },
+    {
+      "cheater": false,
+      "name": "!",
+      "principal_id": "2e462fc93f51b080",
+      "unique_id": "3775705341891727192",
+      "rank_change": "up",
+      "weapon": {
+        "thumbnail": "/images/weapon/7ccb1233eb949e651d0c9e49971f1c0c6be59138.png",
+        "special": {
+          "image_b": "/images/special/b2ffd060612d3ed4cfa7bee583cb28d22307064a.png",
+          "id": "10",
+          "name": "\u30a2\u30e1\u30d5\u30e9\u30b7",
+          "image_a": "/images/special/b07cb8cd5b8afbf509b98a9cbb768ed0f2e34898.png"
+        },
+        "name": "\u30c7\u30e5\u30a2\u30eb\u30b9\u30a4\u30fc\u30d1\u30fc\u30ab\u30b9\u30bf\u30e0",
+        "image": "/images/weapon/a1c290b4abc1b4b9ab03425d8e89b88053390dbe.png",
+        "sub": {
+          "image_b": "/images/sub/b13bf755b279af83904892fae01cd98c866dfec7.png",
+          "id": "0",
+          "name": "\u30b9\u30d7\u30e9\u30c3\u30b7\u30e5\u30dc\u30e0",
+          "image_a": "/images/sub/d2eaeec524d28ef315a13f8a9e11dd1039cb78aa.png"
+        },
+        "id": "5031"
+      },
+      "x_power": 2656.6,
+      "rank": 14
+    },
+    {
+      "rank_change": "up",
+      "unique_id": "11367085463778361408",
+      "principal_id": "8deeb8cfebc0f57a",
+      "cheater": false,
+      "name": "\u30c0\u30a4\u30caMet",
+      "rank": 15,
+      "weapon": {
+        "id": "1020",
+        "sub": {
+          "id": "5",
+          "image_b": "/images/sub/2e2d1dca678ca3b3e011c3e4620c5c0fa31a9248.png",
+          "image_a": "/images/sub/2705be54dafc7a426539c9e8f701197b7a9373f5.png",
+          "name": "\u30c8\u30e9\u30c3\u30d7"
+        },
+        "image": "/images/weapon/3d274190988ad20dd1b02825448edbb6e12c720c.png",
+        "special": {
+          "name": "\u30cf\u30a4\u30d1\u30fc\u30d7\u30ec\u30c3\u30b5\u30fc",
+          "image_a": "/images/special/7af300fdd872feb27b3d8e68a969457fac8b3bb7.png",
+          "image_b": "/images/special/485b748720bbf809d8b28f9f4ee1a505cbcb339b.png",
+          "id": "7"
+        },
+        "name": "\u30c0\u30a4\u30ca\u30e2\u30ed\u30fc\u30e9\u30fc",
+        "thumbnail": "/images/weapon/b3ae201685123edb72b1fb2686eebd3b1b58437f.png"
+      },
+      "x_power": 2645.3
+    },
+    {
+      "rank_change": "up",
+      "principal_id": "bf96f961c382d4c1",
+      "unique_id": "5783747825749029426",
+      "name": "\u304a\u3059\u3057",
+      "cheater": false,
+      "rank": 16,
+      "x_power": 2643.6,
+      "weapon": {
+        "thumbnail": "/images/weapon/8b62de420955b0f0d4cf9dd9accecb49fc37c448.png",
+        "sub": {
+          "name": "\u30b9\u30d7\u30ea\u30f3\u30af\u30e9\u30fc",
+          "image_a": "/images/sub/46f5b9fe851d4ac8df9eb959e7270ff72526dffe.png",
+          "image_b": "/images/sub/47b6c31e712634bd793d5b920288fe7b1fb3c2bd.png",
+          "id": "6"
+        },
+        "id": "6005",
+        "image": "/images/weapon/d81d2a168f729fa0f18a7c402a87320c42cc4a45.png",
+        "name": "\u30d2\u30fc\u30ed\u30fc\u30b7\u30a7\u30eb\u30bf\u30fc \u30ec\u30d7\u30ea\u30ab",
+        "special": {
+          "image_b": "/images/special/b2ffd060612d3ed4cfa7bee583cb28d22307064a.png",
+          "id": "10",
+          "name": "\u30a2\u30e1\u30d5\u30e9\u30b7",
+          "image_a": "/images/special/b07cb8cd5b8afbf509b98a9cbb768ed0f2e34898.png"
+        }
+      }
+    },
+    {
+      "cheater": false,
+      "name": "\u30b3\u30c3\u30af\u30ab\u30ef\u30b5\u30ad",
+      "unique_id": "15641282985129930157",
+      "principal_id": "badd0591ce7681d1",
+      "rank_change": "up",
+      "weapon": {
+        "thumbnail": "/images/weapon/e3a38f4e457c8d8d7e5629d7f8508487c6c12746.png",
+        "special": {
+          "image_b": "/images/special/485b748720bbf809d8b28f9f4ee1a505cbcb339b.png",
+          "id": "7",
+          "name": "\u30cf\u30a4\u30d1\u30fc\u30d7\u30ec\u30c3\u30b5\u30fc",
+          "image_a": "/images/special/7af300fdd872feb27b3d8e68a969457fac8b3bb7.png"
+        },
+        "name": "\u30b9\u30af\u30ea\u30e5\u30fc\u30b9\u30ed\u30c3\u30b7\u30e3\u30fc",
+        "image": "/images/weapon/27a026e7dec5a068777bb7883f50451aec799d71.png",
+        "sub": {
+          "id": "4",
+          "image_b": "/images/sub/f0e4b4bad0e37031b8cb8ff397d4bb0ad9c86307.png",
+          "image_a": "/images/sub/457de86fa079df54c7a3c96decca49a55a1686ae.png",
+          "name": "\u30ed\u30dc\u30c3\u30c8\u30dc\u30e0"
+        },
+        "id": "3020"
+      },
+      "x_power": 2641.3,
+      "rank": 17
+    },
+    {
+      "name": "\u2020\u3055\u3056\u3081\u3051\u2020\u3072\u3067\u3088\u3057",
+      "cheater": false,
+      "unique_id": "7158471612003054213",
+      "principal_id": "63e2c79b8b425837",
+      "rank_change": "up",
+      "x_power": 2640.1,
+      "weapon": {
+        "special": {
+          "name": "\u30b9\u30fc\u30d1\u30fc\u30c1\u30e3\u30af\u30c1",
+          "image_a": "/images/special/324d41e9582d84101152849bc8c96d6595c9b0ff.png",
+          "image_b": "/images/special/4eb81e00f5d707248879a7c7037d8475716a8045.png",
+          "id": "9"
+        },
+        "name": "\u30af\u30a2\u30c3\u30c9\u30db\u30c3\u30d1\u30fc\u30d6\u30e9\u30c3\u30af",
+        "id": "5040",
+        "sub": {
+          "id": "4",
+          "image_b": "/images/sub/f0e4b4bad0e37031b8cb8ff397d4bb0ad9c86307.png",
+          "image_a": "/images/sub/457de86fa079df54c7a3c96decca49a55a1686ae.png",
+          "name": "\u30ed\u30dc\u30c3\u30c8\u30dc\u30e0"
+        },
+        "image": "/images/weapon/ba750d284eb067abdc995435c3358eed4e6f90fa.png",
+        "thumbnail": "/images/weapon/78f0df8c7b0f625d91f5b4ea953b10872109c77b.png"
+      },
+      "rank": 18
+    },
+    {
+      "rank_change": "up",
+      "principal_id": "0cc7c47b24231ba1",
+      "unique_id": "15141664901468125234",
+      "name": "\u30d7\u30ea\u30f3\u30b9\u2606\u3089\u3059\u3089\u3059",
+      "cheater": false,
+      "rank": 19,
+      "x_power": 2638.9,
+      "weapon": {
+        "special": {
+          "name": "\u30b9\u30d7\u30e9\u30c3\u30b7\u30e5\u30dc\u30e0\u30d4\u30c3\u30c1\u30e3\u30fc",
+          "image_a": "/images/special/18990f646c551ee77c5b283ec814e371f692a553.png",
+          "image_b": "/images/special/9e89e1d67803c3021203182ecc7f38bc2c0f5400.png",
+          "id": "2"
+        },
+        "name": "\u30b9\u30af\u30ea\u30e5\u30fc\u30b9\u30ed\u30c3\u30b7\u30e3\u30fc\u30cd\u30aa",
+        "image": "/images/weapon/b07a826039bc01ed637c4820dfd2318810cecac7.png",
+        "id": "3021",
+        "sub": {
+          "image_a": "/images/sub/14b4d4ef62e915e87bd7caa8b99fb4e986caea26.png",
+          "name": "\u30dd\u30a4\u30f3\u30c8\u30bb\u30f3\u30b5\u30fc",
+          "id": "8",
+          "image_b": "/images/sub/627ae0ea02ab649a7a482ee7ee7ace85ca307f44.png"
+        },
+        "thumbnail": "/images/weapon/49509dd4dae88c644eb88ebbc407dde3fb5ce88f.png"
+      }
+    },
+    {
+      "x_power": 2636.8,
+      "weapon": {
+        "thumbnail": "/images/weapon/626210255f99cb22bee1eded39457c51aa9622aa.png",
+        "name": "\u30b9\u30d7\u30e9\u30ed\u30fc\u30e9\u30fc",
+        "special": {
+          "image_a": "/images/special/324d41e9582d84101152849bc8c96d6595c9b0ff.png",
+          "name": "\u30b9\u30fc\u30d1\u30fc\u30c1\u30e3\u30af\u30c1",
+          "id": "9",
+          "image_b": "/images/special/4eb81e00f5d707248879a7c7037d8475716a8045.png"
+        },
+        "image": "/images/weapon/1041dbdd11b3036671148d47c2e0798cecf3dba2.png",
+        "sub": {
+          "id": "3",
+          "image_b": "/images/sub/2b5797c0ad847a54b9bd8168e75050484919d373.png",
+          "image_a": "/images/sub/e398a9e0360f048b6a0c4c3c1e89211cca96577f.png",
+          "name": "\u30ab\u30fc\u30ea\u30f3\u30b0\u30dc\u30e0"
+        },
+        "id": "1010"
+      },
+      "rank": 20,
+      "name": "\u3086\u3063\u304b\u30fc",
+      "cheater": false,
+      "unique_id": "6713178198844151441",
+      "principal_id": "ea6b99cb77f4208e",
+      "rank_change": "up"
+    },
+    {
+      "x_power": 2636.5,
+      "weapon": {
+        "sub": {
+          "image_b": "/images/sub/f0e4b4bad0e37031b8cb8ff397d4bb0ad9c86307.png",
+          "id": "4",
+          "name": "\u30ed\u30dc\u30c3\u30c8\u30dc\u30e0",
+          "image_a": "/images/sub/457de86fa079df54c7a3c96decca49a55a1686ae.png"
+        },
+        "id": "5040",
+        "image": "/images/weapon/ba750d284eb067abdc995435c3358eed4e6f90fa.png",
+        "special": {
+          "id": "9",
+          "image_b": "/images/special/4eb81e00f5d707248879a7c7037d8475716a8045.png",
+          "image_a": "/images/special/324d41e9582d84101152849bc8c96d6595c9b0ff.png",
+          "name": "\u30b9\u30fc\u30d1\u30fc\u30c1\u30e3\u30af\u30c1"
+        },
+        "name": "\u30af\u30a2\u30c3\u30c9\u30db\u30c3\u30d1\u30fc\u30d6\u30e9\u30c3\u30af",
+        "thumbnail": "/images/weapon/78f0df8c7b0f625d91f5b4ea953b10872109c77b.png"
+      },
+      "rank": 21,
+      "name": "\u308f\u3055\u30d3\u30fc\u30d5",
+      "cheater": false,
+      "unique_id": "6193575391836745752",
+      "principal_id": "657f81a30d0b4b7d",
+      "rank_change": "up"
+    },
+    {
+      "cheater": false,
+      "name": "\u3070\u304f\u3052\u304d\u306e002",
+      "rank_change": "up",
+      "unique_id": "7589409801344471835",
+      "principal_id": "84c249f6d01aa05f",
+      "weapon": {
+        "thumbnail": "/images/weapon/5a901e56b8f13eb20fee865d116199b490d1f7ae.png",
+        "special": {
+          "id": "7",
+          "image_b": "/images/special/485b748720bbf809d8b28f9f4ee1a505cbcb339b.png",
+          "image_a": "/images/special/7af300fdd872feb27b3d8e68a969457fac8b3bb7.png",
+          "name": "\u30cf\u30a4\u30d1\u30fc\u30d7\u30ec\u30c3\u30b5\u30fc"
+        },
+        "name": "\u30d2\u30fc\u30ed\u30fc\u30c1\u30e3\u30fc\u30b8\u30e3\u30fc \u30ec\u30d7\u30ea\u30ab",
+        "sub": {
+          "image_b": "/images/sub/b13bf755b279af83904892fae01cd98c866dfec7.png",
+          "id": "0",
+          "name": "\u30b9\u30d7\u30e9\u30c3\u30b7\u30e5\u30dc\u30e0",
+          "image_a": "/images/sub/d2eaeec524d28ef315a13f8a9e11dd1039cb78aa.png"
+        },
+        "id": "2015",
+        "image": "/images/weapon/f4380ea765fc330a02562c442995500fb89187e0.png"
+      },
+      "x_power": 2633.6,
+      "rank": 22
+    },
+    {
+      "rank_change": "up",
+      "principal_id": "c03bcd367afd93a3",
+      "unique_id": "14322009769288788391",
+      "cheater": false,
+      "name": "c. Obito ",
+      "rank": 23,
+      "weapon": {
+        "thumbnail": "/images/weapon/b8fe14c22c7cf51526aaa252ba6250800e8fc44d.png",
+        "special": {
+          "image_b": "/images/special/415bf85acb0b0dcc478316332fe86efb1fe4f203.png",
+          "id": "1",
+          "name": "\u30a4\u30f3\u30af\u30a2\u30fc\u30de\u30fc",
+          "image_a": "/images/special/abe458a7d13d855f1b27135ccf3e96f46f1f3d10.png"
+        },
+        "name": "H3\u30ea\u30fc\u30eb\u30ac\u30f3D",
+        "id": "311",
+        "sub": {
+          "name": "\u30ad\u30e5\u30fc\u30d0\u30f3\u30dc\u30e0",
+          "image_a": "/images/sub/79ec06c8afca6af0e14da4d9941706bb15f9927e.png",
+          "image_b": "/images/sub/9d6336b855940f6c8fc82979a972f9f3381c0e65.png",
+          "id": "1"
+        },
+        "image": "/images/weapon/f349388933712ba0da08833aceeb3272ff412e8a.png"
+      },
+      "x_power": 2631.8
+    },
+    {
+      "principal_id": "c1434cc30011ac66",
+      "rank_change": "up",
+      "unique_id": "17479596058030487430",
+      "cheater": false,
+      "name": "\u304b\u3093\u305b\u3093\u306b",
+      "rank": 24,
+      "weapon": {
+        "thumbnail": "/images/weapon/b4fd108db45846a5f006dbdcbe09c4c50b8be4b7.png",
+        "name": "\u30b7\u30e3\u30fc\u30d7\u30de\u30fc\u30ab\u30fc\u30cd\u30aa",
+        "special": {
+          "name": "\u30ad\u30e5\u30fc\u30d0\u30f3\u30dc\u30e0\u30d4\u30c3\u30c1\u30e3\u30fc",
+          "image_a": "/images/special/0a6b11ca3d93e99fa53aa50ee8a948c6747a651d.png",
+          "image_b": "/images/special/0ee7864672be208c9ea57904eb172e942dc4471f.png",
+          "id": "3"
+        },
+        "image": "/images/weapon/dea2b808b42d65aff5223b016fc6dc5859e88976.png",
+        "sub": {
+          "name": "\u30af\u30a4\u30c3\u30af\u30dc\u30e0",
+          "image_a": "/images/sub/5f978ddb4716f0d04fcc737755b0b3d212d5671c.png",
+          "image_b": "/images/sub/0c90dd7487c0c1179e0e6827b8928143cf04e336.png",
+          "id": "2"
+        },
+        "id": "21"
+      },
+      "x_power": 2629.8
+    },
+    {
+      "weapon": {
+        "thumbnail": "/images/weapon/b8fe14c22c7cf51526aaa252ba6250800e8fc44d.png",
+        "special": {
+          "image_a": "/images/special/abe458a7d13d855f1b27135ccf3e96f46f1f3d10.png",
+          "name": "\u30a4\u30f3\u30af\u30a2\u30fc\u30de\u30fc",
+          "id": "1",
+          "image_b": "/images/special/415bf85acb0b0dcc478316332fe86efb1fe4f203.png"
+        },
+        "name": "H3\u30ea\u30fc\u30eb\u30ac\u30f3D",
+        "image": "/images/weapon/f349388933712ba0da08833aceeb3272ff412e8a.png",
+        "id": "311",
+        "sub": {
+          "image_a": "/images/sub/79ec06c8afca6af0e14da4d9941706bb15f9927e.png",
+          "name": "\u30ad\u30e5\u30fc\u30d0\u30f3\u30dc\u30e0",
+          "id": "1",
+          "image_b": "/images/sub/9d6336b855940f6c8fc82979a972f9f3381c0e65.png"
+        }
+      },
+      "x_power": 2627.8,
+      "rank": 25,
+      "cheater": false,
+      "name": "\u30d5\u30a9\u30fc\u30c8\u30ca\u30a4\u30c8",
+      "rank_change": "up",
+      "unique_id": "6115043873333985559",
+      "principal_id": "27f7865045221471"
+    },
+    {
+      "rank": 26,
+      "weapon": {
+        "special": {
+          "image_b": "/images/special/26e8117808ce17dadb0f23943359e5909fef4085.png",
+          "id": "8",
+          "name": "\u30b8\u30a7\u30c3\u30c8\u30d1\u30c3\u30af",
+          "image_a": "/images/special/9871c82952ed0141be0310ace1942c9f5f66d655.png"
+        },
+        "name": "\u30b9\u30d7\u30e9\u30b7\u30e5\u30fc\u30bf\u30fc\u30b3\u30e9\u30dc",
+        "id": "41",
+        "sub": {
+          "name": "\u30b9\u30d7\u30e9\u30c3\u30b7\u30e5\u30dc\u30e0",
+          "image_a": "/images/sub/d2eaeec524d28ef315a13f8a9e11dd1039cb78aa.png",
+          "image_b": "/images/sub/b13bf755b279af83904892fae01cd98c866dfec7.png",
+          "id": "0"
+        },
+        "image": "/images/weapon/331d889d8113b794131080c8943e05a3d2c4547d.png",
+        "thumbnail": "/images/weapon/5f519a8b3f436c854dc81ee14bfc3a26aef09ebc.png"
+      },
+      "x_power": 2626,
+      "principal_id": "9450dbd0980bd15c",
+      "rank_change": "up",
+      "unique_id": "8826492323987953145",
+      "cheater": false,
+      "name": "\u30c1\u30e7\u30a6\u30bb\u30f3\u30ab\u30de\u30ad\u30ea"
+    },
+    {
+      "weapon": {
+        "image": "/images/weapon/bbaff592c6040d1aba424e04c909006225034b76.png",
+        "sub": {
+          "name": "\u30b9\u30d7\u30ea\u30f3\u30af\u30e9\u30fc",
+          "image_a": "/images/sub/46f5b9fe851d4ac8df9eb959e7270ff72526dffe.png",
+          "image_b": "/images/sub/47b6c31e712634bd793d5b920288fe7b1fb3c2bd.png",
+          "id": "6"
+        },
+        "id": "3001",
+        "special": {
+          "image_b": "/images/special/caf32476e5010e27a4ef9923dbe323978b1d7510.png",
+          "id": "11",
+          "name": "\u30a4\u30ab\u30b9\u30d5\u30a3\u30a2",
+          "image_a": "/images/special/3e9cd3e60367fbe82d6237a10fdc826d695b9fa0.png"
+        },
+        "name": "\u30d0\u30b1\u30c3\u30c8\u30b9\u30ed\u30c3\u30b7\u30e3\u30fc\u30c7\u30b3",
+        "thumbnail": "/images/weapon/97e0132b1f1a4d27d8d7831b429a21985bf088c3.png"
+      },
+      "x_power": 2622.3,
+      "rank": 27,
+      "cheater": false,
+      "name": "\u3073\u3076\u3093\u307b\u3046\u3066\u3044\u3057\u304d",
+      "rank_change": "up",
+      "principal_id": "088cb3a328a1c80f",
+      "unique_id": "16157789567395461165"
+    },
+    {
+      "rank": 28,
+      "x_power": 2621.9,
+      "weapon": {
+        "special": {
+          "id": "11",
+          "image_b": "/images/special/caf32476e5010e27a4ef9923dbe323978b1d7510.png",
+          "image_a": "/images/special/3e9cd3e60367fbe82d6237a10fdc826d695b9fa0.png",
+          "name": "\u30a4\u30ab\u30b9\u30d5\u30a3\u30a2"
+        },
+        "name": "\u30d0\u30b1\u30c3\u30c8\u30b9\u30ed\u30c3\u30b7\u30e3\u30fc\u30c7\u30b3",
+        "sub": {
+          "image_b": "/images/sub/47b6c31e712634bd793d5b920288fe7b1fb3c2bd.png",
+          "id": "6",
+          "name": "\u30b9\u30d7\u30ea\u30f3\u30af\u30e9\u30fc",
+          "image_a": "/images/sub/46f5b9fe851d4ac8df9eb959e7270ff72526dffe.png"
+        },
+        "id": "3001",
+        "image": "/images/weapon/bbaff592c6040d1aba424e04c909006225034b76.png",
+        "thumbnail": "/images/weapon/97e0132b1f1a4d27d8d7831b429a21985bf088c3.png"
+      },
+      "rank_change": "up",
+      "unique_id": "1130403510764985830",
+      "principal_id": "4303e029b2f3a507",
+      "name": "\u304a\u304f\u305f",
+      "cheater": false
+    },
+    {
+      "weapon": {
+        "image": "/images/weapon/30c1038df50a93b33438fd63410cc7680c72cf1b.png",
+        "sub": {
+          "image_b": "/images/sub/2b5797c0ad847a54b9bd8168e75050484919d373.png",
+          "id": "3",
+          "name": "\u30ab\u30fc\u30ea\u30f3\u30b0\u30dc\u30e0",
+          "image_a": "/images/sub/e398a9e0360f048b6a0c4c3c1e89211cca96577f.png"
+        },
+        "id": "5011",
+        "name": "\u30b9\u30d7\u30e9\u30de\u30cb\u30e5\u30fc\u30d0\u30fc\u30b3\u30e9\u30dc",
+        "special": {
+          "name": "\u30b8\u30a7\u30c3\u30c8\u30d1\u30c3\u30af",
+          "image_a": "/images/special/9871c82952ed0141be0310ace1942c9f5f66d655.png",
+          "image_b": "/images/special/26e8117808ce17dadb0f23943359e5909fef4085.png",
+          "id": "8"
+        },
+        "thumbnail": "/images/weapon/dd413cbc15fed38922b1d2a27b6b84571ef3d087.png"
+      },
+      "x_power": 2621.7,
+      "rank": 29,
+      "cheater": false,
+      "name": "ku",
+      "rank_change": "down",
+      "unique_id": "14165228207258746240",
+      "principal_id": "42a57c29bce53835"
+    },
+    {
+      "rank": 30,
+      "x_power": 2621.6,
+      "weapon": {
+        "thumbnail": "/images/weapon/d359c8312037a0c98db73cb0a4122cf2c5665f77.png",
+        "image": "/images/weapon/1ed94885bef2b0e498ed4dd76bea9064c85cfc94.png",
+        "id": "2010",
+        "sub": {
+          "image_b": "/images/sub/b13bf755b279af83904892fae01cd98c866dfec7.png",
+          "id": "0",
+          "name": "\u30b9\u30d7\u30e9\u30c3\u30b7\u30e5\u30dc\u30e0",
+          "image_a": "/images/sub/d2eaeec524d28ef315a13f8a9e11dd1039cb78aa.png"
+        },
+        "name": "\u30b9\u30d7\u30e9\u30c1\u30e3\u30fc\u30b8\u30e3\u30fc",
+        "special": {
+          "id": "7",
+          "image_b": "/images/special/485b748720bbf809d8b28f9f4ee1a505cbcb339b.png",
+          "image_a": "/images/special/7af300fdd872feb27b3d8e68a969457fac8b3bb7.png",
+          "name": "\u30cf\u30a4\u30d1\u30fc\u30d7\u30ec\u30c3\u30b5\u30fc"
+        }
+      },
+      "unique_id": "14434881234947959524",
+      "rank_change": "up",
+      "principal_id": "96a6ed3f16adf315",
+      "name": "Brian",
+      "cheater": false
+    },
+    {
+      "name": "\u3073\u3085\u30fc\u3066\u3043\u30fc",
+      "cheater": false,
+      "principal_id": "543ea383dacb8d63",
+      "unique_id": "1752744684272275080",
+      "rank_change": "up",
+      "x_power": 2621.6,
+      "weapon": {
+        "thumbnail": "/images/weapon/dd413cbc15fed38922b1d2a27b6b84571ef3d087.png",
+        "id": "5011",
+        "sub": {
+          "name": "\u30ab\u30fc\u30ea\u30f3\u30b0\u30dc\u30e0",
+          "image_a": "/images/sub/e398a9e0360f048b6a0c4c3c1e89211cca96577f.png",
+          "image_b": "/images/sub/2b5797c0ad847a54b9bd8168e75050484919d373.png",
+          "id": "3"
+        },
+        "image": "/images/weapon/30c1038df50a93b33438fd63410cc7680c72cf1b.png",
+        "name": "\u30b9\u30d7\u30e9\u30de\u30cb\u30e5\u30fc\u30d0\u30fc\u30b3\u30e9\u30dc",
+        "special": {
+          "image_b": "/images/special/26e8117808ce17dadb0f23943359e5909fef4085.png",
+          "id": "8",
+          "name": "\u30b8\u30a7\u30c3\u30c8\u30d1\u30c3\u30af",
+          "image_a": "/images/special/9871c82952ed0141be0310ace1942c9f5f66d655.png"
+        }
+      },
+      "rank": 31
+    },
+    {
+      "unique_id": "17933333720484566872",
+      "rank_change": "down",
+      "principal_id": "ca03cb5eb97a91c1",
+      "name": "\u3066\u3093\u304f\u3046\u306e\u306f\u306a\u3088\u3081",
+      "cheater": false,
+      "rank": 32,
+      "x_power": 2620.3,
+      "weapon": {
+        "image": "/images/weapon/8f64580bb033ba86fa0179179cfeb56b5544fda6.png",
+        "id": "250",
+        "sub": {
+          "image_b": "/images/sub/9ab41340bfcef91125430d18015ccf98985efdb6.png",
+          "id": "7",
+          "name": "\u30dd\u30a4\u30ba\u30f3\u30df\u30b9\u30c8",
+          "image_a": "/images/sub/7d58593453b479138bca576ea13c19b870059ce9.png"
+        },
+        "special": {
+          "id": "10",
+          "image_b": "/images/special/b2ffd060612d3ed4cfa7bee583cb28d22307064a.png",
+          "image_a": "/images/special/b07cb8cd5b8afbf509b98a9cbb768ed0f2e34898.png",
+          "name": "\u30a2\u30e1\u30d5\u30e9\u30b7"
+        },
+        "name": "R\u30d6\u30e9\u30b9\u30bf\u30fc\u30a8\u30ea\u30fc\u30c8",
+        "thumbnail": "/images/weapon/91208c6fe9fc4e62e81412d6e772fc696b1a7317.png"
+      }
+    },
+    {
+      "rank": 33,
+      "weapon": {
+        "name": "\u30c0\u30a4\u30ca\u30e2\u30ed\u30fc\u30e9\u30fc",
+        "special": {
+          "name": "\u30cf\u30a4\u30d1\u30fc\u30d7\u30ec\u30c3\u30b5\u30fc",
+          "image_a": "/images/special/7af300fdd872feb27b3d8e68a969457fac8b3bb7.png",
+          "image_b": "/images/special/485b748720bbf809d8b28f9f4ee1a505cbcb339b.png",
+          "id": "7"
+        },
+        "image": "/images/weapon/3d274190988ad20dd1b02825448edbb6e12c720c.png",
+        "sub": {
+          "image_b": "/images/sub/2e2d1dca678ca3b3e011c3e4620c5c0fa31a9248.png",
+          "id": "5",
+          "name": "\u30c8\u30e9\u30c3\u30d7",
+          "image_a": "/images/sub/2705be54dafc7a426539c9e8f701197b7a9373f5.png"
+        },
+        "id": "1020",
+        "thumbnail": "/images/weapon/b3ae201685123edb72b1fb2686eebd3b1b58437f.png"
+      },
+      "x_power": 2619.8,
+      "unique_id": "15912343387702142350",
+      "principal_id": "5614e2f5eb06ce25",
+      "rank_change": "up",
+      "cheater": false,
+      "name": "\u3000maple\uff01"
+    },
+    {
+      "rank_change": "up",
+      "unique_id": "15829308269572206422",
+      "principal_id": "d12608f550066385",
+      "cheater": false,
+      "name": "kino:)",
+      "rank": 34,
+      "weapon": {
+        "image": "/images/weapon/2a1c5ca0e68919b4d655bd860cac3b2942b95498.png",
+        "id": "4000",
+        "sub": {
+          "image_b": "/images/sub/0c90dd7487c0c1179e0e6827b8928143cf04e336.png",
+          "id": "2",
+          "name": "\u30af\u30a4\u30c3\u30af\u30dc\u30e0",
+          "image_a": "/images/sub/5f978ddb4716f0d04fcc737755b0b3d212d5671c.png"
+        },
+        "special": {
+          "name": "\u30de\u30eb\u30c1\u30df\u30b5\u30a4\u30eb",
+          "image_a": "/images/special/e395a50d51459dcee4db62d8d1fbc4bb263bc326.png",
+          "image_b": "/images/special/4819d9d318668bdd5dab248a23397ec351bc5c60.png",
+          "id": "0"
+        },
+        "name": "\u30b9\u30d7\u30e9\u30b9\u30d4\u30ca\u30fc",
+        "thumbnail": "/images/weapon/585e0e72053689bbab848d97ec07bac4ea769e68.png"
+      },
+      "x_power": 2618.4
+    },
+    {
+      "rank_change": "down",
+      "unique_id": "3209096213773191967",
+      "principal_id": "d68d230ef6955848",
+      "cheater": false,
+      "name": "TASO\u2606\u304b\u3088\u305f\u305d",
+      "rank": 35,
+      "weapon": {
+        "name": "\u30af\u30a2\u30c3\u30c9\u30db\u30c3\u30d1\u30fc\u30d6\u30e9\u30c3\u30af",
+        "special": {
+          "image_a": "/images/special/324d41e9582d84101152849bc8c96d6595c9b0ff.png",
+          "name": "\u30b9\u30fc\u30d1\u30fc\u30c1\u30e3\u30af\u30c1",
+          "id": "9",
+          "image_b": "/images/special/4eb81e00f5d707248879a7c7037d8475716a8045.png"
+        },
+        "image": "/images/weapon/ba750d284eb067abdc995435c3358eed4e6f90fa.png",
+        "id": "5040",
+        "sub": {
+          "image_a": "/images/sub/457de86fa079df54c7a3c96decca49a55a1686ae.png",
+          "name": "\u30ed\u30dc\u30c3\u30c8\u30dc\u30e0",
+          "id": "4",
+          "image_b": "/images/sub/f0e4b4bad0e37031b8cb8ff397d4bb0ad9c86307.png"
+        },
+        "thumbnail": "/images/weapon/78f0df8c7b0f625d91f5b4ea953b10872109c77b.png"
+      },
+      "x_power": 2616.7
+    },
+    {
+      "rank_change": "up",
+      "principal_id": "b650b8b9470ef6cf",
+      "unique_id": "4261249676721046149",
+      "cheater": false,
+      "name": "\u25b2Hino\u25b2",
+      "rank": 36,
+      "weapon": {
+        "id": "211",
+        "sub": {
+          "image_a": "/images/sub/457de86fa079df54c7a3c96decca49a55a1686ae.png",
+          "name": "\u30ed\u30dc\u30c3\u30c8\u30dc\u30e0",
+          "id": "4",
+          "image_b": "/images/sub/f0e4b4bad0e37031b8cb8ff397d4bb0ad9c86307.png"
+        },
+        "image": "/images/weapon/d5252a5bc225d85a04fd7975e3935cc4be114651.png",
+        "special": {
+          "id": "8",
+          "image_b": "/images/special/26e8117808ce17dadb0f23943359e5909fef4085.png",
+          "image_a": "/images/special/9871c82952ed0141be0310ace1942c9f5f66d655.png",
+          "name": "\u30b8\u30a7\u30c3\u30c8\u30d1\u30c3\u30af"
+        },
+        "name": "\u30db\u30c3\u30c8\u30d6\u30e9\u30b9\u30bf\u30fc\u30ab\u30b9\u30bf\u30e0",
+        "thumbnail": "/images/weapon/19d6a4f48f26528131a890314c7b36cd0868eb79.png"
+      },
+      "x_power": 2616.3
+    },
+    {
+      "principal_id": "2c6a93ee4ec32371",
+      "rank_change": null,
+      "unique_id": "13225383260022518641",
+      "name": "O<",
+      "cheater": false,
+      "rank": 37,
+      "x_power": 2615.6,
+      "weapon": {
+        "thumbnail": "/images/weapon/b8fe14c22c7cf51526aaa252ba6250800e8fc44d.png",
+        "image": "/images/weapon/f349388933712ba0da08833aceeb3272ff412e8a.png",
+        "id": "311",
+        "sub": {
+          "image_a": "/images/sub/79ec06c8afca6af0e14da4d9941706bb15f9927e.png",
+          "name": "\u30ad\u30e5\u30fc\u30d0\u30f3\u30dc\u30e0",
+          "id": "1",
+          "image_b": "/images/sub/9d6336b855940f6c8fc82979a972f9f3381c0e65.png"
+        },
+        "special": {
+          "image_a": "/images/special/abe458a7d13d855f1b27135ccf3e96f46f1f3d10.png",
+          "name": "\u30a4\u30f3\u30af\u30a2\u30fc\u30de\u30fc",
+          "id": "1",
+          "image_b": "/images/special/415bf85acb0b0dcc478316332fe86efb1fe4f203.png"
+        },
+        "name": "H3\u30ea\u30fc\u30eb\u30ac\u30f3D"
+      }
+    },
+    {
+      "weapon": {
+        "sub": {
+          "name": "\u30ad\u30e5\u30fc\u30d0\u30f3\u30dc\u30e0",
+          "image_a": "/images/sub/79ec06c8afca6af0e14da4d9941706bb15f9927e.png",
+          "image_b": "/images/sub/9d6336b855940f6c8fc82979a972f9f3381c0e65.png",
+          "id": "1"
+        },
+        "id": "220",
+        "image": "/images/weapon/109b2b851481510eaacb50afc8ce9fb79b7f20ad.png",
+        "name": "\u30ed\u30f3\u30b0\u30d6\u30e9\u30b9\u30bf\u30fc",
+        "special": {
+          "image_b": "/images/special/b2ffd060612d3ed4cfa7bee583cb28d22307064a.png",
+          "id": "10",
+          "name": "\u30a2\u30e1\u30d5\u30e9\u30b7",
+          "image_a": "/images/special/b07cb8cd5b8afbf509b98a9cbb768ed0f2e34898.png"
+        },
+        "thumbnail": "/images/weapon/01b9c027ce23361582f6fd4c5ade502e5e5211b2.png"
+      },
+      "x_power": 2614.7,
+      "rank": 38,
+      "cheater": false,
+      "name": "TASO\u2606\u3086\u3063\u304d\u30fc",
+      "rank_change": "up",
+      "unique_id": "2393381731265691769",
+      "principal_id": "7431d0972ce84a75"
+    },
+    {
+      "principal_id": "fe84ab305be01817",
+      "unique_id": "16358481225788315725",
+      "rank_change": "down",
+      "cheater": false,
+      "name": "Azathoth \u03b8",
+      "rank": 39,
+      "weapon": {
+        "special": {
+          "id": "10",
+          "image_b": "/images/special/b2ffd060612d3ed4cfa7bee583cb28d22307064a.png",
+          "image_a": "/images/special/b07cb8cd5b8afbf509b98a9cbb768ed0f2e34898.png",
+          "name": "\u30a2\u30e1\u30d5\u30e9\u30b7"
+        },
+        "name": "\u30d1\u30e9\u30b7\u30a7\u30eb\u30bf\u30fc",
+        "image": "/images/weapon/f1fa6db2e21f32cd1c2cd093ec24f1a450d4650c.png",
+        "sub": {
+          "image_b": "/images/sub/47b6c31e712634bd793d5b920288fe7b1fb3c2bd.png",
+          "id": "6",
+          "name": "\u30b9\u30d7\u30ea\u30f3\u30af\u30e9\u30fc",
+          "image_a": "/images/sub/46f5b9fe851d4ac8df9eb959e7270ff72526dffe.png"
+        },
+        "id": "6000",
+        "thumbnail": "/images/weapon/9a1adf1c38c1a017bad0be0cac13255ae0f8d25b.png"
+      },
+      "x_power": 2614.5
+    },
+    {
+      "cheater": false,
+      "name": "\u306a\u304c\u3068\u306f\u304a\u308c\u306e\u3088\u3081",
+      "rank_change": "up",
+      "unique_id": "879890781492508369",
+      "principal_id": "108b43b5ca5265fb",
+      "weapon": {
+        "thumbnail": "/images/weapon/5a901e56b8f13eb20fee865d116199b490d1f7ae.png",
+        "name": "\u30d2\u30fc\u30ed\u30fc\u30c1\u30e3\u30fc\u30b8\u30e3\u30fc \u30ec\u30d7\u30ea\u30ab",
+        "special": {
+          "id": "7",
+          "image_b": "/images/special/485b748720bbf809d8b28f9f4ee1a505cbcb339b.png",
+          "image_a": "/images/special/7af300fdd872feb27b3d8e68a969457fac8b3bb7.png",
+          "name": "\u30cf\u30a4\u30d1\u30fc\u30d7\u30ec\u30c3\u30b5\u30fc"
+        },
+        "image": "/images/weapon/f4380ea765fc330a02562c442995500fb89187e0.png",
+        "sub": {
+          "image_b": "/images/sub/b13bf755b279af83904892fae01cd98c866dfec7.png",
+          "id": "0",
+          "name": "\u30b9\u30d7\u30e9\u30c3\u30b7\u30e5\u30dc\u30e0",
+          "image_a": "/images/sub/d2eaeec524d28ef315a13f8a9e11dd1039cb78aa.png"
+        },
+        "id": "2015"
+      },
+      "x_power": 2613.9,
+      "rank": 40
+    },
+    {
+      "principal_id": "47bb42edcdfa8f3a",
+      "unique_id": "10980901795736856593",
+      "rank_change": "up",
+      "name": "\u3086\u3059\u307e\u3061",
+      "cheater": false,
+      "rank": 41,
+      "x_power": 2611.7,
+      "weapon": {
+        "sub": {
+          "image_a": "/images/sub/b00df7ddec57c9254094c901dbb7533b61e5a3e3.png",
+          "name": "\u30b9\u30d7\u30e9\u30c3\u30b7\u30e5\u30b7\u30fc\u30eb\u30c9",
+          "id": "9",
+          "image_b": "/images/sub/42940c5ac8fea75599f8d8379f9e0c5bbd2eaedd.png"
+        },
+        "id": "2021",
+        "image": "/images/weapon/20db4f5e0798f2b3ec968895353dcc06d991f943.png",
+        "special": {
+          "id": "3",
+          "image_b": "/images/special/0ee7864672be208c9ea57904eb172e942dc4471f.png",
+          "image_a": "/images/special/0a6b11ca3d93e99fa53aa50ee8a948c6747a651d.png",
+          "name": "\u30ad\u30e5\u30fc\u30d0\u30f3\u30dc\u30e0\u30d4\u30c3\u30c1\u30e3\u30fc"
+        },
+        "name": "\u30b9\u30d7\u30e9\u30b9\u30b3\u30fc\u30d7\u30b3\u30e9\u30dc",
+        "thumbnail": "/images/weapon/f273f3c84188b69cb8e192003e5e7e0a527593b7.png"
+      }
+    },
+    {
+      "name": "MILLION",
+      "cheater": false,
+      "principal_id": "a0e51f96f8d06174",
+      "rank_change": "up",
+      "unique_id": "3557843709918066254",
+      "x_power": 2611.5,
+      "weapon": {
+        "name": "\u30d7\u30e9\u30a4\u30e0\u30b7\u30e5\u30fc\u30bf\u30fc\u30b3\u30e9\u30dc",
+        "special": {
+          "image_b": "/images/special/7cebdb0c336b64b829a1cfae2d40c0c4cb24a897.png",
+          "id": "12",
+          "name": "\u30d0\u30d6\u30eb\u30e9\u30f3\u30c1\u30e3\u30fc",
+          "image_a": "/images/special/f49b0c33e1e25853a15dfc6a6c95705e8d290741.png"
+        },
+        "id": "71",
+        "sub": {
+          "id": "1",
+          "image_b": "/images/sub/9d6336b855940f6c8fc82979a972f9f3381c0e65.png",
+          "image_a": "/images/sub/79ec06c8afca6af0e14da4d9941706bb15f9927e.png",
+          "name": "\u30ad\u30e5\u30fc\u30d0\u30f3\u30dc\u30e0"
+        },
+        "image": "/images/weapon/2568ff485aa5ac6636ff5d1f78af4b94f86a3e1a.png",
+        "thumbnail": "/images/weapon/f296766203483ad4dc9c12604500fea5a4699b0f.png"
+      },
+      "rank": 42
+    },
+    {
+      "principal_id": "70f73372765920ea",
+      "rank_change": "up",
+      "unique_id": "2258555217421798097",
+      "name": "\u30d6\u30e9\u30a6\u30c9",
+      "cheater": false,
+      "rank": 43,
+      "x_power": 2610.4,
+      "weapon": {
+        "thumbnail": "/images/weapon/377fede68e69d13c1790fc90c3cb8c912a2a89db.png",
+        "special": {
+          "id": "3",
+          "image_b": "/images/special/0ee7864672be208c9ea57904eb172e942dc4471f.png",
+          "image_a": "/images/special/0a6b11ca3d93e99fa53aa50ee8a948c6747a651d.png",
+          "name": "\u30ad\u30e5\u30fc\u30d0\u30f3\u30dc\u30e0\u30d4\u30c3\u30c1\u30e3\u30fc"
+        },
+        "name": "\u30b9\u30d1\u30c3\u30bf\u30ea\u30fc",
+        "id": "5000",
+        "sub": {
+          "image_b": "/images/sub/9c61e8fb4acef3d926be099603a74a02b0976431.png",
+          "id": "10",
+          "name": "\u30b8\u30e3\u30f3\u30d7\u30d3\u30fc\u30b3\u30f3",
+          "image_a": "/images/sub/5a31dff440e88eb711c6e810c25b8ae3ce8e64b8.png"
+        },
+        "image": "/images/weapon/cc4bc30ff53bf2b45bd5e3dadceb39d52b95761f.png"
+      }
+    },
+    {
+      "name": "At",
+      "cheater": false,
+      "rank_change": "up",
+      "principal_id": "9e03610f0b09391f",
+      "unique_id": "4194540107237236110",
+      "x_power": 2609.3,
+      "weapon": {
+        "thumbnail": "/images/weapon/9d255e4abc48ac0b67f7a6b7c8e7199a741aced8.png",
+        "special": {
+          "name": "\u30b8\u30a7\u30c3\u30c8\u30d1\u30c3\u30af",
+          "image_a": "/images/special/9871c82952ed0141be0310ace1942c9f5f66d655.png",
+          "image_b": "/images/special/26e8117808ce17dadb0f23943359e5909fef4085.png",
+          "id": "8"
+        },
+        "name": "\u30d2\u30fc\u30ed\u30fc\u30d6\u30e9\u30b7 \u30ec\u30d7\u30ea\u30ab",
+        "sub": {
+          "image_a": "/images/sub/457de86fa079df54c7a3c96decca49a55a1686ae.png",
+          "name": "\u30ed\u30dc\u30c3\u30c8\u30dc\u30e0",
+          "id": "4",
+          "image_b": "/images/sub/f0e4b4bad0e37031b8cb8ff397d4bb0ad9c86307.png"
+        },
+        "id": "1115",
+        "image": "/images/weapon/ff16174e92430f653aa0f2b4c9b42d9ea5399d39.png"
+      },
+      "rank": 44
+    },
+    {
+      "name": "Sgivvy",
+      "cheater": false,
+      "principal_id": "ddfb4c8edf3ca9fb",
+      "unique_id": "5136073904335156694",
+      "rank_change": "up",
+      "x_power": 2609.1,
+      "weapon": {
+        "image": "/images/weapon/6f42c9f8fde07510a01072a669125545f6effb99.png",
+        "sub": {
+          "image_b": "/images/sub/47b6c31e712634bd793d5b920288fe7b1fb3c2bd.png",
+          "id": "6",
+          "name": "\u30b9\u30d7\u30ea\u30f3\u30af\u30e9\u30fc",
+          "image_a": "/images/sub/46f5b9fe851d4ac8df9eb959e7270ff72526dffe.png"
+        },
+        "id": "4010",
+        "special": {
+          "image_a": "/images/special/7af300fdd872feb27b3d8e68a969457fac8b3bb7.png",
+          "name": "\u30cf\u30a4\u30d1\u30fc\u30d7\u30ec\u30c3\u30b5\u30fc",
+          "id": "7",
+          "image_b": "/images/special/485b748720bbf809d8b28f9f4ee1a505cbcb339b.png"
+        },
+        "name": "\u30d0\u30ec\u30eb\u30b9\u30d4\u30ca\u30fc",
+        "thumbnail": "/images/weapon/c8d18b0264f1acd1e7d374a8b2c3b6fc526c790a.png"
+      },
+      "rank": 45
+    },
+    {
+      "x_power": 2609,
+      "weapon": {
+        "thumbnail": "/images/weapon/331b77152310658a25ab934b91cf44e0c4912968.png",
+        "special": {
+          "name": "\u30d0\u30d6\u30eb\u30e9\u30f3\u30c1\u30e3\u30fc",
+          "image_a": "/images/special/f49b0c33e1e25853a15dfc6a6c95705e8d290741.png",
+          "image_b": "/images/special/7cebdb0c336b64b829a1cfae2d40c0c4cb24a897.png",
+          "id": "12"
+        },
+        "name": "\u30ad\u30e3\u30f3\u30d4\u30f3\u30b0\u30b7\u30a7\u30eb\u30bf\u30fc",
+        "id": "6010",
+        "sub": {
+          "image_b": "/images/sub/9c61e8fb4acef3d926be099603a74a02b0976431.png",
+          "id": "10",
+          "name": "\u30b8\u30e3\u30f3\u30d7\u30d3\u30fc\u30b3\u30f3",
+          "image_a": "/images/sub/5a31dff440e88eb711c6e810c25b8ae3ce8e64b8.png"
+        },
+        "image": "/images/weapon/cdb032aa993f4836580ce4edac06de0138833299.png"
+      },
+      "rank": 46,
+      "name": "\u30af\u3000\u30bd\u3000\u30c7\u3000\u30ab\u3000\u30b5",
+      "cheater": false,
+      "unique_id": "1763159258410981225",
+      "principal_id": "cbc913f9d6aef137",
+      "rank_change": "up"
+    },
+    {
+      "principal_id": "619f2c4095466202",
+      "rank_change": "down",
+      "unique_id": "17188550932108025730",
+      "name": "k\u03c1 plontro",
+      "cheater": false,
+      "rank": 47,
+      "x_power": 2609,
+      "weapon": {
+        "thumbnail": "/images/weapon/91208c6fe9fc4e62e81412d6e772fc696b1a7317.png",
+        "image": "/images/weapon/8f64580bb033ba86fa0179179cfeb56b5544fda6.png",
+        "sub": {
+          "image_a": "/images/sub/7d58593453b479138bca576ea13c19b870059ce9.png",
+          "name": "\u30dd\u30a4\u30ba\u30f3\u30df\u30b9\u30c8",
+          "id": "7",
+          "image_b": "/images/sub/9ab41340bfcef91125430d18015ccf98985efdb6.png"
+        },
+        "id": "250",
+        "name": "R\u30d6\u30e9\u30b9\u30bf\u30fc\u30a8\u30ea\u30fc\u30c8",
+        "special": {
+          "name": "\u30a2\u30e1\u30d5\u30e9\u30b7",
+          "image_a": "/images/special/b07cb8cd5b8afbf509b98a9cbb768ed0f2e34898.png",
+          "image_b": "/images/special/b2ffd060612d3ed4cfa7bee583cb28d22307064a.png",
+          "id": "10"
+        }
+      }
+    },
+    {
+      "cheater": false,
+      "name": "\u30b7\u30c8\u30e9",
+      "principal_id": "89ea9a7abfd71de0",
+      "unique_id": "18349072261085936091",
+      "rank_change": "down",
+      "weapon": {
+        "thumbnail": "/images/weapon/fdcd7cbe806eb84df374ea8f7e074ac9637d4762.png",
+        "name": "N-ZAP85",
+        "special": {
+          "image_b": "/images/special/415bf85acb0b0dcc478316332fe86efb1fe4f203.png",
+          "id": "1",
+          "name": "\u30a4\u30f3\u30af\u30a2\u30fc\u30de\u30fc",
+          "image_a": "/images/special/abe458a7d13d855f1b27135ccf3e96f46f1f3d10.png"
+        },
+        "image": "/images/weapon/1f2b1db5917ef7a4e62f0e15b8805275e33f2179.png",
+        "id": "60",
+        "sub": {
+          "name": "\u30ad\u30e5\u30fc\u30d0\u30f3\u30dc\u30e0",
+          "image_a": "/images/sub/79ec06c8afca6af0e14da4d9941706bb15f9927e.png",
+          "image_b": "/images/sub/9d6336b855940f6c8fc82979a972f9f3381c0e65.png",
+          "id": "1"
+        }
+      },
+      "x_power": 2608.7,
+      "rank": 48
+    },
+    {
+      "cheater": false,
+      "name": "\u3056\u308f\u3081\u3044",
+      "rank_change": "up",
+      "principal_id": "4a78f6196c87e7e6",
+      "unique_id": "17607948647406822492",
+      "weapon": {
+        "thumbnail": "/images/weapon/dd413cbc15fed38922b1d2a27b6b84571ef3d087.png",
+        "special": {
+          "id": "8",
+          "image_b": "/images/special/26e8117808ce17dadb0f23943359e5909fef4085.png",
+          "image_a": "/images/special/9871c82952ed0141be0310ace1942c9f5f66d655.png",
+          "name": "\u30b8\u30a7\u30c3\u30c8\u30d1\u30c3\u30af"
+        },
+        "name": "\u30b9\u30d7\u30e9\u30de\u30cb\u30e5\u30fc\u30d0\u30fc\u30b3\u30e9\u30dc",
+        "image": "/images/weapon/30c1038df50a93b33438fd63410cc7680c72cf1b.png",
+        "sub": {
+          "image_b": "/images/sub/2b5797c0ad847a54b9bd8168e75050484919d373.png",
+          "id": "3",
+          "name": "\u30ab\u30fc\u30ea\u30f3\u30b0\u30dc\u30e0",
+          "image_a": "/images/sub/e398a9e0360f048b6a0c4c3c1e89211cca96577f.png"
+        },
+        "id": "5011"
+      },
+      "x_power": 2608.5,
+      "rank": 49
+    },
+    {
+      "cheater": false,
+      "name": "pocari",
+      "principal_id": "62bcf05301508563",
+      "rank_change": "up",
+      "unique_id": "14392378513464568988",
+      "weapon": {
+        "thumbnail": "/images/weapon/7ccb1233eb949e651d0c9e49971f1c0c6be59138.png",
+        "special": {
+          "image_b": "/images/special/b2ffd060612d3ed4cfa7bee583cb28d22307064a.png",
+          "id": "10",
+          "name": "\u30a2\u30e1\u30d5\u30e9\u30b7",
+          "image_a": "/images/special/b07cb8cd5b8afbf509b98a9cbb768ed0f2e34898.png"
+        },
+        "name": "\u30c7\u30e5\u30a2\u30eb\u30b9\u30a4\u30fc\u30d1\u30fc\u30ab\u30b9\u30bf\u30e0",
+        "sub": {
+          "name": "\u30b9\u30d7\u30e9\u30c3\u30b7\u30e5\u30dc\u30e0",
+          "image_a": "/images/sub/d2eaeec524d28ef315a13f8a9e11dd1039cb78aa.png",
+          "image_b": "/images/sub/b13bf755b279af83904892fae01cd98c866dfec7.png",
+          "id": "0"
+        },
+        "id": "5031",
+        "image": "/images/weapon/a1c290b4abc1b4b9ab03425d8e89b88053390dbe.png"
+      },
+      "x_power": 2608.3,
+      "rank": 50
+    },
+    {
+      "unique_id": "17739397461538036505",
+      "rank_change": "down",
+      "principal_id": "677bba4fad13c8ad",
+      "cheater": false,
+      "name": "Kagutso",
+      "rank": 51,
+      "weapon": {
+        "image": "/images/weapon/d5252a5bc225d85a04fd7975e3935cc4be114651.png",
+        "sub": {
+          "name": "\u30ed\u30dc\u30c3\u30c8\u30dc\u30e0",
+          "image_a": "/images/sub/457de86fa079df54c7a3c96decca49a55a1686ae.png",
+          "image_b": "/images/sub/f0e4b4bad0e37031b8cb8ff397d4bb0ad9c86307.png",
+          "id": "4"
+        },
+        "id": "211",
+        "name": "\u30db\u30c3\u30c8\u30d6\u30e9\u30b9\u30bf\u30fc\u30ab\u30b9\u30bf\u30e0",
+        "special": {
+          "name": "\u30b8\u30a7\u30c3\u30c8\u30d1\u30c3\u30af",
+          "image_a": "/images/special/9871c82952ed0141be0310ace1942c9f5f66d655.png",
+          "image_b": "/images/special/26e8117808ce17dadb0f23943359e5909fef4085.png",
+          "id": "8"
+        },
+        "thumbnail": "/images/weapon/19d6a4f48f26528131a890314c7b36cd0868eb79.png"
+      },
+      "x_power": 2607.6
+    },
+    {
+      "rank": 52,
+      "x_power": 2606.6,
+      "weapon": {
+        "thumbnail": "/images/weapon/92adfb3ab76ed9479e765271992b3fd5378b1bc6.png",
+        "name": "\u30b8\u30a7\u30c3\u30c8\u30b9\u30a4\u30fc\u30d1\u30fc\u30ab\u30b9\u30bf\u30e0",
+        "special": {
+          "image_a": "/images/special/7af300fdd872feb27b3d8e68a969457fac8b3bb7.png",
+          "name": "\u30cf\u30a4\u30d1\u30fc\u30d7\u30ec\u30c3\u30b5\u30fc",
+          "id": "7",
+          "image_b": "/images/special/485b748720bbf809d8b28f9f4ee1a505cbcb339b.png"
+        },
+        "id": "91",
+        "sub": {
+          "name": "\u30af\u30a4\u30c3\u30af\u30dc\u30e0",
+          "image_a": "/images/sub/5f978ddb4716f0d04fcc737755b0b3d212d5671c.png",
+          "image_b": "/images/sub/0c90dd7487c0c1179e0e6827b8928143cf04e336.png",
+          "id": "2"
+        },
+        "image": "/images/weapon/b02f1e60bd8c92f7778d832d068fc695c064a0d5.png"
+      },
+      "rank_change": "up",
+      "principal_id": "27871ed89f3dfc65",
+      "unique_id": "2721581554110315970",
+      "name": "\u308c\uff5e\u304d\uff5e\uff1f",
+      "cheater": false
+    },
+    {
+      "rank": 53,
+      "weapon": {
+        "thumbnail": "/images/weapon/8b62de420955b0f0d4cf9dd9accecb49fc37c448.png",
+        "image": "/images/weapon/d81d2a168f729fa0f18a7c402a87320c42cc4a45.png",
+        "id": "6005",
+        "sub": {
+          "image_b": "/images/sub/47b6c31e712634bd793d5b920288fe7b1fb3c2bd.png",
+          "id": "6",
+          "name": "\u30b9\u30d7\u30ea\u30f3\u30af\u30e9\u30fc",
+          "image_a": "/images/sub/46f5b9fe851d4ac8df9eb959e7270ff72526dffe.png"
+        },
+        "special": {
+          "image_a": "/images/special/b07cb8cd5b8afbf509b98a9cbb768ed0f2e34898.png",
+          "name": "\u30a2\u30e1\u30d5\u30e9\u30b7",
+          "id": "10",
+          "image_b": "/images/special/b2ffd060612d3ed4cfa7bee583cb28d22307064a.png"
+        },
+        "name": "\u30d2\u30fc\u30ed\u30fc\u30b7\u30a7\u30eb\u30bf\u30fc \u30ec\u30d7\u30ea\u30ab"
+      },
+      "x_power": 2606.1,
+      "unique_id": "16277979382449101646",
+      "principal_id": "db6e65db0232ecd1",
+      "rank_change": "down",
+      "cheater": false,
+      "name": "\u3066\u3093\u3068\u3068\u3093\uff1f"
+    },
+    {
+      "cheater": false,
+      "name": "\u3000\u3000glass\uff01",
+      "principal_id": "db5aff50c2151bb6",
+      "unique_id": "11979293538123791294",
+      "rank_change": "up",
+      "weapon": {
+        "special": {
+          "image_b": "/images/special/415bf85acb0b0dcc478316332fe86efb1fe4f203.png",
+          "id": "1",
+          "name": "\u30a4\u30f3\u30af\u30a2\u30fc\u30de\u30fc",
+          "image_a": "/images/special/abe458a7d13d855f1b27135ccf3e96f46f1f3d10.png"
+        },
+        "name": "\u30c0\u30a4\u30ca\u30e2\u30ed\u30fc\u30e9\u30fc\u30c6\u30b9\u30e9",
+        "image": "/images/weapon/5da2f08d47a59c741b67348614a71dbe9fea3d2a.png",
+        "id": "1021",
+        "sub": {
+          "id": "0",
+          "image_b": "/images/sub/b13bf755b279af83904892fae01cd98c866dfec7.png",
+          "image_a": "/images/sub/d2eaeec524d28ef315a13f8a9e11dd1039cb78aa.png",
+          "name": "\u30b9\u30d7\u30e9\u30c3\u30b7\u30e5\u30dc\u30e0"
+        },
+        "thumbnail": "/images/weapon/3804a666bfaeb02c40808e7d60f7ffb364beb228.png"
+      },
+      "x_power": 2604.7,
+      "rank": 54
+    },
+    {
+      "rank": 55,
+      "weapon": {
+        "special": {
+          "image_a": "/images/special/abe458a7d13d855f1b27135ccf3e96f46f1f3d10.png",
+          "name": "\u30a4\u30f3\u30af\u30a2\u30fc\u30de\u30fc",
+          "id": "1",
+          "image_b": "/images/special/415bf85acb0b0dcc478316332fe86efb1fe4f203.png"
+        },
+        "name": "R\u30d6\u30e9\u30b9\u30bf\u30fc\u30a8\u30ea\u30fc\u30c8\u30c7\u30b3",
+        "sub": {
+          "name": "\u30b9\u30d7\u30e9\u30c3\u30b7\u30e5\u30b7\u30fc\u30eb\u30c9",
+          "image_a": "/images/sub/b00df7ddec57c9254094c901dbb7533b61e5a3e3.png",
+          "image_b": "/images/sub/42940c5ac8fea75599f8d8379f9e0c5bbd2eaedd.png",
+          "id": "9"
+        },
+        "id": "251",
+        "image": "/images/weapon/bd90ecaccefb937625821f9227588ba1928e7870.png",
+        "thumbnail": "/images/weapon/3b6c19b6dceaf4ad369f42864f8276be4f96e88a.png"
+      },
+      "x_power": 2604.7,
+      "rank_change": "up",
+      "principal_id": "7b34456929ad70de",
+      "unique_id": "16262779733706578201",
+      "cheater": false,
+      "name": "MC Elite"
+    },
+    {
+      "rank": 56,
+      "x_power": 2604.7,
+      "weapon": {
+        "thumbnail": "/images/weapon/1db8bbfe2fd6ce2f64711d6a1b2acf27acf11882.png",
+        "image": "/images/weapon/ec344528f377f9ca7f04d26e414cb681cc803ffc.png",
+        "id": "4011",
+        "sub": {
+          "image_a": "/images/sub/b00df7ddec57c9254094c901dbb7533b61e5a3e3.png",
+          "name": "\u30b9\u30d7\u30e9\u30c3\u30b7\u30e5\u30b7\u30fc\u30eb\u30c9",
+          "id": "9",
+          "image_b": "/images/sub/42940c5ac8fea75599f8d8379f9e0c5bbd2eaedd.png"
+        },
+        "special": {
+          "id": "12",
+          "image_b": "/images/special/7cebdb0c336b64b829a1cfae2d40c0c4cb24a897.png",
+          "image_a": "/images/special/f49b0c33e1e25853a15dfc6a6c95705e8d290741.png",
+          "name": "\u30d0\u30d6\u30eb\u30e9\u30f3\u30c1\u30e3\u30fc"
+        },
+        "name": "\u30d0\u30ec\u30eb\u30b9\u30d4\u30ca\u30fc\u30c7\u30b3"
+      },
+      "principal_id": "b1f356b960bbb3a7",
+      "unique_id": "1627488319636155283",
+      "rank_change": "up",
+      "name": "\u306f\u3063\u3053\u3046\u266a",
+      "cheater": false
+    },
+    {
+      "principal_id": "59b02fd7264f81f3",
+      "unique_id": "14146932333772574973",
+      "rank_change": "up",
+      "cheater": false,
+      "name": "J",
+      "rank": 57,
+      "weapon": {
+        "thumbnail": "/images/weapon/5f519a8b3f436c854dc81ee14bfc3a26aef09ebc.png",
+        "image": "/images/weapon/331d889d8113b794131080c8943e05a3d2c4547d.png",
+        "id": "41",
+        "sub": {
+          "image_a": "/images/sub/d2eaeec524d28ef315a13f8a9e11dd1039cb78aa.png",
+          "name": "\u30b9\u30d7\u30e9\u30c3\u30b7\u30e5\u30dc\u30e0",
+          "id": "0",
+          "image_b": "/images/sub/b13bf755b279af83904892fae01cd98c866dfec7.png"
+        },
+        "name": "\u30b9\u30d7\u30e9\u30b7\u30e5\u30fc\u30bf\u30fc\u30b3\u30e9\u30dc",
+        "special": {
+          "image_b": "/images/special/26e8117808ce17dadb0f23943359e5909fef4085.png",
+          "id": "8",
+          "name": "\u30b8\u30a7\u30c3\u30c8\u30d1\u30c3\u30af",
+          "image_a": "/images/special/9871c82952ed0141be0310ace1942c9f5f66d655.png"
+        }
+      },
+      "x_power": 2603.3
+    },
+    {
+      "unique_id": "1890104472907063417",
+      "principal_id": "25bc67582138571d",
+      "rank_change": "remain",
+      "name": "\u30c6\u30eb\u30df",
+      "cheater": false,
+      "rank": 58,
+      "x_power": 2602.7,
+      "weapon": {
+        "thumbnail": "/images/weapon/e5be617760b68c9a1e3fc778275a6f4a1aedc1e6.png",
+        "id": "1100",
+        "sub": {
+          "name": "\u30b9\u30d7\u30e9\u30c3\u30b7\u30e5\u30dc\u30e0",
+          "image_a": "/images/sub/d2eaeec524d28ef315a13f8a9e11dd1039cb78aa.png",
+          "image_b": "/images/sub/b13bf755b279af83904892fae01cd98c866dfec7.png",
+          "id": "0"
+        },
+        "image": "/images/weapon/1f94c29067c918ac9143b756dc607ff0f8cf4e63.png",
+        "special": {
+          "image_a": "/images/special/324d41e9582d84101152849bc8c96d6595c9b0ff.png",
+          "name": "\u30b9\u30fc\u30d1\u30fc\u30c1\u30e3\u30af\u30c1",
+          "id": "9",
+          "image_b": "/images/special/4eb81e00f5d707248879a7c7037d8475716a8045.png"
+        },
+        "name": "\u30d1\u30d6\u30ed"
+      }
+    },
+    {
+      "rank": 59,
+      "weapon": {
+        "thumbnail": "/images/weapon/97e0132b1f1a4d27d8d7831b429a21985bf088c3.png",
+        "id": "3001",
+        "sub": {
+          "id": "6",
+          "image_b": "/images/sub/47b6c31e712634bd793d5b920288fe7b1fb3c2bd.png",
+          "image_a": "/images/sub/46f5b9fe851d4ac8df9eb959e7270ff72526dffe.png",
+          "name": "\u30b9\u30d7\u30ea\u30f3\u30af\u30e9\u30fc"
+        },
+        "image": "/images/weapon/bbaff592c6040d1aba424e04c909006225034b76.png",
+        "special": {
+          "image_a": "/images/special/3e9cd3e60367fbe82d6237a10fdc826d695b9fa0.png",
+          "name": "\u30a4\u30ab\u30b9\u30d5\u30a3\u30a2",
+          "id": "11",
+          "image_b": "/images/special/caf32476e5010e27a4ef9923dbe323978b1d7510.png"
+        },
+        "name": "\u30d0\u30b1\u30c3\u30c8\u30b9\u30ed\u30c3\u30b7\u30e3\u30fc\u30c7\u30b3"
+      },
+      "x_power": 2601.6,
+      "unique_id": "13513613636176993644",
+      "principal_id": "00eb872d151fb3c0",
+      "rank_change": "up",
+      "cheater": false,
+      "name": "sN\u3002Falco"
+    },
+    {
+      "name": "\u306b\u3093\u304e\u3087\u3072\u3081",
+      "cheater": false,
+      "unique_id": "9387190477595404441",
+      "principal_id": "958ccba8141dac1c",
+      "rank_change": "up",
+      "x_power": 2600.2,
+      "weapon": {
+        "image": "/images/weapon/20db4f5e0798f2b3ec968895353dcc06d991f943.png",
+        "sub": {
+          "image_b": "/images/sub/42940c5ac8fea75599f8d8379f9e0c5bbd2eaedd.png",
+          "id": "9",
+          "name": "\u30b9\u30d7\u30e9\u30c3\u30b7\u30e5\u30b7\u30fc\u30eb\u30c9",
+          "image_a": "/images/sub/b00df7ddec57c9254094c901dbb7533b61e5a3e3.png"
+        },
+        "id": "2021",
+        "name": "\u30b9\u30d7\u30e9\u30b9\u30b3\u30fc\u30d7\u30b3\u30e9\u30dc",
+        "special": {
+          "image_a": "/images/special/0a6b11ca3d93e99fa53aa50ee8a948c6747a651d.png",
+          "name": "\u30ad\u30e5\u30fc\u30d0\u30f3\u30dc\u30e0\u30d4\u30c3\u30c1\u30e3\u30fc",
+          "id": "3",
+          "image_b": "/images/special/0ee7864672be208c9ea57904eb172e942dc4471f.png"
+        },
+        "thumbnail": "/images/weapon/f273f3c84188b69cb8e192003e5e7e0a527593b7.png"
+      },
+      "rank": 60
+    },
+    {
+      "rank": 61,
+      "weapon": {
+        "image": "/images/weapon/bbaff592c6040d1aba424e04c909006225034b76.png",
+        "id": "3001",
+        "sub": {
+          "id": "6",
+          "image_b": "/images/sub/47b6c31e712634bd793d5b920288fe7b1fb3c2bd.png",
+          "image_a": "/images/sub/46f5b9fe851d4ac8df9eb959e7270ff72526dffe.png",
+          "name": "\u30b9\u30d7\u30ea\u30f3\u30af\u30e9\u30fc"
+        },
+        "name": "\u30d0\u30b1\u30c3\u30c8\u30b9\u30ed\u30c3\u30b7\u30e3\u30fc\u30c7\u30b3",
+        "special": {
+          "image_b": "/images/special/caf32476e5010e27a4ef9923dbe323978b1d7510.png",
+          "id": "11",
+          "name": "\u30a4\u30ab\u30b9\u30d5\u30a3\u30a2",
+          "image_a": "/images/special/3e9cd3e60367fbe82d6237a10fdc826d695b9fa0.png"
+        },
+        "thumbnail": "/images/weapon/97e0132b1f1a4d27d8d7831b429a21985bf088c3.png"
+      },
+      "x_power": 2594.2,
+      "unique_id": "11921872642874819697",
+      "principal_id": "91e8929c69d83269",
+      "rank_change": "up",
+      "cheater": false,
+      "name": "L\u00e1m_Dazs"
+    },
+    {
+      "principal_id": "b3ce54ddc65c9880",
+      "unique_id": "8208091800154424264",
+      "rank_change": "up",
+      "name": "\u308a\u30fc\u305c\u3093\u3068",
+      "cheater": false,
+      "rank": 62,
+      "x_power": 2594,
+      "weapon": {
+        "image": "/images/weapon/331d889d8113b794131080c8943e05a3d2c4547d.png",
+        "sub": {
+          "image_b": "/images/sub/b13bf755b279af83904892fae01cd98c866dfec7.png",
+          "id": "0",
+          "name": "\u30b9\u30d7\u30e9\u30c3\u30b7\u30e5\u30dc\u30e0",
+          "image_a": "/images/sub/d2eaeec524d28ef315a13f8a9e11dd1039cb78aa.png"
+        },
+        "id": "41",
+        "name": "\u30b9\u30d7\u30e9\u30b7\u30e5\u30fc\u30bf\u30fc\u30b3\u30e9\u30dc",
+        "special": {
+          "image_a": "/images/special/9871c82952ed0141be0310ace1942c9f5f66d655.png",
+          "name": "\u30b8\u30a7\u30c3\u30c8\u30d1\u30c3\u30af",
+          "id": "8",
+          "image_b": "/images/special/26e8117808ce17dadb0f23943359e5909fef4085.png"
+        },
+        "thumbnail": "/images/weapon/5f519a8b3f436c854dc81ee14bfc3a26aef09ebc.png"
+      }
+    },
+    {
+      "principal_id": "975fd27e70603098",
+      "unique_id": "3678877949905421609",
+      "rank_change": "up",
+      "name": "\u304b",
+      "cheater": false,
+      "rank": 63,
+      "x_power": 2593.9,
+      "weapon": {
+        "image": "/images/weapon/0ec07bb00918f071975b35191e0860152bdcb321.png",
+        "id": "2020",
+        "sub": {
+          "image_b": "/images/sub/b13bf755b279af83904892fae01cd98c866dfec7.png",
+          "id": "0",
+          "name": "\u30b9\u30d7\u30e9\u30c3\u30b7\u30e5\u30dc\u30e0",
+          "image_a": "/images/sub/d2eaeec524d28ef315a13f8a9e11dd1039cb78aa.png"
+        },
+        "name": "\u30b9\u30d7\u30e9\u30b9\u30b3\u30fc\u30d7",
+        "special": {
+          "name": "\u30cf\u30a4\u30d1\u30fc\u30d7\u30ec\u30c3\u30b5\u30fc",
+          "image_a": "/images/special/7af300fdd872feb27b3d8e68a969457fac8b3bb7.png",
+          "image_b": "/images/special/485b748720bbf809d8b28f9f4ee1a505cbcb339b.png",
+          "id": "7"
+        },
+        "thumbnail": "/images/weapon/928d52eca6c3f907f7c6f9132236cbf92e658466.png"
+      }
+    },
+    {
+      "x_power": 2592.4,
+      "weapon": {
+        "special": {
+          "image_a": "/images/special/0a6b11ca3d93e99fa53aa50ee8a948c6747a651d.png",
+          "name": "\u30ad\u30e5\u30fc\u30d0\u30f3\u30dc\u30e0\u30d4\u30c3\u30c1\u30e3\u30fc",
+          "id": "3",
+          "image_b": "/images/special/0ee7864672be208c9ea57904eb172e942dc4471f.png"
+        },
+        "name": "\u30b9\u30d7\u30e9\u30c1\u30e3\u30fc\u30b8\u30e3\u30fc\u30b3\u30e9\u30dc",
+        "sub": {
+          "id": "9",
+          "image_b": "/images/sub/42940c5ac8fea75599f8d8379f9e0c5bbd2eaedd.png",
+          "image_a": "/images/sub/b00df7ddec57c9254094c901dbb7533b61e5a3e3.png",
+          "name": "\u30b9\u30d7\u30e9\u30c3\u30b7\u30e5\u30b7\u30fc\u30eb\u30c9"
+        },
+        "id": "2011",
+        "image": "/images/weapon/31a1aa9e48e709ba82a3c5b0407ffd6af38e9591.png",
+        "thumbnail": "/images/weapon/e1aee30e0e64c89286a82cd5bbbd77a764a06446.png"
+      },
+      "rank": 64,
+      "name": "ON",
+      "cheater": false,
+      "unique_id": "1591740997595506910",
+      "principal_id": "ab6a8428dcf0c126",
+      "rank_change": "up"
+    },
+    {
+      "rank": 65,
+      "weapon": {
+        "name": "\u30ce\u30f4\u30a1\u30d6\u30e9\u30b9\u30bf\u30fc",
+        "special": {
+          "id": "11",
+          "image_b": "/images/special/caf32476e5010e27a4ef9923dbe323978b1d7510.png",
+          "image_a": "/images/special/3e9cd3e60367fbe82d6237a10fdc826d695b9fa0.png",
+          "name": "\u30a4\u30ab\u30b9\u30d5\u30a3\u30a2"
+        },
+        "sub": {
+          "image_a": "/images/sub/d2eaeec524d28ef315a13f8a9e11dd1039cb78aa.png",
+          "name": "\u30b9\u30d7\u30e9\u30c3\u30b7\u30e5\u30dc\u30e0",
+          "id": "0",
+          "image_b": "/images/sub/b13bf755b279af83904892fae01cd98c866dfec7.png"
+        },
+        "id": "200",
+        "image": "/images/weapon/3f840ce3cc5ac0b8cbf7451079b57e807d8b95f1.png",
+        "thumbnail": "/images/weapon/2764365e99414ebb3f8b62548beb4dd5f65b70b2.png"
+      },
+      "x_power": 2590.9,
+      "unique_id": "3207688838889887563",
+      "rank_change": "up",
+      "principal_id": "888963252e8cb453",
+      "cheater": false,
+      "name": "KAM\u00b1"
+    },
+    {
+      "cheater": false,
+      "name": "\u304f\u3046\u305d\u3046\u308c\u3063\u3057\u3083",
+      "principal_id": "74150b0903582701",
+      "rank_change": "up",
+      "unique_id": "13216376060769212815",
+      "weapon": {
+        "thumbnail": "/images/weapon/dd413cbc15fed38922b1d2a27b6b84571ef3d087.png",
+        "special": {
+          "id": "8",
+          "image_b": "/images/special/26e8117808ce17dadb0f23943359e5909fef4085.png",
+          "image_a": "/images/special/9871c82952ed0141be0310ace1942c9f5f66d655.png",
+          "name": "\u30b8\u30a7\u30c3\u30c8\u30d1\u30c3\u30af"
+        },
+        "name": "\u30b9\u30d7\u30e9\u30de\u30cb\u30e5\u30fc\u30d0\u30fc\u30b3\u30e9\u30dc",
+        "image": "/images/weapon/30c1038df50a93b33438fd63410cc7680c72cf1b.png",
+        "sub": {
+          "image_a": "/images/sub/e398a9e0360f048b6a0c4c3c1e89211cca96577f.png",
+          "name": "\u30ab\u30fc\u30ea\u30f3\u30b0\u30dc\u30e0",
+          "id": "3",
+          "image_b": "/images/sub/2b5797c0ad847a54b9bd8168e75050484919d373.png"
+        },
+        "id": "5011"
+      },
+      "x_power": 2590.5,
+      "rank": 66
+    },
+    {
+      "unique_id": "12385180454540543327",
+      "principal_id": "28c27161730d9b1d",
+      "rank_change": "up",
+      "cheater": false,
+      "name": "GG_Erza",
+      "rank": 67,
+      "weapon": {
+        "thumbnail": "/images/weapon/c83b40e0bc5c913354bfd8b60c72904eab45d7e6.png",
+        "name": "\u30aa\u30af\u30bf\u30b7\u30e5\u30fc\u30bf\u30fc \u30ec\u30d7\u30ea\u30ab",
+        "special": {
+          "image_b": "/images/special/26e8117808ce17dadb0f23943359e5909fef4085.png",
+          "id": "8",
+          "name": "\u30b8\u30a7\u30c3\u30c8\u30d1\u30c3\u30af",
+          "image_a": "/images/special/9871c82952ed0141be0310ace1942c9f5f66d655.png"
+        },
+        "image": "/images/weapon/62cec5368a7858761cf3b2379c48acf1dec881ef.png",
+        "id": "46",
+        "sub": {
+          "name": "\u30b9\u30d7\u30e9\u30c3\u30b7\u30e5\u30dc\u30e0",
+          "image_a": "/images/sub/d2eaeec524d28ef315a13f8a9e11dd1039cb78aa.png",
+          "image_b": "/images/sub/b13bf755b279af83904892fae01cd98c866dfec7.png",
+          "id": "0"
+        }
+      },
+      "x_power": 2590.1
+    },
+    {
+      "rank_change": "up",
+      "unique_id": "10344205398411576675",
+      "principal_id": "5974fa326db1be2c",
+      "name": "L",
+      "cheater": false,
+      "rank": 68,
+      "x_power": 2590.1,
+      "weapon": {
+        "image": "/images/weapon/30c1038df50a93b33438fd63410cc7680c72cf1b.png",
+        "id": "5011",
+        "sub": {
+          "image_a": "/images/sub/e398a9e0360f048b6a0c4c3c1e89211cca96577f.png",
+          "name": "\u30ab\u30fc\u30ea\u30f3\u30b0\u30dc\u30e0",
+          "id": "3",
+          "image_b": "/images/sub/2b5797c0ad847a54b9bd8168e75050484919d373.png"
+        },
+        "name": "\u30b9\u30d7\u30e9\u30de\u30cb\u30e5\u30fc\u30d0\u30fc\u30b3\u30e9\u30dc",
+        "special": {
+          "id": "8",
+          "image_b": "/images/special/26e8117808ce17dadb0f23943359e5909fef4085.png",
+          "image_a": "/images/special/9871c82952ed0141be0310ace1942c9f5f66d655.png",
+          "name": "\u30b8\u30a7\u30c3\u30c8\u30d1\u30c3\u30af"
+        },
+        "thumbnail": "/images/weapon/dd413cbc15fed38922b1d2a27b6b84571ef3d087.png"
+      }
+    },
+    {
+      "rank": 69,
+      "weapon": {
+        "thumbnail": "/images/weapon/377fede68e69d13c1790fc90c3cb8c912a2a89db.png",
+        "name": "\u30b9\u30d1\u30c3\u30bf\u30ea\u30fc",
+        "special": {
+          "id": "3",
+          "image_b": "/images/special/0ee7864672be208c9ea57904eb172e942dc4471f.png",
+          "image_a": "/images/special/0a6b11ca3d93e99fa53aa50ee8a948c6747a651d.png",
+          "name": "\u30ad\u30e5\u30fc\u30d0\u30f3\u30dc\u30e0\u30d4\u30c3\u30c1\u30e3\u30fc"
+        },
+        "id": "5000",
+        "sub": {
+          "id": "10",
+          "image_b": "/images/sub/9c61e8fb4acef3d926be099603a74a02b0976431.png",
+          "image_a": "/images/sub/5a31dff440e88eb711c6e810c25b8ae3ce8e64b8.png",
+          "name": "\u30b8\u30e3\u30f3\u30d7\u30d3\u30fc\u30b3\u30f3"
+        },
+        "image": "/images/weapon/cc4bc30ff53bf2b45bd5e3dadceb39d52b95761f.png"
+      },
+      "x_power": 2588.7,
+      "principal_id": "09a499d4bc9f4d9c",
+      "rank_change": "up",
+      "unique_id": "2907917988692922991",
+      "cheater": false,
+      "name": "\u304d\u308a\u3093\u308a\u304f\u25c7P\u00d8T"
+    },
+    {
+      "rank": 70,
+      "x_power": 2586.8,
+      "weapon": {
+        "sub": {
+          "name": "\u30b9\u30d7\u30e9\u30c3\u30b7\u30e5\u30dc\u30e0",
+          "image_a": "/images/sub/d2eaeec524d28ef315a13f8a9e11dd1039cb78aa.png",
+          "image_b": "/images/sub/b13bf755b279af83904892fae01cd98c866dfec7.png",
+          "id": "0"
+        },
+        "id": "5031",
+        "image": "/images/weapon/a1c290b4abc1b4b9ab03425d8e89b88053390dbe.png",
+        "name": "\u30c7\u30e5\u30a2\u30eb\u30b9\u30a4\u30fc\u30d1\u30fc\u30ab\u30b9\u30bf\u30e0",
+        "special": {
+          "image_b": "/images/special/b2ffd060612d3ed4cfa7bee583cb28d22307064a.png",
+          "id": "10",
+          "name": "\u30a2\u30e1\u30d5\u30e9\u30b7",
+          "image_a": "/images/special/b07cb8cd5b8afbf509b98a9cbb768ed0f2e34898.png"
+        },
+        "thumbnail": "/images/weapon/7ccb1233eb949e651d0c9e49971f1c0c6be59138.png"
+      },
+      "rank_change": "up",
+      "principal_id": "45da7e2c75029673",
+      "unique_id": "7264869153200435254",
+      "name": "\u305f\u308d\u3046\u307e\u308b",
+      "cheater": false
+    },
+    {
+      "cheater": false,
+      "name": "\u2020NZS\u2020\u30b5\u30b6\u30a8\u3055\u3093",
+      "unique_id": "832040035454934828",
+      "principal_id": "c421dd379e19eca2",
+      "rank_change": "up",
+      "weapon": {
+        "thumbnail": "/images/weapon/dd413cbc15fed38922b1d2a27b6b84571ef3d087.png",
+        "id": "5011",
+        "sub": {
+          "id": "3",
+          "image_b": "/images/sub/2b5797c0ad847a54b9bd8168e75050484919d373.png",
+          "image_a": "/images/sub/e398a9e0360f048b6a0c4c3c1e89211cca96577f.png",
+          "name": "\u30ab\u30fc\u30ea\u30f3\u30b0\u30dc\u30e0"
+        },
+        "image": "/images/weapon/30c1038df50a93b33438fd63410cc7680c72cf1b.png",
+        "name": "\u30b9\u30d7\u30e9\u30de\u30cb\u30e5\u30fc\u30d0\u30fc\u30b3\u30e9\u30dc",
+        "special": {
+          "image_a": "/images/special/9871c82952ed0141be0310ace1942c9f5f66d655.png",
+          "name": "\u30b8\u30a7\u30c3\u30c8\u30d1\u30c3\u30af",
+          "id": "8",
+          "image_b": "/images/special/26e8117808ce17dadb0f23943359e5909fef4085.png"
+        }
+      },
+      "x_power": 2586.3,
+      "rank": 71
+    },
+    {
+      "unique_id": "3249628610423176285",
+      "rank_change": "up",
+      "principal_id": "5c3e05fa441ee0d5",
+      "cheater": false,
+      "name": "\u305f\uff5e\uff5e\u3043\u3002",
+      "rank": 72,
+      "weapon": {
+        "thumbnail": "/images/weapon/78f0df8c7b0f625d91f5b4ea953b10872109c77b.png",
+        "id": "5040",
+        "sub": {
+          "image_a": "/images/sub/457de86fa079df54c7a3c96decca49a55a1686ae.png",
+          "name": "\u30ed\u30dc\u30c3\u30c8\u30dc\u30e0",
+          "id": "4",
+          "image_b": "/images/sub/f0e4b4bad0e37031b8cb8ff397d4bb0ad9c86307.png"
+        },
+        "image": "/images/weapon/ba750d284eb067abdc995435c3358eed4e6f90fa.png",
+        "name": "\u30af\u30a2\u30c3\u30c9\u30db\u30c3\u30d1\u30fc\u30d6\u30e9\u30c3\u30af",
+        "special": {
+          "id": "9",
+          "image_b": "/images/special/4eb81e00f5d707248879a7c7037d8475716a8045.png",
+          "image_a": "/images/special/324d41e9582d84101152849bc8c96d6595c9b0ff.png",
+          "name": "\u30b9\u30fc\u30d1\u30fc\u30c1\u30e3\u30af\u30c1"
+        }
+      },
+      "x_power": 2586.1
+    },
+    {
+      "x_power": 2586,
+      "weapon": {
+        "thumbnail": "/images/weapon/626210255f99cb22bee1eded39457c51aa9622aa.png",
+        "name": "\u30b9\u30d7\u30e9\u30ed\u30fc\u30e9\u30fc",
+        "special": {
+          "name": "\u30b9\u30fc\u30d1\u30fc\u30c1\u30e3\u30af\u30c1",
+          "image_a": "/images/special/324d41e9582d84101152849bc8c96d6595c9b0ff.png",
+          "image_b": "/images/special/4eb81e00f5d707248879a7c7037d8475716a8045.png",
+          "id": "9"
+        },
+        "id": "1010",
+        "sub": {
+          "name": "\u30ab\u30fc\u30ea\u30f3\u30b0\u30dc\u30e0",
+          "image_a": "/images/sub/e398a9e0360f048b6a0c4c3c1e89211cca96577f.png",
+          "image_b": "/images/sub/2b5797c0ad847a54b9bd8168e75050484919d373.png",
+          "id": "3"
+        },
+        "image": "/images/weapon/1041dbdd11b3036671148d47c2e0798cecf3dba2.png"
+      },
+      "rank": 73,
+      "name": "G\u043a \u042f'\u0438\u0451\u0161\u015b",
+      "cheater": false,
+      "rank_change": "up",
+      "unique_id": "12652581682415711080",
+      "principal_id": "30e0fb9b21238beb"
+    },
+    {
+      "rank": 74,
+      "weapon": {
+        "thumbnail": "/images/weapon/e1aee30e0e64c89286a82cd5bbbd77a764a06446.png",
+        "image": "/images/weapon/31a1aa9e48e709ba82a3c5b0407ffd6af38e9591.png",
+        "id": "2011",
+        "sub": {
+          "name": "\u30b9\u30d7\u30e9\u30c3\u30b7\u30e5\u30b7\u30fc\u30eb\u30c9",
+          "image_a": "/images/sub/b00df7ddec57c9254094c901dbb7533b61e5a3e3.png",
+          "image_b": "/images/sub/42940c5ac8fea75599f8d8379f9e0c5bbd2eaedd.png",
+          "id": "9"
+        },
+        "name": "\u30b9\u30d7\u30e9\u30c1\u30e3\u30fc\u30b8\u30e3\u30fc\u30b3\u30e9\u30dc",
+        "special": {
+          "id": "3",
+          "image_b": "/images/special/0ee7864672be208c9ea57904eb172e942dc4471f.png",
+          "image_a": "/images/special/0a6b11ca3d93e99fa53aa50ee8a948c6747a651d.png",
+          "name": "\u30ad\u30e5\u30fc\u30d0\u30f3\u30dc\u30e0\u30d4\u30c3\u30c1\u30e3\u30fc"
+        }
+      },
+      "x_power": 2584.9,
+      "rank_change": "up",
+      "unique_id": "15840567268640570263",
+      "principal_id": "aecde6767062ce42",
+      "cheater": false,
+      "name": "LC\u00bb\u3074\u3087\u3093\u3000"
+    },
+    {
+      "principal_id": "ec6ab5219222b905",
+      "rank_change": "up",
+      "unique_id": "6998312350252073452",
+      "name": "\u00bbJelly",
+      "cheater": false,
+      "rank": 75,
+      "x_power": 2584.7,
+      "weapon": {
+        "image": "/images/weapon/f349388933712ba0da08833aceeb3272ff412e8a.png",
+        "sub": {
+          "image_a": "/images/sub/79ec06c8afca6af0e14da4d9941706bb15f9927e.png",
+          "name": "\u30ad\u30e5\u30fc\u30d0\u30f3\u30dc\u30e0",
+          "id": "1",
+          "image_b": "/images/sub/9d6336b855940f6c8fc82979a972f9f3381c0e65.png"
+        },
+        "id": "311",
+        "special": {
+          "name": "\u30a4\u30f3\u30af\u30a2\u30fc\u30de\u30fc",
+          "image_a": "/images/special/abe458a7d13d855f1b27135ccf3e96f46f1f3d10.png",
+          "image_b": "/images/special/415bf85acb0b0dcc478316332fe86efb1fe4f203.png",
+          "id": "1"
+        },
+        "name": "H3\u30ea\u30fc\u30eb\u30ac\u30f3D",
+        "thumbnail": "/images/weapon/b8fe14c22c7cf51526aaa252ba6250800e8fc44d.png"
+      }
+    },
+    {
+      "name": "\u3057\u3085\u30fc\u3053******",
+      "cheater": false,
+      "principal_id": "3b4e244d724ca067",
+      "unique_id": "9441233673124180246",
+      "rank_change": "up",
+      "x_power": 2584.4,
+      "weapon": {
+        "thumbnail": "/images/weapon/01b9c027ce23361582f6fd4c5ade502e5e5211b2.png",
+        "name": "\u30ed\u30f3\u30b0\u30d6\u30e9\u30b9\u30bf\u30fc",
+        "special": {
+          "image_b": "/images/special/b2ffd060612d3ed4cfa7bee583cb28d22307064a.png",
+          "id": "10",
+          "name": "\u30a2\u30e1\u30d5\u30e9\u30b7",
+          "image_a": "/images/special/b07cb8cd5b8afbf509b98a9cbb768ed0f2e34898.png"
+        },
+        "sub": {
+          "name": "\u30ad\u30e5\u30fc\u30d0\u30f3\u30dc\u30e0",
+          "image_a": "/images/sub/79ec06c8afca6af0e14da4d9941706bb15f9927e.png",
+          "image_b": "/images/sub/9d6336b855940f6c8fc82979a972f9f3381c0e65.png",
+          "id": "1"
+        },
+        "id": "220",
+        "image": "/images/weapon/109b2b851481510eaacb50afc8ce9fb79b7f20ad.png"
+      },
+      "rank": 76
+    },
+    {
+      "name": "\u304d\u3087\u3046\u304b\u3044\u305b\u3093",
+      "cheater": false,
+      "principal_id": "946b70d6e590aa47",
+      "unique_id": "332421951790484718",
+      "rank_change": "down",
+      "x_power": 2582.7,
+      "weapon": {
+        "image": "/images/weapon/ba750d284eb067abdc995435c3358eed4e6f90fa.png",
+        "id": "5040",
+        "sub": {
+          "image_a": "/images/sub/457de86fa079df54c7a3c96decca49a55a1686ae.png",
+          "name": "\u30ed\u30dc\u30c3\u30c8\u30dc\u30e0",
+          "id": "4",
+          "image_b": "/images/sub/f0e4b4bad0e37031b8cb8ff397d4bb0ad9c86307.png"
+        },
+        "name": "\u30af\u30a2\u30c3\u30c9\u30db\u30c3\u30d1\u30fc\u30d6\u30e9\u30c3\u30af",
+        "special": {
+          "name": "\u30b9\u30fc\u30d1\u30fc\u30c1\u30e3\u30af\u30c1",
+          "image_a": "/images/special/324d41e9582d84101152849bc8c96d6595c9b0ff.png",
+          "image_b": "/images/special/4eb81e00f5d707248879a7c7037d8475716a8045.png",
+          "id": "9"
+        },
+        "thumbnail": "/images/weapon/78f0df8c7b0f625d91f5b4ea953b10872109c77b.png"
+      },
+      "rank": 77
+    },
+    {
+      "x_power": 2582.5,
+      "weapon": {
+        "name": "H3\u30ea\u30fc\u30eb\u30ac\u30f3D",
+        "special": {
+          "image_b": "/images/special/415bf85acb0b0dcc478316332fe86efb1fe4f203.png",
+          "id": "1",
+          "name": "\u30a4\u30f3\u30af\u30a2\u30fc\u30de\u30fc",
+          "image_a": "/images/special/abe458a7d13d855f1b27135ccf3e96f46f1f3d10.png"
+        },
+        "image": "/images/weapon/f349388933712ba0da08833aceeb3272ff412e8a.png",
+        "id": "311",
+        "sub": {
+          "name": "\u30ad\u30e5\u30fc\u30d0\u30f3\u30dc\u30e0",
+          "image_a": "/images/sub/79ec06c8afca6af0e14da4d9941706bb15f9927e.png",
+          "image_b": "/images/sub/9d6336b855940f6c8fc82979a972f9f3381c0e65.png",
+          "id": "1"
+        },
+        "thumbnail": "/images/weapon/b8fe14c22c7cf51526aaa252ba6250800e8fc44d.png"
+      },
+      "rank": 78,
+      "name": "GG_DUDE",
+      "cheater": false,
+      "principal_id": "4640ba5e3df0c937",
+      "unique_id": "849491484007727467",
+      "rank_change": "up"
+    },
+    {
+      "principal_id": "91a81f922f48d184",
+      "rank_change": "up",
+      "unique_id": "15383170431486755862",
+      "name": "\u30d0\u30cb\u30e9\u266a",
+      "cheater": false,
+      "rank": 79,
+      "x_power": 2581.9,
+      "weapon": {
+        "sub": {
+          "id": "9",
+          "image_b": "/images/sub/42940c5ac8fea75599f8d8379f9e0c5bbd2eaedd.png",
+          "image_a": "/images/sub/b00df7ddec57c9254094c901dbb7533b61e5a3e3.png",
+          "name": "\u30b9\u30d7\u30e9\u30c3\u30b7\u30e5\u30b7\u30fc\u30eb\u30c9"
+        },
+        "id": "2011",
+        "image": "/images/weapon/31a1aa9e48e709ba82a3c5b0407ffd6af38e9591.png",
+        "special": {
+          "name": "\u30ad\u30e5\u30fc\u30d0\u30f3\u30dc\u30e0\u30d4\u30c3\u30c1\u30e3\u30fc",
+          "image_a": "/images/special/0a6b11ca3d93e99fa53aa50ee8a948c6747a651d.png",
+          "image_b": "/images/special/0ee7864672be208c9ea57904eb172e942dc4471f.png",
+          "id": "3"
+        },
+        "name": "\u30b9\u30d7\u30e9\u30c1\u30e3\u30fc\u30b8\u30e3\u30fc\u30b3\u30e9\u30dc",
+        "thumbnail": "/images/weapon/e1aee30e0e64c89286a82cd5bbbd77a764a06446.png"
+      }
+    },
+    {
+      "unique_id": "12153526548709675644",
+      "principal_id": "e32573302c668523",
+      "rank_change": "up",
+      "cheater": false,
+      "name": "\u306a\u3061",
+      "rank": 80,
+      "weapon": {
+        "special": {
+          "image_b": "/images/special/b2ffd060612d3ed4cfa7bee583cb28d22307064a.png",
+          "id": "10",
+          "name": "\u30a2\u30e1\u30d5\u30e9\u30b7",
+          "image_a": "/images/special/b07cb8cd5b8afbf509b98a9cbb768ed0f2e34898.png"
+        },
+        "name": "\u30c7\u30e5\u30a2\u30eb\u30b9\u30a4\u30fc\u30d1\u30fc\u30ab\u30b9\u30bf\u30e0",
+        "image": "/images/weapon/a1c290b4abc1b4b9ab03425d8e89b88053390dbe.png",
+        "sub": {
+          "id": "0",
+          "image_b": "/images/sub/b13bf755b279af83904892fae01cd98c866dfec7.png",
+          "image_a": "/images/sub/d2eaeec524d28ef315a13f8a9e11dd1039cb78aa.png",
+          "name": "\u30b9\u30d7\u30e9\u30c3\u30b7\u30e5\u30dc\u30e0"
+        },
+        "id": "5031",
+        "thumbnail": "/images/weapon/7ccb1233eb949e651d0c9e49971f1c0c6be59138.png"
+      },
+      "x_power": 2581.8
+    },
+    {
+      "cheater": false,
+      "name": "kuro*\u30dd\u30c3\u30ad\u30fc*",
+      "unique_id": "16431383244756488331",
+      "rank_change": "up",
+      "principal_id": "49a1be5b18164ad3",
+      "weapon": {
+        "image": "/images/weapon/72bdcf5f6077bd7149832153034b3f43d16ac461.png",
+        "sub": {
+          "image_b": "/images/sub/2e2d1dca678ca3b3e011c3e4620c5c0fa31a9248.png",
+          "id": "5",
+          "name": "\u30c8\u30e9\u30c3\u30d7",
+          "image_a": "/images/sub/2705be54dafc7a426539c9e8f701197b7a9373f5.png"
+        },
+        "id": "240",
+        "special": {
+          "image_b": "/images/special/9e89e1d67803c3021203182ecc7f38bc2c0f5400.png",
+          "id": "2",
+          "name": "\u30b9\u30d7\u30e9\u30c3\u30b7\u30e5\u30dc\u30e0\u30d4\u30c3\u30c1\u30e3\u30fc",
+          "image_a": "/images/special/18990f646c551ee77c5b283ec814e371f692a553.png"
+        },
+        "name": "\u30e9\u30d4\u30c3\u30c9\u30d6\u30e9\u30b9\u30bf\u30fc",
+        "thumbnail": "/images/weapon/0a362970b38864f80cca68fed6deb43354333703.png"
+      },
+      "x_power": 2581.7,
+      "rank": 81
+    },
+    {
+      "unique_id": "2416181204385355593",
+      "rank_change": "remain",
+      "principal_id": "29180b2a02088e30",
+      "name": "\u3042",
+      "cheater": false,
+      "rank": 82,
+      "x_power": 2581.4,
+      "weapon": {
+        "thumbnail": "/images/weapon/8b62de420955b0f0d4cf9dd9accecb49fc37c448.png",
+        "special": {
+          "image_b": "/images/special/b2ffd060612d3ed4cfa7bee583cb28d22307064a.png",
+          "id": "10",
+          "name": "\u30a2\u30e1\u30d5\u30e9\u30b7",
+          "image_a": "/images/special/b07cb8cd5b8afbf509b98a9cbb768ed0f2e34898.png"
+        },
+        "name": "\u30d2\u30fc\u30ed\u30fc\u30b7\u30a7\u30eb\u30bf\u30fc \u30ec\u30d7\u30ea\u30ab",
+        "image": "/images/weapon/d81d2a168f729fa0f18a7c402a87320c42cc4a45.png",
+        "id": "6005",
+        "sub": {
+          "id": "6",
+          "image_b": "/images/sub/47b6c31e712634bd793d5b920288fe7b1fb3c2bd.png",
+          "image_a": "/images/sub/46f5b9fe851d4ac8df9eb959e7270ff72526dffe.png",
+          "name": "\u30b9\u30d7\u30ea\u30f3\u30af\u30e9\u30fc"
+        }
+      }
+    },
+    {
+      "weapon": {
+        "image": "/images/weapon/bd90ecaccefb937625821f9227588ba1928e7870.png",
+        "id": "251",
+        "sub": {
+          "id": "9",
+          "image_b": "/images/sub/42940c5ac8fea75599f8d8379f9e0c5bbd2eaedd.png",
+          "image_a": "/images/sub/b00df7ddec57c9254094c901dbb7533b61e5a3e3.png",
+          "name": "\u30b9\u30d7\u30e9\u30c3\u30b7\u30e5\u30b7\u30fc\u30eb\u30c9"
+        },
+        "name": "R\u30d6\u30e9\u30b9\u30bf\u30fc\u30a8\u30ea\u30fc\u30c8\u30c7\u30b3",
+        "special": {
+          "image_a": "/images/special/abe458a7d13d855f1b27135ccf3e96f46f1f3d10.png",
+          "name": "\u30a4\u30f3\u30af\u30a2\u30fc\u30de\u30fc",
+          "id": "1",
+          "image_b": "/images/special/415bf85acb0b0dcc478316332fe86efb1fe4f203.png"
+        },
+        "thumbnail": "/images/weapon/3b6c19b6dceaf4ad369f42864f8276be4f96e88a.png"
+      },
+      "x_power": 2580.1,
+      "rank": 83,
+      "cheater": false,
+      "name": "\u3089\u3074\u3059",
+      "unique_id": "4977322017471329710",
+      "principal_id": "dde81297e1675d5b",
+      "rank_change": "down"
+    },
+    {
+      "principal_id": "5a86a5f13bef2970",
+      "unique_id": "16964496850646357256",
+      "rank_change": "up",
+      "name": "\u3082\u3061\u3060\u3080",
+      "cheater": false,
+      "rank": 84,
+      "x_power": 2579.8,
+      "weapon": {
+        "image": "/images/weapon/a1c290b4abc1b4b9ab03425d8e89b88053390dbe.png",
+        "id": "5031",
+        "sub": {
+          "name": "\u30b9\u30d7\u30e9\u30c3\u30b7\u30e5\u30dc\u30e0",
+          "image_a": "/images/sub/d2eaeec524d28ef315a13f8a9e11dd1039cb78aa.png",
+          "image_b": "/images/sub/b13bf755b279af83904892fae01cd98c866dfec7.png",
+          "id": "0"
+        },
+        "name": "\u30c7\u30e5\u30a2\u30eb\u30b9\u30a4\u30fc\u30d1\u30fc\u30ab\u30b9\u30bf\u30e0",
+        "special": {
+          "image_b": "/images/special/b2ffd060612d3ed4cfa7bee583cb28d22307064a.png",
+          "id": "10",
+          "name": "\u30a2\u30e1\u30d5\u30e9\u30b7",
+          "image_a": "/images/special/b07cb8cd5b8afbf509b98a9cbb768ed0f2e34898.png"
+        },
+        "thumbnail": "/images/weapon/7ccb1233eb949e651d0c9e49971f1c0c6be59138.png"
+      }
+    },
+    {
+      "name": "\u306b\u3060\u3044\u3081\u30da\u30da",
+      "cheater": false,
+      "principal_id": "939b46f934b8d309",
+      "rank_change": "up",
+      "unique_id": "17281719149401033480",
+      "x_power": 2579.6,
+      "weapon": {
+        "sub": {
+          "image_a": "/images/sub/5a31dff440e88eb711c6e810c25b8ae3ce8e64b8.png",
+          "name": "\u30b8\u30e3\u30f3\u30d7\u30d3\u30fc\u30b3\u30f3",
+          "id": "10",
+          "image_b": "/images/sub/9c61e8fb4acef3d926be099603a74a02b0976431.png"
+        },
+        "id": "1011",
+        "image": "/images/weapon/e3c87d5f06b4e4ae2ce67ed4b68051194e302c24.png",
+        "special": {
+          "id": "11",
+          "image_b": "/images/special/caf32476e5010e27a4ef9923dbe323978b1d7510.png",
+          "image_a": "/images/special/3e9cd3e60367fbe82d6237a10fdc826d695b9fa0.png",
+          "name": "\u30a4\u30ab\u30b9\u30d5\u30a3\u30a2"
+        },
+        "name": "\u30b9\u30d7\u30e9\u30ed\u30fc\u30e9\u30fc\u30b3\u30e9\u30dc",
+        "thumbnail": "/images/weapon/40ac15e0a6e28784fe270aabda044c1d77a3e49d.png"
+      },
+      "rank": 85
+    },
+    {
+      "rank_change": "up",
+      "principal_id": "0373f1f4d1fdca05",
+      "unique_id": "7872292152939141755",
+      "cheater": false,
+      "name": "\u30e2\u3002Brasario",
+      "rank": 86,
+      "weapon": {
+        "image": "/images/weapon/3d274190988ad20dd1b02825448edbb6e12c720c.png",
+        "sub": {
+          "image_a": "/images/sub/2705be54dafc7a426539c9e8f701197b7a9373f5.png",
+          "name": "\u30c8\u30e9\u30c3\u30d7",
+          "id": "5",
+          "image_b": "/images/sub/2e2d1dca678ca3b3e011c3e4620c5c0fa31a9248.png"
+        },
+        "id": "1020",
+        "special": {
+          "id": "7",
+          "image_b": "/images/special/485b748720bbf809d8b28f9f4ee1a505cbcb339b.png",
+          "image_a": "/images/special/7af300fdd872feb27b3d8e68a969457fac8b3bb7.png",
+          "name": "\u30cf\u30a4\u30d1\u30fc\u30d7\u30ec\u30c3\u30b5\u30fc"
+        },
+        "name": "\u30c0\u30a4\u30ca\u30e2\u30ed\u30fc\u30e9\u30fc",
+        "thumbnail": "/images/weapon/b3ae201685123edb72b1fb2686eebd3b1b58437f.png"
+      },
+      "x_power": 2579.1
+    },
+    {
+      "unique_id": "14922114419633735691",
+      "principal_id": "f898e29f120acf40",
+      "rank_change": "down",
+      "cheater": false,
+      "name": "\u3086\u307f\u3053",
+      "rank": 87,
+      "weapon": {
+        "thumbnail": "/images/weapon/91208c6fe9fc4e62e81412d6e772fc696b1a7317.png",
+        "special": {
+          "image_b": "/images/special/b2ffd060612d3ed4cfa7bee583cb28d22307064a.png",
+          "id": "10",
+          "name": "\u30a2\u30e1\u30d5\u30e9\u30b7",
+          "image_a": "/images/special/b07cb8cd5b8afbf509b98a9cbb768ed0f2e34898.png"
+        },
+        "name": "R\u30d6\u30e9\u30b9\u30bf\u30fc\u30a8\u30ea\u30fc\u30c8",
+        "id": "250",
+        "sub": {
+          "image_a": "/images/sub/7d58593453b479138bca576ea13c19b870059ce9.png",
+          "name": "\u30dd\u30a4\u30ba\u30f3\u30df\u30b9\u30c8",
+          "id": "7",
+          "image_b": "/images/sub/9ab41340bfcef91125430d18015ccf98985efdb6.png"
+        },
+        "image": "/images/weapon/8f64580bb033ba86fa0179179cfeb56b5544fda6.png"
+      },
+      "x_power": 2578.3
+    },
+    {
+      "principal_id": "c863524942c79789",
+      "unique_id": "4656722018999199208",
+      "rank_change": "up",
+      "cheater": false,
+      "name": "fuuzzzy",
+      "rank": 88,
+      "weapon": {
+        "thumbnail": "/images/weapon/19d6a4f48f26528131a890314c7b36cd0868eb79.png",
+        "name": "\u30db\u30c3\u30c8\u30d6\u30e9\u30b9\u30bf\u30fc\u30ab\u30b9\u30bf\u30e0",
+        "special": {
+          "name": "\u30b8\u30a7\u30c3\u30c8\u30d1\u30c3\u30af",
+          "image_a": "/images/special/9871c82952ed0141be0310ace1942c9f5f66d655.png",
+          "image_b": "/images/special/26e8117808ce17dadb0f23943359e5909fef4085.png",
+          "id": "8"
+        },
+        "id": "211",
+        "sub": {
+          "image_a": "/images/sub/457de86fa079df54c7a3c96decca49a55a1686ae.png",
+          "name": "\u30ed\u30dc\u30c3\u30c8\u30dc\u30e0",
+          "id": "4",
+          "image_b": "/images/sub/f0e4b4bad0e37031b8cb8ff397d4bb0ad9c86307.png"
+        },
+        "image": "/images/weapon/d5252a5bc225d85a04fd7975e3935cc4be114651.png"
+      },
+      "x_power": 2578
+    },
+    {
+      "name": "T_T",
+      "cheater": false,
+      "principal_id": "c5e1e221cc964b25",
+      "rank_change": "up",
+      "unique_id": "3627930979120877845",
+      "x_power": 2577.4,
+      "weapon": {
+        "thumbnail": "/images/weapon/3b6c19b6dceaf4ad369f42864f8276be4f96e88a.png",
+        "special": {
+          "image_a": "/images/special/abe458a7d13d855f1b27135ccf3e96f46f1f3d10.png",
+          "name": "\u30a4\u30f3\u30af\u30a2\u30fc\u30de\u30fc",
+          "id": "1",
+          "image_b": "/images/special/415bf85acb0b0dcc478316332fe86efb1fe4f203.png"
+        },
+        "name": "R\u30d6\u30e9\u30b9\u30bf\u30fc\u30a8\u30ea\u30fc\u30c8\u30c7\u30b3",
+        "sub": {
+          "id": "9",
+          "image_b": "/images/sub/42940c5ac8fea75599f8d8379f9e0c5bbd2eaedd.png",
+          "image_a": "/images/sub/b00df7ddec57c9254094c901dbb7533b61e5a3e3.png",
+          "name": "\u30b9\u30d7\u30e9\u30c3\u30b7\u30e5\u30b7\u30fc\u30eb\u30c9"
+        },
+        "id": "251",
+        "image": "/images/weapon/bd90ecaccefb937625821f9227588ba1928e7870.png"
+      },
+      "rank": 89
+    },
+    {
+      "rank": 90,
+      "weapon": {
+        "image": "/images/weapon/6f42c9f8fde07510a01072a669125545f6effb99.png",
+        "id": "4010",
+        "sub": {
+          "id": "6",
+          "image_b": "/images/sub/47b6c31e712634bd793d5b920288fe7b1fb3c2bd.png",
+          "image_a": "/images/sub/46f5b9fe851d4ac8df9eb959e7270ff72526dffe.png",
+          "name": "\u30b9\u30d7\u30ea\u30f3\u30af\u30e9\u30fc"
+        },
+        "special": {
+          "image_b": "/images/special/485b748720bbf809d8b28f9f4ee1a505cbcb339b.png",
+          "id": "7",
+          "name": "\u30cf\u30a4\u30d1\u30fc\u30d7\u30ec\u30c3\u30b5\u30fc",
+          "image_a": "/images/special/7af300fdd872feb27b3d8e68a969457fac8b3bb7.png"
+        },
+        "name": "\u30d0\u30ec\u30eb\u30b9\u30d4\u30ca\u30fc",
+        "thumbnail": "/images/weapon/c8d18b0264f1acd1e7d374a8b2c3b6fc526c790a.png"
+      },
+      "x_power": 2577.3,
+      "principal_id": "f89e0ba733ab3227",
+      "unique_id": "16569868933297893187",
+      "rank_change": "up",
+      "cheater": false,
+      "name": "\u3053\u3093\u305f\u3093"
+    },
+    {
+      "name": "\u307e\u30fc\u3084",
+      "cheater": false,
+      "unique_id": "52917299916855875",
+      "principal_id": "f66b4b7a62bee1c0",
+      "rank_change": "up",
+      "x_power": 2577.1,
+      "weapon": {
+        "thumbnail": "/images/weapon/b8fe14c22c7cf51526aaa252ba6250800e8fc44d.png",
+        "special": {
+          "name": "\u30a4\u30f3\u30af\u30a2\u30fc\u30de\u30fc",
+          "image_a": "/images/special/abe458a7d13d855f1b27135ccf3e96f46f1f3d10.png",
+          "image_b": "/images/special/415bf85acb0b0dcc478316332fe86efb1fe4f203.png",
+          "id": "1"
+        },
+        "name": "H3\u30ea\u30fc\u30eb\u30ac\u30f3D",
+        "id": "311",
+        "sub": {
+          "image_b": "/images/sub/9d6336b855940f6c8fc82979a972f9f3381c0e65.png",
+          "id": "1",
+          "name": "\u30ad\u30e5\u30fc\u30d0\u30f3\u30dc\u30e0",
+          "image_a": "/images/sub/79ec06c8afca6af0e14da4d9941706bb15f9927e.png"
+        },
+        "image": "/images/weapon/f349388933712ba0da08833aceeb3272ff412e8a.png"
+      },
+      "rank": 91
+    },
+    {
+      "rank": 92,
+      "x_power": 2576.8,
+      "weapon": {
+        "thumbnail": "/images/weapon/8b62de420955b0f0d4cf9dd9accecb49fc37c448.png",
+        "special": {
+          "image_a": "/images/special/b07cb8cd5b8afbf509b98a9cbb768ed0f2e34898.png",
+          "name": "\u30a2\u30e1\u30d5\u30e9\u30b7",
+          "id": "10",
+          "image_b": "/images/special/b2ffd060612d3ed4cfa7bee583cb28d22307064a.png"
+        },
+        "name": "\u30d2\u30fc\u30ed\u30fc\u30b7\u30a7\u30eb\u30bf\u30fc \u30ec\u30d7\u30ea\u30ab",
+        "sub": {
+          "name": "\u30b9\u30d7\u30ea\u30f3\u30af\u30e9\u30fc",
+          "image_a": "/images/sub/46f5b9fe851d4ac8df9eb959e7270ff72526dffe.png",
+          "image_b": "/images/sub/47b6c31e712634bd793d5b920288fe7b1fb3c2bd.png",
+          "id": "6"
+        },
+        "id": "6005",
+        "image": "/images/weapon/d81d2a168f729fa0f18a7c402a87320c42cc4a45.png"
+      },
+      "unique_id": "17816803080126089243",
+      "rank_change": "up",
+      "principal_id": "7eafa0165acd57ae",
+      "name": "\u03a9\u3077\u3045",
+      "cheater": false
+    },
+    {
+      "rank": 93,
+      "x_power": 2576.8,
+      "weapon": {
+        "thumbnail": "/images/weapon/dd413cbc15fed38922b1d2a27b6b84571ef3d087.png",
+        "image": "/images/weapon/30c1038df50a93b33438fd63410cc7680c72cf1b.png",
+        "sub": {
+          "id": "3",
+          "image_b": "/images/sub/2b5797c0ad847a54b9bd8168e75050484919d373.png",
+          "image_a": "/images/sub/e398a9e0360f048b6a0c4c3c1e89211cca96577f.png",
+          "name": "\u30ab\u30fc\u30ea\u30f3\u30b0\u30dc\u30e0"
+        },
+        "id": "5011",
+        "special": {
+          "image_a": "/images/special/9871c82952ed0141be0310ace1942c9f5f66d655.png",
+          "name": "\u30b8\u30a7\u30c3\u30c8\u30d1\u30c3\u30af",
+          "id": "8",
+          "image_b": "/images/special/26e8117808ce17dadb0f23943359e5909fef4085.png"
+        },
+        "name": "\u30b9\u30d7\u30e9\u30de\u30cb\u30e5\u30fc\u30d0\u30fc\u30b3\u30e9\u30dc"
+      },
+      "unique_id": "1785677256547864503",
+      "principal_id": "62c7b0bac998a986",
+      "rank_change": "up",
+      "name": "\u3069\u3048\u308d\u304a\u3072\u3081\u3055\u307e\u266a",
+      "cheater": false
+    },
+    {
+      "unique_id": "7643171521896291433",
+      "principal_id": "574f1cab09efca5a",
+      "rank_change": "up",
+      "cheater": false,
+      "name": "ARROW",
+      "rank": 94,
+      "weapon": {
+        "special": {
+          "image_a": "/images/special/9871c82952ed0141be0310ace1942c9f5f66d655.png",
+          "name": "\u30b8\u30a7\u30c3\u30c8\u30d1\u30c3\u30af",
+          "id": "8",
+          "image_b": "/images/special/26e8117808ce17dadb0f23943359e5909fef4085.png"
+        },
+        "name": "\u30b9\u30d7\u30e9\u30de\u30cb\u30e5\u30fc\u30d0\u30fc\u30b3\u30e9\u30dc",
+        "image": "/images/weapon/30c1038df50a93b33438fd63410cc7680c72cf1b.png",
+        "sub": {
+          "image_a": "/images/sub/e398a9e0360f048b6a0c4c3c1e89211cca96577f.png",
+          "name": "\u30ab\u30fc\u30ea\u30f3\u30b0\u30dc\u30e0",
+          "id": "3",
+          "image_b": "/images/sub/2b5797c0ad847a54b9bd8168e75050484919d373.png"
+        },
+        "id": "5011",
+        "thumbnail": "/images/weapon/dd413cbc15fed38922b1d2a27b6b84571ef3d087.png"
+      },
+      "x_power": 2576.7
+    },
+    {
+      "unique_id": "3575576633450511215",
+      "principal_id": "2c2ee948e5a0006d",
+      "rank_change": "up",
+      "cheater": false,
+      "name": "ice",
+      "rank": 95,
+      "weapon": {
+        "thumbnail": "/images/weapon/5a901e56b8f13eb20fee865d116199b490d1f7ae.png",
+        "sub": {
+          "id": "0",
+          "image_b": "/images/sub/b13bf755b279af83904892fae01cd98c866dfec7.png",
+          "image_a": "/images/sub/d2eaeec524d28ef315a13f8a9e11dd1039cb78aa.png",
+          "name": "\u30b9\u30d7\u30e9\u30c3\u30b7\u30e5\u30dc\u30e0"
+        },
+        "id": "2015",
+        "image": "/images/weapon/f4380ea765fc330a02562c442995500fb89187e0.png",
+        "name": "\u30d2\u30fc\u30ed\u30fc\u30c1\u30e3\u30fc\u30b8\u30e3\u30fc \u30ec\u30d7\u30ea\u30ab",
+        "special": {
+          "image_b": "/images/special/485b748720bbf809d8b28f9f4ee1a505cbcb339b.png",
+          "id": "7",
+          "name": "\u30cf\u30a4\u30d1\u30fc\u30d7\u30ec\u30c3\u30b5\u30fc",
+          "image_a": "/images/special/7af300fdd872feb27b3d8e68a969457fac8b3bb7.png"
+        }
+      },
+      "x_power": 2576.3
+    },
+    {
+      "rank": 96,
+      "x_power": 2575.3,
+      "weapon": {
+        "image": "/images/weapon/30c1038df50a93b33438fd63410cc7680c72cf1b.png",
+        "id": "5011",
+        "sub": {
+          "image_b": "/images/sub/2b5797c0ad847a54b9bd8168e75050484919d373.png",
+          "id": "3",
+          "name": "\u30ab\u30fc\u30ea\u30f3\u30b0\u30dc\u30e0",
+          "image_a": "/images/sub/e398a9e0360f048b6a0c4c3c1e89211cca96577f.png"
+        },
+        "name": "\u30b9\u30d7\u30e9\u30de\u30cb\u30e5\u30fc\u30d0\u30fc\u30b3\u30e9\u30dc",
+        "special": {
+          "id": "8",
+          "image_b": "/images/special/26e8117808ce17dadb0f23943359e5909fef4085.png",
+          "image_a": "/images/special/9871c82952ed0141be0310ace1942c9f5f66d655.png",
+          "name": "\u30b8\u30a7\u30c3\u30c8\u30d1\u30c3\u30af"
+        },
+        "thumbnail": "/images/weapon/dd413cbc15fed38922b1d2a27b6b84571ef3d087.png"
+      },
+      "principal_id": "6f945d79b138fd88",
+      "unique_id": "8915719891605018962",
+      "rank_change": "up",
+      "name": "\u307f\u3075\u3041\u30fc\u306e\u3044\u304f\u3089",
+      "cheater": false
+    },
+    {
+      "rank_change": "up",
+      "principal_id": "1ae902614bd95a14",
+      "unique_id": "10354057022596493236",
+      "name": "KAKO/",
+      "cheater": false,
+      "rank": 97,
+      "x_power": 2575,
+      "weapon": {
+        "thumbnail": "/images/weapon/7ccb1233eb949e651d0c9e49971f1c0c6be59138.png",
+        "image": "/images/weapon/a1c290b4abc1b4b9ab03425d8e89b88053390dbe.png",
+        "id": "5031",
+        "sub": {
+          "image_b": "/images/sub/b13bf755b279af83904892fae01cd98c866dfec7.png",
+          "id": "0",
+          "name": "\u30b9\u30d7\u30e9\u30c3\u30b7\u30e5\u30dc\u30e0",
+          "image_a": "/images/sub/d2eaeec524d28ef315a13f8a9e11dd1039cb78aa.png"
+        },
+        "special": {
+          "id": "10",
+          "image_b": "/images/special/b2ffd060612d3ed4cfa7bee583cb28d22307064a.png",
+          "image_a": "/images/special/b07cb8cd5b8afbf509b98a9cbb768ed0f2e34898.png",
+          "name": "\u30a2\u30e1\u30d5\u30e9\u30b7"
+        },
+        "name": "\u30c7\u30e5\u30a2\u30eb\u30b9\u30a4\u30fc\u30d1\u30fc\u30ab\u30b9\u30bf\u30e0"
+      }
+    },
+    {
+      "cheater": false,
+      "name": "\u306d\u3080\u308a\u3093\u266a",
+      "principal_id": "f331856a0b0d0f01",
+      "unique_id": "13010617852795838975",
+      "rank_change": "up",
+      "weapon": {
+        "sub": {
+          "id": "9",
+          "image_b": "/images/sub/42940c5ac8fea75599f8d8379f9e0c5bbd2eaedd.png",
+          "image_a": "/images/sub/b00df7ddec57c9254094c901dbb7533b61e5a3e3.png",
+          "name": "\u30b9\u30d7\u30e9\u30c3\u30b7\u30e5\u30b7\u30fc\u30eb\u30c9"
+        },
+        "id": "2021",
+        "image": "/images/weapon/20db4f5e0798f2b3ec968895353dcc06d991f943.png",
+        "special": {
+          "image_a": "/images/special/0a6b11ca3d93e99fa53aa50ee8a948c6747a651d.png",
+          "name": "\u30ad\u30e5\u30fc\u30d0\u30f3\u30dc\u30e0\u30d4\u30c3\u30c1\u30e3\u30fc",
+          "id": "3",
+          "image_b": "/images/special/0ee7864672be208c9ea57904eb172e942dc4471f.png"
+        },
+        "name": "\u30b9\u30d7\u30e9\u30b9\u30b3\u30fc\u30d7\u30b3\u30e9\u30dc",
+        "thumbnail": "/images/weapon/f273f3c84188b69cb8e192003e5e7e0a527593b7.png"
+      },
+      "x_power": 2575,
+      "rank": 98
+    },
+    {
+      "cheater": false,
+      "name": "\u3084\u307e\u3060 \u03b4",
+      "unique_id": "13991839621605011075",
+      "rank_change": "up",
+      "principal_id": "ad2d5d4dd2f6a2c2",
+      "weapon": {
+        "thumbnail": "/images/weapon/19d6a4f48f26528131a890314c7b36cd0868eb79.png",
+        "special": {
+          "image_a": "/images/special/9871c82952ed0141be0310ace1942c9f5f66d655.png",
+          "name": "\u30b8\u30a7\u30c3\u30c8\u30d1\u30c3\u30af",
+          "id": "8",
+          "image_b": "/images/special/26e8117808ce17dadb0f23943359e5909fef4085.png"
+        },
+        "name": "\u30db\u30c3\u30c8\u30d6\u30e9\u30b9\u30bf\u30fc\u30ab\u30b9\u30bf\u30e0",
+        "image": "/images/weapon/d5252a5bc225d85a04fd7975e3935cc4be114651.png",
+        "sub": {
+          "image_a": "/images/sub/457de86fa079df54c7a3c96decca49a55a1686ae.png",
+          "name": "\u30ed\u30dc\u30c3\u30c8\u30dc\u30e0",
+          "id": "4",
+          "image_b": "/images/sub/f0e4b4bad0e37031b8cb8ff397d4bb0ad9c86307.png"
+        },
+        "id": "211"
+      },
+      "x_power": 2574.9,
+      "rank": 99
+    },
+    {
+      "weapon": {
+        "sub": {
+          "image_a": "/images/sub/e398a9e0360f048b6a0c4c3c1e89211cca96577f.png",
+          "name": "\u30ab\u30fc\u30ea\u30f3\u30b0\u30dc\u30e0",
+          "id": "3",
+          "image_b": "/images/sub/2b5797c0ad847a54b9bd8168e75050484919d373.png"
+        },
+        "id": "5011",
+        "image": "/images/weapon/30c1038df50a93b33438fd63410cc7680c72cf1b.png",
+        "name": "\u30b9\u30d7\u30e9\u30de\u30cb\u30e5\u30fc\u30d0\u30fc\u30b3\u30e9\u30dc",
+        "special": {
+          "name": "\u30b8\u30a7\u30c3\u30c8\u30d1\u30c3\u30af",
+          "image_a": "/images/special/9871c82952ed0141be0310ace1942c9f5f66d655.png",
+          "image_b": "/images/special/26e8117808ce17dadb0f23943359e5909fef4085.png",
+          "id": "8"
+        },
+        "thumbnail": "/images/weapon/dd413cbc15fed38922b1d2a27b6b84571ef3d087.png"
+      },
+      "x_power": 2573.4,
+      "rank": 100,
+      "cheater": false,
+      "name": "\u3077\u308a\u3093\u305b\u3059\u3044",
+      "unique_id": "9912141309160733695",
+      "principal_id": "1f43f9bdd07a1a5d",
+      "rank_change": "up"
+    }
+  ],
+  "my_ranking": null,
+  "top_rankings_count": 500,
+  "start_time": 1527811200,
+  "status": "calculated",
+  "weapon_ranking": null
+}

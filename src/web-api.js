@@ -59,8 +59,8 @@ app.get('/league/rankings/:leagueDate(\\d{8}):groupType([TP])', (req, res) => {
     });
 });
 
-app.get('/league/:type((weapons|specials|subs))/:month([1-9]|1[012])', (req, res) => {
-  const { type, month } = req.params;
+app.get('/league/:type((weapons|specials|subs))/:year(\\d{4})/:month([1-9]|1[012])', (req, res) => {
+  const { type, year, month } = req.params;
 
   if (type === 'weapons') {
     db.raw(`
@@ -83,11 +83,12 @@ select
         special_weapon_id
     from league_rankings
       inner join weapons on league_rankings.weapon_id = weapons.weapon_id
-      where extract(month from start_time) = ?
+      where extract(year from start_time) = ?
+        AND extract(month from start_time) = ?
       group by temp_weapon_id, sub_weapon_id, special_weapon_id
       order by count desc, temp_weapon_id desc
   ) as popular_weapons
-        `, [month])
+        `, [year, month])
       .then((result) => {
         res.json(result.rows);
       });
@@ -103,11 +104,12 @@ select
   from (
     select count(weapons.${columnName}), weapons.${columnName} from league_rankings
       inner join weapons on league_rankings.weapon_id = weapons.weapon_id
-      where extract(month from start_time) = ?
+      where extract(year from start_time) = ?
+        AND extract(month from start_time) = ?
       group by weapons.${columnName}
         order by count desc, weapons.${columnName} desc
   ) as popular_weapons
-      `, [month])
+      `, [month, year])
       .then((result) => {
         res.json(result.rows);
       });

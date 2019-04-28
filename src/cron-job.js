@@ -1,10 +1,11 @@
 const fs = require('fs');
 const fetch = require('node-fetch');
 const flat = require('array.prototype.flat');
+const moment = require('moment-timezone');
 const config = require('../config');
 const { db } = require('./db');
 const { dateToSqlTimestamp } = require('./util');
-const { findRuleId } = require('./data');
+const { rankedRules, findRuleId } = require('./data');
 const { splatnetUrl, getSplatnetApi } = require('./splatnet');
 
 /**
@@ -149,5 +150,45 @@ const fetchLeagueRanking = leagueId => new Promise((resolve, reject) => {
     .catch(err => reject(err));
 });
 
-module.exports = { fetchStageRotations, fetchNewRanking };
-module.exports = { fetchStageRotations, fetchLeagueRanking };
+/**
+ * @param {Number} year
+ * @param {Number} month 1-12
+ * @example
+ * // Fetches X Ranking of 2019-01
+ * fetchXRanking(2019, 1)
+ */
+const fetchXRanking = (year, month) => new Promise((resolve, reject) => {
+  let rankingId;
+
+  if (year === 2018 && (month === 4 || month === 5)) {
+    rankingId = '180401T00_180601T00';
+  } else {
+    const format = 'YYMM01T00';
+    const start = moment({ year, month: month - 1 }).format(format);
+    const end = moment({ year, month }).format(format);
+
+    rankingId = `${start}_${end}`;
+  }
+
+  const sleep = async millis => new Promise(_resolve => setTimeout(_resolve, millis));
+
+  (async function () { // eslint-disable-line func-names
+    /* eslint-disable no-restricted-syntax, no-await-in-loop */
+    for (const rule of rankedRules) {
+      // Assume there's always 500 players (=5 pages) on X Ranking
+      for (const page of [1, 2, 3, 4, 5]) {
+        console.log(`x_power_ranking/${rankingId}/${rule.key}?page=${page}`);
+        const ranking = await getSplatnetApi(`x_power_ranking/${rankingId}/${rule.key}?page=${page}`);
+        const tasks = ranking.top_rankings.map(player => db.raw('INSERT INTO x_rankings (start_time, rule_id, player_id, weapon_id, rank, rating) VALUES (to_timestamp(?), ?, ?, ?, ?, ?) ON CONFLICT DO NOTHING',
+          [ranking.start_time, findRuleId(rule.key), player.principal_id, player.weapon.id, player.rank, player.x_power]));
+        await Promise.all(tasks);
+        await sleep(10000);
+      }
+    }
+    /* eslint-enable no-restricted-syntax, no-await-in-loop */
+  }())
+    .then(() => resolve())
+    .catch(err => reject(err));
+});
+
+module.exports = { fetchStageRotations, fetchLeagueRanking, fetchXRanking };

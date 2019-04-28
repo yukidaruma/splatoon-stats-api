@@ -2,15 +2,15 @@ const cron = require('node-cron');
 const moment = require('moment-timezone');
 const app = require('./src/web-api');
 const config = require('./config');
-const { fetchStageRotations, fetchLeagueRanking } = require('./src/cron-job');
+const { fetchStageRotations, fetchLeagueRanking, fetchXRanking } = require('./src/cron-job');
 const { calculateLeagueDate } = require('./src/util');
 const { NintendoAPIError } = require('./src/errors');
 
+// Fetch League Ranking every 2 hours
 cron.schedule('20 1-23/2 * * *', () => { // See https://crontab.guru/#20_1-23/2_*_*_*
   const leagueDate = calculateLeagueDate(new Date() - 120 * 60 * 1000); // The latest ranking available is the one from 2 hours ago.
 
   // For now, this only fetches latest ranking.
-  // TODO: Fetch rankings of last 24 hours (so we don't have missed rankings)
   // TODO: Fetch league rankings of last 24 hours (so we don't have missed rankings)
   const fetchLeagueRankings = () => {
     const tasks = [`${leagueDate}T`, `${leagueDate}P`].map(leagueId => fetchLeagueRanking(leagueId));
@@ -26,6 +26,21 @@ cron.schedule('20 1-23/2 * * *', () => { // See https://crontab.guru/#20_1-23/2_
         // Unexpected error?
         console.error(err);
       }
+    });
+}, null, true, 'Asia/Tokyo');
+
+// Fetch X Ranking every month
+cron.schedule('20 11 1 * *', () => { // See https://crontab.guru/#20_11_1_*_*
+  const date = new Date();
+  const year = date.getFullYear();
+  const month = date.getMonth + 1;
+  fetchXRanking(year, month)
+    .then(() => {
+      console.log(`Successfully fetched X Ranking for ${year}/${month}.`);
+    })
+    .catch((err) => {
+      console.log(`Failed to fetch X Ranking for ${year}/${month}.`);
+      console.error(err);
     });
 }, null, true, 'Asia/Tokyo');
 

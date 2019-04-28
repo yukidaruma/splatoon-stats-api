@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS league_schedules (
   stage_ids SMALLINT[2]
 );
 
--- This table is unnormalized because there will be no updates.
+-- These tables (league_rankings, x_rankings, splatfest_rankings) are unnormalized because there will be no updates.
 CREATE TABLE IF NOT EXISTS league_rankings (
   start_time TIMESTAMP,
   group_type CHAR(1), -- Either T(eam) or P(air)
@@ -20,8 +20,17 @@ CREATE TABLE IF NOT EXISTS league_rankings (
   PRIMARY KEY (start_time, group_type, group_id, player_id) -- Because it's possible for someone to appear twice on ranking as a member for different teams.
 );
 
+CREATE TABLE IF NOT EXISTS x_rankings (
+  start_time TIMESTAMP, -- DATE is enough, however, for future upgrade possibility, we use TIMESTAMP.
+  rule_id SMALLINT NOT NULL,
+  player_id VARCHAR(16) NOT NULL,
+  weapon_id SMALLINT NOT NULL,
+  rank SMALLINT NOT NULL,
+  rating numeric(5, 1) NOT NULL,
+  PRIMARY KEY (start_time, rule_id, player_id)
+);
+
 /*
-CREATE TABLE IF NOT EXISTS x_rankings ();
 CREATE TABLE IF NOT EXISTS splatfest_rankings();
 */
 
