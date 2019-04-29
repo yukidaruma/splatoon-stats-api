@@ -28,8 +28,9 @@ const addWeapons = (statInkWeapons) => {
       const weaponId = weapon.splatnet;
       weaponKeyToWeaponId[weapon.key] = weaponId;
       const subWeaponId = findSubWeaponId(weapon.sub.key);
-      // Cannot use weapon.type.key because there's type `reelgun`
-      const weaponClassId = findWeaponClassId(weapon.type.category.key);
+      // Cannot use weapon.type.key directly because there's type `reelgun`
+      const weaponType = weapon.type.key === 'reelgun' ? 'shooter' : weapon.type.key;
+      const weaponClassId = findWeaponClassId(weaponType);
 
       let specialWeaponId;
       if (weapon.special.key === 'pitcher') {
