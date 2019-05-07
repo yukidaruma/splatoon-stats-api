@@ -1,10 +1,11 @@
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
+const moment = require('moment');
 
 const config = require('../config');
 const { db } = require('./db');
-const { calculateStartTimeFromLeagueDate } = require('./util');
+const { calculateStartTimeFromLeagueDate, dateToSqlTimestamp } = require('./util');
 const { findRuleId, rankedRules } = require('./data');
 
 const app = express();
@@ -68,6 +69,9 @@ const weaponRankingRouterCallback = (req, res) => {
   const tableName = `${rankingType}_rankings`;
   const ruleId = rule ? findRuleId(rule) : 0;
 
+  const startTime = dateToSqlTimestamp(moment.utc({ year, month: month - 1 }));
+  const endTime = dateToSqlTimestamp(moment.utc({ year, month }));
+
   if (weaponType === 'weapons') {
     db.raw(`
       with popular_weapons as (
@@ -91,9 +95,9 @@ const weaponRankingRouterCallback = (req, res) => {
             )
             AND
             (
-              extract(year from :tableName:.start_time) = :year
+              :startTime <= :tableName:.start_time
               AND
-              extract(month from :tableName:.start_time) = :month
+              :tableName:.start_time < :endTime
             )
           group by temp_weapon_id, sub_weapon_id, special_weapon_id
           order by count desc, temp_weapon_id desc
@@ -105,7 +109,7 @@ const weaponRankingRouterCallback = (req, res) => {
           sub_weapon_id,
           special_weapon_id,
           100 * count / sum(count) over () as percentage
-        from popular_weapons`, { tableName, year, month, ruleId })
+        from popular_weapons`, { tableName, startTime, endTime, ruleId })
       .then((result) => {
         res.json(result.rows);
       });
@@ -128,9 +132,9 @@ const weaponRankingRouterCallback = (req, res) => {
               )
               AND
               (
-                extract(year from :tableName:.start_time) = :year
+                :startTime <= :tableName:.start_time
                 AND
-                extract(month from :tableName:.start_time) = :month
+                :tableName:.start_time < :endTime
               )
             group by weapons.:weaponTypeColumnName:
             order by count desc, weapons.:weaponTypeColumnName: desc
@@ -142,7 +146,7 @@ const weaponRankingRouterCallback = (req, res) => {
         100 * count / sum(count) over () as percentage
       from popular_weapons`,
     {
-      tableName, weaponTypeColumnName, year, month, ruleId,
+      tableName, weaponTypeColumnName, startTime, endTime, ruleId,
     })
       .then((result) => {
         res.json(result.rows);
