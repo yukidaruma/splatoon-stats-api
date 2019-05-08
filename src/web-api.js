@@ -26,7 +26,7 @@ app.get('/', (req, res) => {
   res.send('It works.');
 });
 
-app.get('/:rankingType(league|x)/players/:playerId([\\da-f]{16})', (req, res) => {
+app.get('/players/:rankingType(league|x)/:playerId([\\da-f]{16})', (req, res) => {
   const { rankingType, playerId } = req.params;
 
   const tableName = `${rankingType}_rankings`;
@@ -46,9 +46,10 @@ app.get('/:rankingType(league|x)/players/:playerId([\\da-f]{16})', (req, res) =>
   });
 });
 
-app.get('/x/rankings/:year(\\d{4})/:month([1-9]|1[0-2])/:ruleId(\\d+)', (req, res) => {
-  const { year, month, ruleId } = req.params;
+app.get('/rankings/x/:year(\\d{4})/:month([1-9]|1[0-2])/:ruleKey([a-z_]+)', (req, res) => {
+  const { year, month, ruleKey } = req.params;
 
+  const ruleId = findRuleId(ruleKey);
   const startTime = moment.utc({ year, month: month - 1 });
 
   db
@@ -85,7 +86,7 @@ app.get('/league/rankings/:leagueDate(\\d{8}):groupType([TP])', (req, res) => {
     });
 });
 
-const weaponRankingRouterCallback = (req, res) => {
+const weaponPopularityRouterCallback = (req, res) => {
   const {
     rankingType, weaponType, year, month, rule,
   } = req.params;
@@ -102,7 +103,7 @@ const weaponRankingRouterCallback = (req, res) => {
 
 const rulesPattern = rankedRules.map(rule => rule.key).join('|');
 
-app.get('/:rankingType(league|x)/:weaponType((weapons|specials|subs))/:year(\\d{4})/:month([1-9]|1[012])', weaponRankingRouterCallback);
-app.get(`/:rankingType(league|x)/:weaponType((weapons|specials|subs))/:year(\\d{4})/:month([1-9]|1[012])/:rule(${rulesPattern})`, weaponRankingRouterCallback);
+app.get('/:weaponType(weapons|specials|subs)/:rankingType(league|x)/:year(\\d{4})/:month([1-9]|1[012])', weaponPopularityRouterCallback);
+app.get(`/:weaponType(weapons|specials|subs)/:rankingType(league|x)/:year(\\d{4})/:month([1-9]|1[012])/:rule(${rulesPattern})`, weaponPopularityRouterCallback);
 
 module.exports = app;
