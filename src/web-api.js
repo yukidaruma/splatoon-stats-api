@@ -46,6 +46,23 @@ app.get('/:rankingType(league|x)/players/:playerId([\\da-f]{16})', (req, res) =>
   });
 });
 
+app.get('/x/rankings/:year(\\d{4})/:month([1-9]|1[0-2])/:ruleId(\\d+)', (req, res) => {
+  const { year, month, ruleId } = req.params;
+
+  const startTime = moment.utc({ year, month: month - 1 });
+
+  db
+    .select(['player_id', 'weapon_id', 'rank', 'rating'])
+    .from('x_rankings')
+    .where('rule_id', ruleId)
+    .whereRaw('start_time = to_timestamp(?)', [startTime / 1000])
+    .orderBy('rank', 'asc')
+    .orderBy('player_id', 'asc')
+    .then((rows) => {
+      res.json(rows);
+    });
+});
+
 // eslint-disable-next-line consistent-return
 app.get('/league/rankings/:leagueDate(\\d{8}):groupType([TP])', (req, res) => {
   const { leagueDate, groupType } = req.params;
