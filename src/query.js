@@ -22,7 +22,7 @@ const queryWeaponRanking = (rankingType, weaponType, startTime, endTime, ruleId)
             (
               :ruleId = 0
               OR
-              :ruleId = ${rankingType === 'league' ? 'league_schedules' : tableName}.rule_id
+              :ruleId = ${rankingType === 'league' ? 'league_schedules' : ':tableName:'}.rule_id
             )
             AND
             (
