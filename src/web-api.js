@@ -26,18 +26,24 @@ app.get('/', (req, res) => {
   res.send('It works.');
 });
 
-app.get('/league/players/:playerId([\\da-f]{16})', (req, res) => {
-  const { playerId } = req.params;
+app.get('/:rankingType(league|x)/players/:playerId([\\da-f]{16})', (req, res) => {
+  const { rankingType, playerId } = req.params;
 
-  db
+  const tableName = `${rankingType}_rankings`;
+
+  let query = db
     .select('*')
-    .from('league_rankings')
+    .from(tableName)
     .where('player_id', playerId)
-    .orderBy('league_rankings.start_time', 'asc')
-    .join('league_schedules', 'league_rankings.start_time', '=', 'league_schedules.start_time')
-    .then((rows) => {
-      res.json(rows);
-    });
+    .orderBy(`${tableName}.start_time`, 'asc');
+
+  if (rankingType === 'league') {
+    query = query.join('league_schedules', 'league_rankings.start_time', '=', 'league_schedules.start_time');
+  }
+
+  query.then((rows) => {
+    res.json(rows);
+  });
 });
 
 // eslint-disable-next-line consistent-return
@@ -79,7 +85,7 @@ const weaponRankingRouterCallback = (req, res) => {
 
 const rulesPattern = rankedRules.map(rule => rule.key).join('|');
 
-app.get('/:rankingType((league|x))/:weaponType((weapons|specials|subs))/:year(\\d{4})/:month([1-9]|1[012])', weaponRankingRouterCallback);
-app.get(`/:rankingType((league|x))/:weaponType((weapons|specials|subs))/:year(\\d{4})/:month([1-9]|1[012])/:rule(${rulesPattern})`, weaponRankingRouterCallback);
+app.get('/:rankingType(league|x)/:weaponType((weapons|specials|subs))/:year(\\d{4})/:month([1-9]|1[012])', weaponRankingRouterCallback);
+app.get(`/:rankingType(league|x)/:weaponType((weapons|specials|subs))/:year(\\d{4})/:month([1-9]|1[012])/:rule(${rulesPattern})`, weaponRankingRouterCallback);
 
 module.exports = app;
