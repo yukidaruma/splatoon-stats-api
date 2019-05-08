@@ -1,7 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
-const moment = require('moment');
+const moment = require('moment-timezone');
 
 const config = require('../config');
 const { db } = require('./db');
