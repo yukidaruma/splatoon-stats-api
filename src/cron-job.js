@@ -72,6 +72,18 @@ const cacheImageFromSplatoon2Ink = async (remotePath, id) => {
 };
 
 /**
+ * @param {String} playerId
+ * @param {String} playerName
+ * @param {String} lastUsed
+ */
+const insertKnownNames = (playerId, playerName, lastUsed) => db.raw(`INSERT
+    INTO player_known_names (player_id, player_name, last_used)
+    VALUES (:playerId, :playerName, to_timestamp(:lastUsed))
+    ON CONFLICT (player_id, player_name)
+    DO UPDATE SET player_name = :playerName, last_used = to_timestamp(:lastUsed)`,
+{ playerId, playerName, lastUsed });
+
+/**
  * @param {Boolean} forceFetch Forces to fetch even when there's future schedules already.
  */
 const fetchStageRotations = forceFetch => new Promise((resolve, reject) => {
@@ -201,19 +213,24 @@ const fetchXRanking = (year, month) => new Promise((resolve, reject) => {
       for (const page of [1, 2, 3, 4, 5]) {
         console.log(`x_power_ranking/${rankingId}/${rule.key}?page=${page}`);
         const ranking = await getSplatnetApi(`x_power_ranking/${rankingId}/${rule.key}?page=${page}`);
-        const tasks = ranking.top_rankings.map(player => db.raw(`
-          INSERT INTO
-            x_rankings (start_time, rule_id, player_id, weapon_id, rank, rating)
-            VALUES (to_timestamp(?), ?, ?, ?, ?, ?)
-            ON CONFLICT DO NOTHING`,
-        [
-          ranking.start_time,
-          findRuleId(rule.key),
-          player.principal_id,
-          player.weapon.id,
-          player.rank,
-          player.x_power,
+        const endTime = moment.unix(ranking.start_time).add({ month: 1 }).unix();
+        const tasks = flat(ranking.top_rankings.map(player => [
+          db.raw(`
+            INSERT
+              INTO x_rankings (start_time, rule_id, player_id, weapon_id, rank, rating)
+              VALUES (to_timestamp(?), ?, ?, ?, ?, ?)
+              ON CONFLICT DO NOTHING`,
+          [
+            ranking.start_time,
+            findRuleId(rule.key),
+            player.principal_id,
+            player.weapon.id,
+            player.rank,
+            player.x_power,
+          ]),
+          insertKnownNames(player.principal_id, player.name, endTime),
         ]));
+
         await Promise.all(tasks);
         await sleep(10000);
       }
