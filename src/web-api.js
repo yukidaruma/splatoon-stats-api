@@ -35,10 +35,14 @@ app.get('/players/:rankingType(league|x)/:playerId([\\da-f]{16})', (req, res) =>
     .select('*')
     .from(tableName)
     .where('player_id', playerId)
-    .orderBy(`${tableName}.start_time`, 'asc');
+    .orderBy(`${tableName}.start_time`, 'desc');
 
-  if (rankingType === 'league') {
-    query = query.join('league_schedules', 'league_rankings.start_time', '=', 'league_schedules.start_time');
+  if (rankingType === 'x') {
+    query = query.orderBy('rule_id', 'asc');
+  } else if (rankingType === 'league') {
+    query = query
+      .orderBy('group_type', 'asc') // Always T -> P
+      .join('league_schedules', 'league_rankings.start_time', '=', 'league_schedules.start_time');
   }
 
   query.then((rows) => {
