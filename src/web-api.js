@@ -26,7 +26,7 @@ app.get('/', (req, res) => {
   res.send('It works.');
 });
 
-app.get('/players/:rankingType(league|x)/:playerId([\\da-f]{16})', (req, res) => {
+app.get('/players/:playerId([\\da-f]{16})/rankings/:rankingType(league|x)', (req, res) => {
   const { rankingType, playerId } = req.params;
 
   const tableName = `${rankingType}_rankings`;
