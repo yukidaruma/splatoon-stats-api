@@ -35,6 +35,13 @@ CREATE TABLE IF NOT EXISTS x_rankings (
 CREATE TABLE IF NOT EXISTS splatfest_rankings();
 */
 
+CREATE TABLE IF NOT EXISTS player_known_names (
+  player_id VARCHAR(16) NOT NULL,
+  player_name VARCHAR(10) NOT NULL,
+  last_used TIMESTAMP NOT NULL,
+  PRIMARY KEY (player_id, player_name)
+);
+
 CREATE TABLE IF NOT EXISTS ranked_rules (
   rule_id SMALLINT PRIMARY KEY,
   rule_key VARCHAR(31)
