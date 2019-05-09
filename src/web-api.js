@@ -31,18 +31,46 @@ app.get('/players/:rankingType(league|x)/:playerId([\\da-f]{16})', (req, res) =>
 
   const tableName = `${rankingType}_rankings`;
 
-  let query = db
-    .select('*')
-    .from(tableName)
-    .where('player_id', playerId)
-    .orderBy(`${tableName}.start_time`, 'desc');
+  let query;
 
-  if (rankingType === 'x') {
-    query = query.orderBy('rule_id', 'asc');
-  } else if (rankingType === 'league') {
-    query = query
-      .orderBy('group_type', 'asc') // Always T -> P
-      .join('league_schedules', 'league_rankings.start_time', '=', 'league_schedules.start_time');
+  if (rankingType === 'league') {
+    query = db.raw(`with target_player_league_rankings as (
+      select *
+        from league_rankings
+        where league_rankings.player_id = ?
+    )
+    select
+        *,
+        -- You can't create array consists of different types so it convert weapon_id into varchar
+        (
+          select array_agg(
+            array[peer_league_rankings.player_id, peer_league_rankings.weapon_id::varchar]
+          )
+          from league_rankings as peer_league_rankings
+          where peer_league_rankings.group_id = target_player_league_rankings.group_id
+            AND peer_league_rankings.start_time = target_player_league_rankings.start_time
+            AND peer_league_rankings.player_id != target_player_league_rankings.player_id
+        ) as teammates
+      from target_player_league_rankings
+      inner join league_schedules on league_schedules.start_time = target_player_league_rankings.start_time`, [playerId])
+      .then(queryResult => queryResult.rows.map((row) => {
+        // eslint-disable-next-line no-param-reassign
+        row.teammates = row.teammates.map(teammate => ({
+          player_id: teammate[0],
+          weapon_id: parseInt(teammate[1], 10), // Convert back to Int
+        }));
+        return row;
+      }));
+  } else {
+    query = db
+      .select('*')
+      .from(tableName)
+      .where('player_id', playerId)
+      .orderBy(`${tableName}.start_time`, 'desc');
+
+    if (rankingType === 'x') {
+      query = query.orderBy('rule_id', 'asc');
+    }
   }
 
   query.then((rows) => {

@@ -19,6 +19,7 @@ CREATE TABLE IF NOT EXISTS league_rankings (
   rating numeric(5, 1) NOT NULL, -- e.g.) 1234.5
   PRIMARY KEY (start_time, group_type, group_id, player_id) -- Because it's possible for someone to appear twice on ranking as a member for different teams.
 );
+CREATE INDEX IF NOT EXISTS league_rankings_group_id_idx ON league_rankings (group_id);
 
 CREATE TABLE IF NOT EXISTS x_rankings (
   start_time TIMESTAMP, -- DATE is enough, however, for future upgrade possibility, we use TIMESTAMP.
