@@ -88,6 +88,18 @@ app.get('/players/:playerId([\\da-f]{16})/rankings/:rankingType(league|x)', (req
   });
 });
 
+app.get('/players/search', (req, res) => {
+  const { name } = req.query;
+  db
+    .select(['player_id', 'player_name', 'last_used'])
+    .from('player_known_names')
+    .where('player_name', 'ilike', `%${name}%`)
+    .orderBy('last_used', 'desc')
+    .orderBy('player_id', 'asc')
+    .limit(50)
+    .then(rows => res.json(rows));
+});
+
 app.get('/rankings/x/:year(\\d{4})/:month([1-9]|1[0-2])/:ruleKey([a-z_]+)', (req, res) => {
   const { year, month, ruleKey } = req.params;
 
