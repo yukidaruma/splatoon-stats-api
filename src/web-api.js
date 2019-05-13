@@ -62,7 +62,8 @@ app.get('/players/:playerId([\\da-f]{16})/rankings/:rankingType(league|x)', (req
             AND peer_league_rankings.player_id != target_player_league_rankings.player_id
         ) as teammates
       from target_player_league_rankings
-      inner join league_schedules on league_schedules.start_time = target_player_league_rankings.start_time`, [playerId])
+      inner join league_schedules on league_schedules.start_time = target_player_league_rankings.start_time
+      order by target_player_league_rankings.start_time desc`, [playerId])
       .then(queryResult => queryResult.rows.map((row) => {
         // eslint-disable-next-line no-param-reassign
         row.teammates = row.teammates.map(teammate => ({
