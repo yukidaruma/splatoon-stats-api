@@ -112,9 +112,9 @@ app.get('/rankings/x/:year(\\d{4})/:month([1-9]|1[0-2])/:ruleKey([a-z_]+)', (req
     .leftOuterJoin(db.raw(`
       (
         select
-              -- This column is used to limit to 1 row (latest, name starting with smallest character code value will be used)
-              ROW_NUMBER () OVER (partition by names.player_id order by last_used desc, player_name asc),
-              *
+            -- This column is used to limit to 1 row (latest, name starting with smallest character code value will be used)
+            ROW_NUMBER () OVER (partition by names.player_id order by last_used desc, player_name asc),
+            *
           from player_known_names as names
       ) as names
       on x_rankings.player_id = names.player_id
