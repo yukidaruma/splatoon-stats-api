@@ -136,7 +136,7 @@ app.get('/rankings/x/:year(\\d{4})/:month([1-9]|1[0-2])/:ruleKey([a-z_]+)', (req
 });
 
 // eslint-disable-next-line consistent-return
-app.get('/league/rankings/:leagueDate(\\d{8}):groupType([TP])', (req, res) => {
+app.get('/rankings/league/:leagueDate(\\d{8}):groupType([TP])', (req, res) => {
   const { leagueDate, groupType } = req.params;
 
   const startTime = calculateStartTimeFromLeagueDate(leagueDate);
