@@ -168,10 +168,11 @@ const weaponPopularityRouterCallback = (req, res) => {
 
   const ruleId = rule ? findRuleId(rule) : 0;
 
-  const startTime = dateToSqlTimestamp(moment.utc({ year, month: month - 1 }));
-  const endTime = dateToSqlTimestamp(moment.utc({ year, month }));
+  const startTime = moment.utc({ year, month: month - 1 });
+  const startTimestamp = dateToSqlTimestamp(startTime);
+  const endTimestamp = dateToSqlTimestamp(startTime.add({ month: 1 }));
 
-  queryWeaponRanking(rankingType, weaponType, startTime, endTime, ruleId)
+  queryWeaponRanking(rankingType, weaponType, startTimestamp, endTimestamp, ruleId)
     .then(ranking => res.json(ranking))
     .catch(err => res.status(500).send(err));
 };
