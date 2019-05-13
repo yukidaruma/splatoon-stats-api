@@ -146,14 +146,17 @@ app.get('/rankings/league/:leagueDate(\\d{8}):groupType([TP])', (req, res) => {
     return res.status(422).send('Bad league ID.');
   }
 
-  db
-    .select('*')
-    .from('league_rankings')
-    .whereRaw('start_time = to_timestamp(?) AND group_type = ?', [startTime / 1000, groupType])
-    .orderBy('rank', 'asc')
-    .orderBy('player_id', 'asc')
-    .then((rows) => {
-      res.json(rows);
+  db.raw(`
+    select
+        distinct rank, rating, group_id,
+        (select array_agg(array[l2.player_id, l2.weapon_id::varchar])
+          from league_rankings as l2
+          where l1.group_id = l2.group_id AND start_time = to_timestamp(:startTime)) as group_members
+      from league_rankings as l1
+      where start_time = to_timestamp(:startTime) AND group_type = :groupType
+      order by rank asc`, { startTime: startTime / 1000, groupType })
+    .then((result) => {
+      res.json(result.rows);
     });
 });
 
