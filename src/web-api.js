@@ -65,11 +65,13 @@ app.get('/players/:playerId([\\da-f]{16})/rankings/:rankingType(league|x)', (req
       inner join league_schedules on league_schedules.start_time = target_player_league_rankings.start_time
       order by target_player_league_rankings.start_time desc`, [playerId])
       .then(queryResult => queryResult.rows.map((row) => {
-        // eslint-disable-next-line no-param-reassign
-        row.teammates = row.teammates.map(teammate => ({
-          player_id: teammate[0],
-          weapon_id: parseInt(teammate[1], 10), // Convert back to Int
-        }));
+        if (row.teammates) { // Sometimes data for every other member is missing
+          // eslint-disable-next-line no-param-reassign
+          row.teammates = row.teammates.map(teammate => ({
+            player_id: teammate[0],
+            weapon_id: parseInt(teammate[1], 10), // Convert back to Int
+          }));
+        }
         return row;
       }));
   } else {
