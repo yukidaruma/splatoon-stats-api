@@ -94,7 +94,7 @@ const fetchStageRotations = forceFetch => new Promise((resolve, reject) => {
         { headers: { 'User-Agent': config.THIRDPARTY_API_USERAGENT } })
         .then(res => res.json())
         .then((schedule) => {
-          const tasks = schedule.league.map((league) => {
+          const queries = schedule.league.map((league) => {
             const stageIds = [league.stage_a.id, league.stage_b.id];
 
             // Cache stage image if not exists
@@ -115,7 +115,7 @@ const fetchStageRotations = forceFetch => new Promise((resolve, reject) => {
             ]);
           });
 
-          Promise.all(tasks)
+          Promise.all(queries)
             .then(() => resolve())
             .catch(err => reject(err));
         });
@@ -223,7 +223,7 @@ const fetchXRanking = (year, month) => new Promise((resolve, reject) => {
         console.log(`x_power_ranking/${rankingId}/${rule.key}?page=${page}`);
         const ranking = await getSplatnetApi(`x_power_ranking/${rankingId}/${rule.key}?page=${page}`);
         const endTime = moment.unix(ranking.start_time).add({ month: 1 }).unix();
-        const tasks = flat(ranking.top_rankings.map(player => [
+        const queries = flat(ranking.top_rankings.map(player => [
           db.raw(`
             INSERT
               INTO x_rankings (start_time, rule_id, player_id, weapon_id, rank, rating)
@@ -240,7 +240,7 @@ const fetchXRanking = (year, month) => new Promise((resolve, reject) => {
           insertKnownNames(player.principal_id, player.name, endTime),
         ]));
 
-        await Promise.all(tasks);
+        await Promise.all(queries);
         await sleep(10000);
       }
     }
