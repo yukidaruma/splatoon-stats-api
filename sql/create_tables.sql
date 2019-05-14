@@ -17,9 +17,10 @@ CREATE TABLE IF NOT EXISTS league_rankings (
   weapon_id SMALLINT NOT NULL,
   rank SMALLINT NOT NULL, -- We need to store rank because of ambiguity between teams with same rating.
   rating numeric(5, 1) NOT NULL, -- e.g.) 1234.5
-  PRIMARY KEY (start_time, group_type, group_id, player_id) -- Because it's possible for someone to appear twice on ranking as a member for different teams.
+  -- We need group_id as a PK too, because it's possible for someone to appear twice on ranking as a member for different teams.
+  PRIMARY KEY (start_time, group_id, player_id)
 );
-CREATE INDEX IF NOT EXISTS league_rankings_group_id_idx ON league_rankings (group_id);
+CREATE INDEX IF NOT EXISTS league_rankings_group_type_idx ON league_rankings (group_type);
 
 CREATE TABLE IF NOT EXISTS x_rankings (
   start_time TIMESTAMP, -- DATE is enough, however, for future upgrade possibility, we use TIMESTAMP.
