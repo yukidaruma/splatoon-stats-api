@@ -8,7 +8,7 @@
     "lint": "eslint . --ext .js --ignore-path .gitignore",
     "start": "node -r dotenv/config index",
     "start-dev": "cross-env NODE_ENV=development node -r dotenv/config index",
-    "setup": "node src/setup"
+    "setup": "node -r dotenv/config src/setup"
   },
   "author": "yukidaruman (https://github.com/yukidaruma)",
   "license": "MIT",
