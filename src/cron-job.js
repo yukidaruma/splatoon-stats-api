@@ -129,8 +129,8 @@ const fetchStageRotations = forceFetch => new Promise((resolve, reject) => {
 /**
  * @param {String} leagueId
  * @example
- * // Fetches league battle ranking for 2019-01-01 00:00 ~ 02:00 (UTC)
- * fetchLeagueRanking('19010100T')
+ * // Fetches league battle ranking for 2019-01-02 04:00 ~ 06:00 (UTC)
+ * fetchLeagueRanking('19010204T')
  */
 const fetchLeagueRanking = leagueId => new Promise((resolve, reject) => {
   /*
