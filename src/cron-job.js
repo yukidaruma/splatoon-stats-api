@@ -143,9 +143,13 @@ const fetchLeagueRanking = leagueId => new Promise((resolve, reject) => {
     ranking.rankings[].rank
     ranking.rankings[].point
   */
-  getSplatnetApi(`league_match_ranking/${leagueId}/ALL`) // ALL = global ranking
-    .then((ranking) => {
-      const tasks = flat(ranking.rankings.map((group) => {
+
+  db.transaction((trx) => {
+    // ALL = global ranking
+    getSplatnetApi(`league_match_ranking/${leagueId}/ALL`).then((ranking) => {
+      const queries = [];
+
+      ranking.rankings.forEach((group) => {
         const groupType = {
           team: 'T',
           pair: 'P',
@@ -161,7 +165,7 @@ const fetchLeagueRanking = leagueId => new Promise((resolve, reject) => {
           imagesToBeCached.forEach(imageToBeCached => cacheImageFromSplatoon2Ink(...imageToBeCached));
         });
 
-        return group.tag_members.map(member => db.raw(`
+        queries.push(...group.tag_members.map(member => db.raw(`
           INSERT
             INTO league_rankings (start_time, group_type, group_id, player_id, weapon_id, rank, rating)
             VALUES (to_timestamp(?), ?, ?, ?, ?, ?, ?)
@@ -174,13 +178,18 @@ const fetchLeagueRanking = leagueId => new Promise((resolve, reject) => {
           member.weapon.id,
           group.rank,
           group.point,
-        ]));
-      }));
+        ]).transacting(trx)));
+      });
 
-      Promise.all(tasks)
-        .then(() => resolve())
-        .catch(_err => reject(_err));
+      return queries;
     })
+      .then((queries) => {
+        Promise.all(queries)
+          .then(() => trx.commit())
+          .catch(() => trx.rollback());
+      });
+  })
+    .then(() => resolve())
     .catch(err => reject(err));
 });
 
