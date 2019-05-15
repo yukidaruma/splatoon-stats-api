@@ -26,9 +26,9 @@ const cacheImageFromNintendoAPI = async (remotePath, cachePath) => {
 
 /**
  * @param {String} remotePath Remote path for the image file.
- * @param {Number} id  ID for cached file.
+ * @param {Number} id ID for cached file.
  * @example
- * // Caches from splatoon2.ink to ./cache/images/stage/13.png
+ * // Cache image from Splatoon2.ink to ./cache/images/stage/13.png
  * cacheImageFromSplatoon2Ink('/images/stage/d9f0f6c330aaa3b975e572637b00c4c0b6b89f7d.png', 13)
  */
 const cacheImageFromSplatoon2Ink = async (remotePath, id) => {
@@ -128,7 +128,7 @@ const fetchStageRotations = forceFetch => new Promise((resolve, reject) => {
 /**
  * @param {String} leagueId
  * @example
- * // Fetches league battle ranking for 2019-01-02 04:00 ~ 06:00 (UTC)
+ * // Fetch league battle ranking for 2019-01-02 04:00 ~ 06:00 (UTC)
  * fetchLeagueRanking('19010204T')
  */
 const fetchLeagueRanking = leagueId => new Promise((resolve, reject) => {
@@ -200,7 +200,7 @@ const fetchLeagueRanking = leagueId => new Promise((resolve, reject) => {
  * @param {Number} year
  * @param {Number} month 1-12
  * @example
- * // Fetches X Ranking of 2019-01
+ * // Fetch X Ranking of 2019-01
  * fetchXRanking(2019, 1)
  */
 const fetchXRanking = (year, month) => new Promise((resolve, reject) => {

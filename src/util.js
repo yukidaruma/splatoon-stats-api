@@ -31,7 +31,7 @@ const calculateStartTimeFromLeagueDate = leagueDate => moment.utc(leagueDate, 'Y
  * @desc Convert Date object to SQL timestamp string.
  * @param {(Number|Date)} date
  * @returns {String} SQL timestamp string
- * @example dateToSqlTimestamp();
+ * @example dateToSqlTimestamp(moment({ year: 2018, month: 0 })) === '2018-01-01 00:00:00'
  */
 const dateToSqlTimestamp = date => moment(date).tz('UTC').format('YYYY-MM-DD HH:mm:ss');
 
