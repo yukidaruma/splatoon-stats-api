@@ -4,7 +4,6 @@ const flat = require('array.prototype.flat');
 const moment = require('moment-timezone');
 const config = require('../config');
 const { db } = require('./db');
-const { dateToSqlTimestamp } = require('./util');
 const { rankedRules, findRuleId } = require('./data');
 const { splatnetUrl, getSplatnetApi } = require('./splatnet');
 
@@ -88,7 +87,7 @@ const insertKnownNames = (playerId, playerName, lastUsed) => db.raw(`INSERT
  */
 const fetchStageRotations = forceFetch => new Promise((resolve, reject) => {
   // TODO: You can skip running query when forceFetch is true.
-  db('league_schedules').where('start_time', '>=', dateToSqlTimestamp(new Date())).then((rows) => {
+  db('league_schedules').where('start_time', '>=', 'now()').then((rows) => {
     if (forceFetch || rows.length < 6) { // When there's less than 6 future schedules
       fetch('https://splatoon2.ink/data/schedules.json',
         { headers: { 'User-Agent': config.THIRDPARTY_API_USERAGENT } })
