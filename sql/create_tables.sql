@@ -8,6 +8,16 @@ CREATE TABLE IF NOT EXISTS league_schedules (
   stage_ids SMALLINT[2]
 );
 
+CREATE TABLE IF NOT EXISTS splatfest_schedules (
+  region CHAR(2),
+  splatfest_id INT,
+  start_time TIMESTAMP NOT NULL,
+  end_time TIMESTAMP NOT NULL,
+  colors VARCHAR(20)[2], -- rgb(100%,100%,100%) is 19 characters
+  team_names VARCHAR(32)[2],
+  PRIMARY KEY(region, splatfest_id) -- Global splatfest shares splatfest_id with other regions
+);
+
 -- These tables (league_rankings, x_rankings, splatfest_rankings) are unnormalized because there will be no updates.
 CREATE TABLE IF NOT EXISTS league_rankings (
   start_time TIMESTAMP,
@@ -32,9 +42,16 @@ CREATE TABLE IF NOT EXISTS x_rankings (
   PRIMARY KEY (start_time, rule_id, player_id)
 );
 
-/*
-CREATE TABLE IF NOT EXISTS splatfest_rankings();
-*/
+CREATE TABLE IF NOT EXISTS splatfest_rankings (
+  region CHAR(2),
+  splatfest_id INT,
+  team_id SMALLINT, -- 0 for alpha, 1 for beta
+  player_id VARCHAR(16),
+  weapon_id SMALLINT NOT NULL,
+  rank SMALLINT NOT NULL,
+  rating numeric(5, 1) NOT NULL,
+  PRIMARY KEY (region, splatfest_id, team_id, player_id)
+);
 
 CREATE TABLE IF NOT EXISTS player_known_names (
   player_id VARCHAR(16) NOT NULL,
