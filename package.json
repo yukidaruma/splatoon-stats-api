@@ -8,7 +8,8 @@
     "lint": "eslint . --ext .js --ignore-path .gitignore",
     "start": "node -r dotenv/config index",
     "start-dev": "cross-env NODE_ENV=development node -r dotenv/config index",
-    "setup": "node -r dotenv/config src/setup"
+    "setup": "node -r dotenv/config src/setup",
+    "fetch-league-battles": "node -r dotenv/config src/fetch-league-battles.js"
   },
   "author": "yukidaruman (https://github.com/yukidaruma)",
   "license": "MIT",

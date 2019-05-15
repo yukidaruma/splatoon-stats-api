@@ -11,8 +11,6 @@ cron.schedule('20 1-23/2 * * *', () => { // See https://crontab.guru/#20_1-23/2_
   // The latest ranking available is the one from 2 hours ago.
   const leagueDate = calculateLeagueDate(new Date() - 120 * 60 * 1000);
 
-  // For now, this only fetches latest ranking.
-  // TODO: Fetch league rankings of last 24 hours (so we don't have missed rankings)
   const fetchLeagueRankings = () => {
     const tasks = [`${leagueDate}T`, `${leagueDate}P`].map(leagueId => fetchLeagueRanking(leagueId));
     return Promise.all(tasks);
