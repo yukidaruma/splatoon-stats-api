@@ -289,10 +289,68 @@ const fetchSplatfestSchedules = () => {
     });
 };
 
+/**
+ * @desc Fetch Splatfest ranking
+ * @param {String} region ('na', 'eu', 'jp')
+ * @param {Number} splatfestId
+ */
+const fetchSplatfestRanking = (region, splatfestId) => {
+  db.transaction((trx) => {
+    fetch(`https://splatoon2.ink/data/festivals/${region}-${splatfestId}-rankings.json`,
+      { 'User-Agent': config.THIRDPARTY_API_USERAGENT })
+      .then(res => res.json())
+      .then(_rankings => _rankings.rankings)
+      .then((rankings) => {
+        const queries = [];
+
+        ['alpha', 'bravo'].forEach((key, teamId) => { // As teamId, use 0 for alpha and 1 for bravo.
+          const ranking = rankings[key];
+          ranking.forEach((player) => {
+            if (player.cheater) {
+              return;
+            }
+
+            const playerId = player.principal_id;
+            queries.push(db.raw(`
+              INSERT INTO player_known_names (player_id, player_name, last_used)
+                VALUES (:playerId, :name, to_timestamp(:lastUsed))
+                ON CONFLICT ON CONSTRAINT player_known_names_pkey DO UPDATE
+                  SET last_used =
+                    CASE
+                      WHEN player_known_names.last_used > to_timestamp(:lastUsed) THEN to_timestamp(:lastUsed)
+                      ELSE player_known_names.last_used
+                    END
+              `, { playerId, name: player.info.nickname, lastUsed: player.updated_time }).transacting(trx));
+
+            queries.push(db.raw(`
+              INSERT
+                INTO splatfest_rankings (region, splatfest_id, team_id, player_id, weapon_id, rank, rating)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+                ON CONFLICT DO NOTHING`,
+            [
+              region,
+              splatfestId,
+              teamId,
+              playerId,
+              player.info.weapon.id,
+              player.order,
+              player.score,
+            ]).transacting(trx));
+          });
+        });
+
+        return queries;
+      })
+      .then(queries => Promise.all(queries)
+        .then(() => trx.commit())
+        .catch(() => trx.rollback()));
+  });
+};
 
 module.exports = {
   fetchStageRotations,
   fetchLeagueRanking,
   fetchXRanking,
   fetchSplatfestSchedules,
+  fetchSplatfestRanking,
 };
