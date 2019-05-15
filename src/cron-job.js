@@ -253,4 +253,46 @@ const fetchXRanking = (year, month) => new Promise((resolve, reject) => {
     .catch(err => reject(err));
 });
 
-module.exports = { fetchStageRotations, fetchLeagueRanking, fetchXRanking };
+/**
+ * @desc Fetch all Splatfest schedules from Splatoon2.ink
+ */
+const fetchSplatfestSchedules = () => {
+  fetch('https://splatoon2.ink/data/festivals.json',
+    { 'User-Agent': config.THIRDPARTY_API_USERAGENT })
+    .then(res => res.json())
+    .then((regions) => {
+      Object.entries(regions).forEach(([region, splatfests]) => {
+        const queries = splatfests.festivals.map((splatfest) => {
+          const colors = Object
+            .entries(splatfest.colors)
+            .filter(([key]) => key === 'alpha' || key === 'bravo')
+            .map(([key, color]) => color.css_rgb); // eslint-disable-line no-unused-vars
+          const teamNames = [splatfest.names.alpha_short, splatfest.names.bravo_short];
+
+          return db.raw(`
+            INSERT
+              INTO splatfest_schedules (region, splatfest_id, start_time, end_time, colors, team_names)
+              VALUES (?, ?, to_timestamp(?), to_timestamp(?), ?, ?)
+              ON CONFLICT (region, splatfest_id) DO NOTHING`,
+          [
+            region,
+            splatfest.festival_id,
+            splatfest.times.start,
+            splatfest.times.end,
+            colors,
+            teamNames,
+          ]);
+        });
+
+        Promise.all(queries);
+      });
+    });
+};
+
+
+module.exports = {
+  fetchStageRotations,
+  fetchLeagueRanking,
+  fetchXRanking,
+  fetchSplatfestSchedules,
+};
