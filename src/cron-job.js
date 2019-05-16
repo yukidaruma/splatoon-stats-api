@@ -317,7 +317,7 @@ const fetchSplatfestRanking = (region, splatfestId) => {
                 ON CONFLICT ON CONSTRAINT player_known_names_pkey DO UPDATE
                   SET last_used =
                     CASE
-                      WHEN player_known_names.last_used > to_timestamp(:lastUsed) THEN to_timestamp(:lastUsed)
+                      WHEN to_timestamp(:lastUsed) > player_known_names.last_used THEN to_timestamp(:lastUsed)
                       ELSE player_known_names.last_used
                     END
               `, { playerId, name: player.info.nickname, lastUsed: player.updated_time }).transacting(trx));
