@@ -36,7 +36,7 @@ app.get('/players/:playerId([\\da-f]{16})/known_names', (req, res) => {
     .then(rows => res.send(rows));
 });
 
-app.get('/players/:playerId([\\da-f]{16})/rankings/:rankingType(league|x)', (req, res) => {
+app.get('/players/:playerId([\\da-f]{16})/rankings/:rankingType(league|x|splatfest)', (req, res) => {
   const { rankingType, playerId } = req.params;
 
   const tableName = `${rankingType}_rankings`;
@@ -78,11 +78,18 @@ app.get('/players/:playerId([\\da-f]{16})/rankings/:rankingType(league|x)', (req
     query = db
       .select('*')
       .from(tableName)
-      .where('player_id', playerId)
-      .orderBy(`${tableName}.start_time`, 'desc');
+      .where('player_id', playerId);
 
     if (rankingType === 'x') {
-      query = query.orderBy('rule_id', 'asc');
+      query = query
+        .orderBy(`${tableName}.start_time`, 'desc')
+        .orderBy('rule_id', 'asc');
+    } else if (rankingType === 'splatfest') {
+      query = query
+        .join('splatfest_schedules', knex => knex
+          .on('splatfest_schedules.region', 'splatfest_rankings.region')
+          .on('splatfest_schedules.splatfest_id', 'splatfest_rankings.splatfest_id'))
+        .orderBy('splatfest_rankings.splatfest_id', 'desc');
     }
   }
 
@@ -147,6 +154,18 @@ app.get('/rankings/league/:leagueDate(\\d{8}):groupType([TP])', (req, res) => {
     });
 });
 
+app.get('/rankings/splatfest/:region((na|eu|jp))/:splatfestId(\\d+)', (req, res) => {
+  const { region, splatfestId } = req.params;
+
+  db
+    .select('*', 'names.player_name')
+    .from('splatfest_rankings')
+    .leftOuterJoin(joinLatestName('splatfest_rankings'))
+    .where({ region, splatfest_id: splatfestId })
+    .orderBy('rank', 'asc')
+    .then(rows => res.json(rows));
+});
+
 const weaponPopularityRouterCallback = (req, res) => {
   const {
     rankingType, weaponType, year, month, rule,
@@ -167,5 +186,14 @@ const rulesPattern = rankedRules.map(rule => rule.key).join('|');
 
 app.get('/:weaponType(weapons|specials|subs)/:rankingType(league|x)/:year(\\d{4})/:month([1-9]|1[012])', weaponPopularityRouterCallback);
 app.get(`/:weaponType(weapons|specials|subs)/:rankingType(league|x)/:year(\\d{4})/:month([1-9]|1[012])/:rule(${rulesPattern})`, weaponPopularityRouterCallback);
+
+app.get('/splatfests', (req, res) => {
+  db
+    .select('*')
+    .from('splatfest_schedules')
+    .where('start_time', '<', 'now()')
+    .orderBy('start_time', 'desc')
+    .then(rows => res.json(rows));
+});
 
 module.exports = app;
