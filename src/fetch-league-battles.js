@@ -6,6 +6,14 @@ const { db } = require('./db');
 const { fetchLeagueRanking } = require('./cron-job');
 const { dateToSqlTimestamp } = require('./util');
 
+const ongoingSplatfestCount = async time => db.raw(`
+  with ongoing_splatfests as (
+    select splatfest_id from splatfest_schedules
+      where start_time <= to_timestamp(:time) AND to_timestamp(:time) <= end_time
+  )
+  select count(splatfest_id) from ongoing_splatfests`, { time: time.unix() })
+  .then(result => (result.rows[0] && result.rows[0].count) || 0);
+
 const getMissingLeagueDatesIterator = (startTime, endTime) => ({
   [Symbol.iterator]() {
     const leagueDate = startTime.clone().add({ hours: -2 });
@@ -76,6 +84,12 @@ const randomBetween = (min, max) => Math.random() * (max - min + 1) + min;
       moment(gap.next_start_time).add({ ms: -1 }),
     );
     for (const leagueDate of missingLeagueDates) {
+      // Global Splatfest = 3 concurrent Splatfest across regions (na, eu, jp)
+      if (await ongoingSplatfestCount(leagueDate) === 3) {
+        console.log(`There were globally ongoing Splatfests at ${leagueDate.fomrat('YYYY-MM-DD HH:mm:ss')}. Skipped fetching.`);
+        continue; // eslint-disable-line no-continue
+      }
+
       const intervalBetweenDates = Math.floor(randomBetween(60000, 120000));
 
       // TODO: Use transaction here
