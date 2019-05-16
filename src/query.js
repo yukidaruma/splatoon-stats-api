@@ -88,4 +88,21 @@ const queryWeaponRanking = (rankingType, weaponType, startTime, endTime, ruleId)
   }
 });
 
-module.exports = { queryWeaponRanking };
+const queryUnfetchedSplatfests = () => new Promise((resolve, reject) => db.raw(`
+with past_splatfests as (
+  select region, splatfest_id from splatfest_schedules
+    where end_time < now()
+),
+fetched_splatfests as (
+  select region, splatfest_id from splatfest_rankings
+    group by region, splatfest_id
+)
+select * from past_splatfests
+  except select * from fetched_splatfests`)
+  .then(queryResult => resolve(queryResult.rows))
+  .catch(err => reject(err)));
+
+module.exports = {
+  queryWeaponRanking,
+  queryUnfetchedSplatfests,
+};
