@@ -7,7 +7,7 @@ const config = require('../config');
 const { db } = require('./db');
 const { calculateStartTimeFromLeagueDate, dateToSqlTimestamp } = require('./util');
 const { findRuleId, rankedRules } = require('./data');
-const { queryWeaponRanking } = require('./query');
+const { joinLatestName, queryWeaponRanking } = require('./query');
 
 const app = express();
 
@@ -112,23 +112,7 @@ app.get('/rankings/x/:year(\\d{4})/:month([1-9]|1[0-2])/:ruleKey([a-z_]+)', (req
   db
     .select(['x_rankings.player_id', 'weapon_id', 'rank', 'rating', 'names.player_name'])
     .from('x_rankings')
-    .leftOuterJoin(db.raw(`
-      (
-        select
-            -- This column is used to limit to 1 row (latest, name starting with smallest character code value will be used)
-            ROW_NUMBER () OVER (partition by names.player_id order by last_used desc, player_name asc),
-            *
-          from player_known_names as names
-      ) as names
-      on x_rankings.player_id = names.player_id
-      and names.last_used = (
-        select MAX(last_used)
-        from player_known_names as names_2
-        where x_rankings.player_id = names_2.player_id
-        order by names.player_name asc
-      )
-      and row_number = 1
-      `))
+    .leftOuterJoin(joinLatestName('x_rankings'))
     .where('rule_id', ruleId)
     .whereRaw('start_time = to_timestamp(?)', [startTime.unix()])
     .orderBy('rank', 'asc')

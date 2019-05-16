@@ -1,5 +1,24 @@
 const { db } = require('./db');
 
+// Note that you need to add names.player_name in select clause.
+const joinLatestName = tableName => db.raw(`
+  (
+    select
+        -- This column is used to limit to 1 row (latest, name starting with smallest character code value will be used)
+        ROW_NUMBER () OVER (partition by names.player_id order by last_used desc, player_name asc),
+        *
+      from player_known_names as names
+  ) as names
+  on :tableName:.player_id = names.player_id
+  and names.last_used = (
+    select MAX(last_used)
+    from player_known_names as names_2
+    where :tableName:.player_id = names_2.player_id
+    order by names.player_name asc
+  )
+  and row_number = 1
+  `, { tableName });
+
 const queryWeaponRanking = (rankingType, weaponType, startTime, endTime, ruleId) => new Promise((resolve, reject) => {
   const tableName = `${rankingType}_rankings`;
 
@@ -103,6 +122,7 @@ select * from past_splatfests
   .catch(err => reject(err)));
 
 module.exports = {
+  joinLatestName,
   queryWeaponRanking,
   queryUnfetchedSplatfests,
 };
