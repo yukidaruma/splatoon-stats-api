@@ -35,8 +35,16 @@ const calculateStartTimeFromLeagueDate = leagueDate => moment.utc(leagueDate, 'Y
  */
 const dateToSqlTimestamp = date => moment(date).tz('UTC').format('YYYY-MM-DD HH:mm:ss');
 
+/**
+ * @desc Convert Date object to SQL timestamp string.
+ * @param {Number} ms Duration in milliseconds
+ * @example await wait(1000); // Wait for 1 second
+ */
+const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
+
 module.exports = {
   calculateLeagueDate,
   calculateStartTimeFromLeagueDate,
   dateToSqlTimestamp,
+  wait,
 };
