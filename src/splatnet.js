@@ -29,6 +29,7 @@ const getSplatnetApi = path => new Promise((resolve, reject) => {
     .then(res => resolve(res))
     .catch((err) => {
       const nintendoApiError = new NintendoAPIError(`Request to ${uri} failed. Status code: ${err.statusCode}`);
+      nintendoApiError.statusCode = err.statusCode;
       return reject(nintendoApiError);
     });
 });

@@ -32,6 +32,11 @@ CREATE TABLE IF NOT EXISTS league_rankings (
 );
 CREATE INDEX IF NOT EXISTS league_rankings_group_type_idx ON league_rankings (group_type);
 
+-- This table is used to prevent fetch-league-rankings from fetching nonexistent league rankings.
+CREATE TABLE IF NOT EXISTS missing_league_rankings (
+  start_time TIMESTAMP PRIMARY KEY
+);
+
 CREATE TABLE IF NOT EXISTS x_rankings (
   start_time TIMESTAMP, -- DATE is enough, however, for future upgrade possibility, we use TIMESTAMP.
   rule_id SMALLINT NOT NULL,

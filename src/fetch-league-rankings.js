@@ -79,13 +79,24 @@ const randomBetween = (min, max) => Math.random() * (max - min + 1) + min;
 
   for (const gap of gapsBetweenLeagueRankings) {
     const missingLeagueDates = getMissingLeagueDatesIterator(
-      moment(gap.start_time).add({ hours: 2 }),
-      moment(gap.next_start_time).add({ ms: -1 }),
+      moment.utc(gap.start_time).add({ hours: 2 }),
+      moment.utc(gap.next_start_time).add({ ms: -1 }),
     );
     for (const leagueDate of missingLeagueDates) {
       // Global Splatfest = 3 concurrent Splatfest across regions (na, eu, jp)
       if (await ongoingSplatfestCount(leagueDate) === 3) {
-        console.log(`There were globally ongoing Splatfests at ${leagueDate.fomrat('YYYY-MM-DD HH:mm:ss')}. Skipped fetching.`);
+        // console.log(`There were global Splatfest at ${leagueDate.format('YYYY-MM-DD HH:mm')}. Skipped fetching.`);
+        continue; // eslint-disable-line no-continue
+      }
+
+      const isRankingMissing = await db
+        .select('start_time')
+        .from('missing_league_rankings')
+        .where('start_time', dateToSqlTimestamp(leagueDate))
+        .then(rows => !!rows.length);
+
+      if (isRankingMissing) {
+        // console.log(`No ranking is available for ${leagueDate.format('YYYY-MM-DD HH:mm')}. Skipped fetching.`);
         continue; // eslint-disable-line no-continue
       }
 
@@ -98,14 +109,24 @@ const randomBetween = (min, max) => Math.random() * (max - min + 1) + min;
 
         try {
           await fetchLeagueRanking(leagueId);
-          console.log(`Fetched ${leagueId}`);
+          console.log(`Fetched ${leagueId}.`);
 
           if (groupType === 'T') {
             await wait(intervalBetweenGroupTypes);
           }
         } catch (err) {
-          console.error(err);
-          return;
+          if (err.statusCode === 404) {
+            // Usually this happen when Japan is in Splatfest and the rest of the world is midnight.
+            // There's a case pair ranking is available while team is unavailable.
+            // However, there's little to no pairs in the situation so we just skip fetching pair ranking.
+            console.log(`No team ranking found for ${leagueId}. Skipped fetching pair ranking.`);
+            await db('missing_league_rankings')
+              .insert({ start_time: dateToSqlTimestamp(leagueDate) });
+            break;
+          } else {
+            console.error(err);
+            return;
+          }
         }
       }
 
