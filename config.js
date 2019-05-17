@@ -3,6 +3,9 @@ const defaults = {
   POSTGRES_URL: 'postgresql://postgres:postgres@localhost/sranking',
   INIT_POSTGRES_HOST: 'localhost',
   THIRDPARTY_API_USERAGENT: `@Yukinkling's League Battle Stats app/${process.env.npm_package_version}`,
+  // Cache duration for reverse proxy (shared cache). Set to 0 if unnecessary.
+  GET_REQUEST_CACHE_DURATION: 86400,
+
   // These values are used for Splatnet 2 API.
   FRONTEND_ORIGIN: 'http://localhost:8080',
   NINTENDO_API_USERAGENT: 'com.nintendo.znca/1.5.0 (Android/4.4.2)',

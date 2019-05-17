@@ -15,6 +15,14 @@ app.use(cors({
   origin: config.FRONTEND_ORIGIN,
 }));
 
+app.use((req, res, next) => {
+  if (req.method === 'GET' && config.GET_REQUEST_CACHE_DURATION) {
+    res.setHeader('cache-control', `public, s-maxage=${config.GET_REQUEST_CACHE_DURATION}`);
+  }
+
+  next();
+});
+
 // Logging middleware
 const logFormat = process.env.NODE_ENV === 'development' ? 'dev' : 'short';
 app.use(morgan(logFormat));
