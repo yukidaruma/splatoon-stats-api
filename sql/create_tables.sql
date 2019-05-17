@@ -1,3 +1,5 @@
+\c sranking;
+
 /*
 `player_id` should be UNSIGNED BIGINT but Postgres doesn't have it so we use VARCHAR(16) instead.
 */
