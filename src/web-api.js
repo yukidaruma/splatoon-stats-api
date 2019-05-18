@@ -10,6 +10,7 @@ const { findRuleId, rankedRules } = require('./data');
 const { joinLatestName, queryWeaponRanking } = require('./query');
 
 const app = express();
+app.disable('x-powered-by');
 
 app.use(cors({
   origin: config.FRONTEND_ORIGIN,
