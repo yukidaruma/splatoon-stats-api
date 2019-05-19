@@ -1,4 +1,4 @@
-const cron = require('node-cron');
+const CronJob = require('cron').CronJob;
 const moment = require('moment-timezone');
 const app = require('./src/web-api');
 const config = require('./config');
@@ -14,7 +14,8 @@ const { queryUnfetchedSplatfests } = require('./src/query');
 const { NintendoAPIError } = require('./src/errors');
 
 // Fetch League Ranking every 2 hours
-cron.schedule('20 1-23/2 * * *', () => { // See https://crontab.guru/#20_1-23/2_*_*_*
+// eslint-disable-next-line no-new
+new CronJob('20 0-22/2 * * *', () => { // See https://crontab.guru/#20_0-22/2_*_*_*
   // The latest ranking available is the one from 2 hours ago.
   const leagueDate = calculateLeagueDate(new Date() - 120 * 60 * 1000);
 
@@ -33,34 +34,36 @@ cron.schedule('20 1-23/2 * * *', () => { // See https://crontab.guru/#20_1-23/2_
         console.error(err);
       }
     });
-}, null, true, 'Asia/Tokyo');
+}, null, true, 'UTC');
 
 // Daily job
-cron.schedule('0 0 * * *', async () => { // See https://crontab.guru/#0_0_*_*_*
+// eslint-disable-next-line no-new
+new CronJob('23 0 * * *', async () => { // See https://crontab.guru/#23_0_*_*_*
   await fetchSplatfestSchedules();
 
-  let unfetchedSplatfests = await queryUnfetchedSplatfests();
+  const unfetchedSplatfests = await queryUnfetchedSplatfests();
 
   if (unfetchedSplatfests.length) {
     console.log(`[Daily job] There are ${unfetchedSplatfests.length} unfetched Splatfest(s).`);
 
-    unfetchedSplatfests = unfetchedSplatfests.slice(0, 5); // Limit to 5
+    // unfetchedSplatfests = unfetchedSplatfests.slice(0, 5); // Limit to 5
     /* eslint-disable no-await-in-loop, camelcase */
     // eslint-disable-next-line no-restricted-syntax
     for (const { region, splatfest_id } of unfetchedSplatfests) {
       console.log(`[Daily job] Fetching Splatfest ranking for ${region} ${splatfest_id}.`);
       await fetchSplatfestRanking(region, splatfest_id);
       console.log('[Daily job] Done.');
-      await wait(120000);
+      await wait(60000);
     }
     /* eslint-enable no-await-in-loop */
   }
 
   console.log(`[Daily job] Successfully completed daily cron job on ${moment().format('YYYY-MM-DD')}.`);
-}, null, true);
+}, null, 'UTC');
 
 // Monthly job
-cron.schedule('20 11 1 * *', () => { // See https://crontab.guru/#20_11_1_*_*
+// eslint-disable-next-line no-new
+new CronJob('20 2 1 * *', () => { // See https://crontab.guru/#20_2_1_*_*
   const date = new Date();
   const year = date.getFullYear();
   const month = date.getMonth + 1;
@@ -72,7 +75,7 @@ cron.schedule('20 11 1 * *', () => { // See https://crontab.guru/#20_11_1_*_*
       console.log(`Failed to fetch X Ranking for ${year}/${month}.`);
       console.error(err);
     });
-}, null, true, 'Asia/Tokyo');
+}, null, true, 'UTC');
 
 // Web interface
 app.listen(config.PORT, () => {
