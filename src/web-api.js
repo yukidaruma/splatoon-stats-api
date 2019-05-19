@@ -7,7 +7,7 @@ const config = require('../config');
 const { db } = require('./db');
 const { calculateStartTimeFromLeagueDate, dateToSqlTimestamp } = require('./util');
 const { findRuleId, rankedRules } = require('./data');
-const { joinLatestName, queryWeaponRanking } = require('./query');
+const { joinLatestName, queryWeaponRanking, queryWeaponTopPlayers } = require('./query');
 
 const app = express();
 app.disable('x-powered-by');
@@ -195,6 +195,32 @@ const rulesPattern = rankedRules.map(rule => rule.key).join('|');
 
 app.get('/:weaponType(weapons|specials|subs)/:rankingType(league|x)/:year(\\d{4})/:month([1-9]|1[012])', weaponPopularityRouterCallback);
 app.get(`/:weaponType(weapons|specials|subs)/:rankingType(league|x)/:year(\\d{4})/:month([1-9]|1[012])/:rule(${rulesPattern})`, weaponPopularityRouterCallback);
+
+app.get('/weapons/x/top-players', (req, res) => {
+  queryWeaponTopPlayers().then((queryResult) => {
+    if (queryResult.rows.length === 0) {
+      return [];
+    }
+    return queryResult.rows.map((row) => {
+      const topPlayers = {
+        1: null, 2: null, 3: null, 4: null,
+      };
+      row.top_players.forEach((player) => {
+        topPlayers[player[0]] = {
+          player_id: player[1],
+          name: player[2],
+          rating: Number(player[3]),
+          start_time: player[4],
+        };
+      });
+      return {
+        weapon_id: row.weapon_id,
+        top_players: topPlayers,
+      };
+    });
+  })
+    .then(topPlayers => res.json(topPlayers));
+});
 
 app.get('/splatfests', (req, res) => {
   db

@@ -107,6 +107,65 @@ const queryWeaponRanking = (rankingType, weaponType, startTime, endTime, ruleId)
   }
 });
 
+const queryWeaponTopPlayers = () => db.raw(`
+    with unique_weapon_ids as (
+      select
+          case
+            when weapons.reskin_of is NOT NULL then weapons.reskin_of
+            else weapons.weapon_id
+          end as unique_weapon_id
+          from weapons
+          group by unique_weapon_id
+    ),
+    weapon_x_rule as (
+      select rule_id, unique_weapon_id
+        from unique_weapon_ids
+        cross join (select rule_id from ranked_rules) as rule_ids
+    ),
+    weapon_x_rule_top_players as (
+      select
+          weapon_x_rule.rule_id,
+          weapon_x_rule.unique_weapon_id,
+          top_players.player_id,
+          player_name,
+          rating,
+          start_time
+        from weapon_x_rule
+        inner join (
+          select
+              rule_id,
+              x_rankings.player_id,
+              player_name,
+              start_time,
+              rating,
+              row_number () over
+                (partition by x_rankings.rule_id, x_rankings.weapon_id order by rating desc, x_rankings.player_id asc)
+                as weapon_top_players_rank,
+              case
+                when weapons.reskin_of is NOT NULL then weapons.reskin_of
+                else weapons.weapon_id
+              end as unique_weapon_id
+            from x_rankings
+            inner join weapons on weapons.weapon_id = x_rankings.weapon_id
+            left outer join ?
+        ) as top_players
+        on weapon_x_rule.rule_id = top_players.rule_id and
+          weapon_x_rule.unique_weapon_id = top_players.unique_weapon_id and
+          weapon_top_players_rank = 1
+    )
+    select
+        unique_weapon_id as weapon_id,
+        array_agg(array[
+          rule_id::varchar,
+          player_id::varchar,
+          player_name::varchar,
+          rating::varchar,
+          start_time::varchar
+        ]) as top_players
+      from weapon_x_rule_top_players
+      group by unique_weapon_id
+      order by unique_weapon_id asc`, [joinLatestName('x_rankings')]);
+
 const queryUnfetchedSplatfests = () => new Promise((resolve, reject) => db.raw(`
 with past_splatfests as (
   select region, splatfest_id from splatfest_schedules
@@ -124,5 +183,6 @@ select * from past_splatfests
 module.exports = {
   joinLatestName,
   queryWeaponRanking,
+  queryWeaponTopPlayers,
   queryUnfetchedSplatfests,
 };
