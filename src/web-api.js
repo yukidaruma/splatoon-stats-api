@@ -114,8 +114,8 @@ app.get('/players/search', (req, res) => {
     .select(['player_id', 'player_name', 'last_used'])
     .from('player_known_names')
     .where('player_name', 'ilike', `%${name}%`)
-    .orderBy('player_id', 'asc')
     .orderBy('last_used', 'desc')
+    .orderBy('player_id', 'asc')
     .limit(50)
     .then(rows => res.json(rows));
 });
