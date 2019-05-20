@@ -1,4 +1,4 @@
-const CronJob = require('cron').CronJob;
+const { CronJob } = require('cron');
 const moment = require('moment-timezone');
 const app = require('./src/web-api');
 const config = require('./config');
