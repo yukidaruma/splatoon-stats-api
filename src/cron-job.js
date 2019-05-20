@@ -204,17 +204,18 @@ const fetchLeagueRanking = leagueId => new Promise((resolve, reject) => {
  * fetchXRanking(2019, 1)
  */
 const fetchXRanking = (year, month) => new Promise((resolve, reject) => {
-  let rankingId;
+  let duration = 1;
 
   if (year === 2018 && (month === 4 || month === 5)) {
-    rankingId = '180401T00_180601T00';
-  } else {
-    const format = 'YYMM01T00';
-    const start = moment({ year, month: month - 1 }).format(format);
-    const end = moment({ year, month }).format(format);
-
-    rankingId = `${start}_${end}`;
+    month = 4; // eslint-disable-line no-param-reassign
+    duration = 2;
   }
+
+  const start = moment.utc({ year, month: month - 1 });
+  const startTimeInDb = start.clone().add({ month: duration - 1 });
+  const end = start.clone().add({ month: duration });
+  const format = 'YYMM01T00';
+  const rankingId = [start, end].map(time => time.format(format)).join('_');
 
   const sleep = async millis => new Promise(_resolve => setTimeout(_resolve, millis));
 
@@ -233,7 +234,7 @@ const fetchXRanking = (year, month) => new Promise((resolve, reject) => {
               VALUES (to_timestamp(?), ?, ?, ?, ?, ?)
               ON CONFLICT DO NOTHING`,
           [
-            ranking.start_time,
+            startTimeInDb.unix(),
             findRuleId(rule.key),
             player.principal_id,
             player.weapon.id,
