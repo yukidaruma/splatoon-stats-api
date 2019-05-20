@@ -42,9 +42,17 @@ const dateToSqlTimestamp = date => moment(date).tz('UTC').format('YYYY-MM-DD HH:
  */
 const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 
+/**
+ * @desc Returns random number between min and max.
+ * @param {Number} min
+ * @param {Number} max
+ */
+const randomBetween = (min, max) => Math.random() * (max - min + 1) + min;
+
 module.exports = {
   calculateLeagueDate,
   calculateStartTimeFromLeagueDate,
   dateToSqlTimestamp,
   wait,
+  randomBetween,
 };

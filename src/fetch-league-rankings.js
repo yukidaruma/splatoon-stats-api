@@ -4,7 +4,7 @@ const moment = require('moment-timezone');
 
 const { db } = require('./db');
 const { fetchLeagueRanking } = require('./cron-job');
-const { dateToSqlTimestamp, wait } = require('./util');
+const { randomBetween, dateToSqlTimestamp, wait } = require('./util');
 
 const ongoingSplatfestCount = async time => db.raw(`
   with ongoing_splatfests as (
@@ -31,8 +31,6 @@ const getMissingLeagueDatesIterator = (startTime, endTime) => ({
     return iterator;
   },
 });
-
-const randomBetween = (min, max) => Math.random() * (max - min + 1) + min;
 
 /* eslint-disable no-restricted-syntax, no-await-in-loop */
 (async function () { // eslint-disable-line func-names
