@@ -203,9 +203,9 @@ app.get('/weapons/x/top-players', (req, res) => {
     .from('x_rankings')
     .orderBy('start_time', 'desc')
     .limit(1)
-    .then(rows => moment(rows[0].start_time))
+    .then(rows => rows[0] && rows[0].start_time)
     .then((latestXRankingTime) => {
-      const cachePath = `cache/weapons-x-top-players.${latestXRankingTime.format('YYYY-MM')}.json`;
+      const cachePath = `cache/weapons-x-top-players.${moment(latestXRankingTime).format('YYYY-MM')}.json`;
       return { cachePath, cacheExists: fs.existsSync(cachePath) };
     })
     .then(({ cachePath, cacheExists }) => {
