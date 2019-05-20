@@ -59,7 +59,7 @@ new CronJob('23 0 * * *', async () => { // See https://crontab.guru/#23_0_*_*_*
   }
 
   console.log(`[Daily job] Successfully completed daily cron job on ${moment().format('YYYY-MM-DD')}.`);
-}, null, 'UTC');
+}, null, true, 'UTC');
 
 // Monthly job
 // eslint-disable-next-line no-new
