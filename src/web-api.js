@@ -252,4 +252,14 @@ app.get('/splatfests', (req, res) => {
     .then(rows => res.json(rows));
 });
 
+app.get('/stats', (req, res) => {
+  db.raw(`
+    select
+        (select count(distinct(start_time)) from x_rankings) as x_rankings,
+        (select reltuples::bigint from pg_class where relname='league_rankings') as league_rankings_estimate,
+        (select count(*) from splatfest_schedules) as splatfests`)
+    .then(queryResult => queryResult.rows[0])
+    .then(result => res.json(result));
+});
+
 module.exports = app;
