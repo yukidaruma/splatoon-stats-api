@@ -9,7 +9,8 @@
     "start": "node -r dotenv/config index",
     "start-dev": "cross-env NODE_ENV=development node -r dotenv/config index",
     "setup": "node -r dotenv/config src/setup",
-    "fetch-league-rankings": "node -r dotenv/config src/fetch-league-rankings.js"
+    "fetch-league-rankings": "node -r dotenv/config src/fetch-league-rankings.js",
+    "fetch-x-rankings": "node -r dotenv/config src/fetch-x-rankings.js"
   },
   "author": "yukidaruman (https://github.com/yukidaruma)",
   "license": "MIT",
