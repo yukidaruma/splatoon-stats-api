@@ -99,7 +99,7 @@ app.get('/players/:playerId([\\da-f]{16})/rankings/:rankingType(league|x|splatfe
         .join('splatfest_schedules', knex => knex
           .on('splatfest_schedules.region', 'splatfest_rankings.region')
           .on('splatfest_schedules.splatfest_id', 'splatfest_rankings.splatfest_id'))
-        .orderBy('splatfest_rankings.splatfest_id', 'desc');
+        .orderBy('splatfest_schedules.start_time', 'desc');
     }
   }
 
