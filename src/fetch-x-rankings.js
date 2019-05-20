@@ -13,9 +13,7 @@ const { dateToSqlTimestamp, wait, randomBetween } = require('./util');
   const time = starting.clone().add({ month: -1 });
 
   // Unlike in fetch-league-rankings.js, this script run a query on every iteration, which is inefficient.
-  while (time < ending) {
-    time.add({ month: 1 });
-
+  while (time.add({ month: 1 }) < ending) {
     const year = time.year();
     const month = time.month() + 1;
 
