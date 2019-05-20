@@ -267,6 +267,7 @@ const fetchSplatfestSchedules = () => {
           const colors = Object
             .entries(splatfest.colors)
             .filter(([key]) => key === 'alpha' || key === 'bravo')
+            .sort(([key1], [key2]) => (key1 > key2 ? 1 : -1))
             .map(([key, color]) => color.css_rgb); // eslint-disable-line no-unused-vars
           const teamNames = [splatfest.names.alpha_short, splatfest.names.bravo_short];
 
