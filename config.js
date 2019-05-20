@@ -1,7 +1,7 @@
 const defaults = {
   PORT: 3000,
   POSTGRES_URL: 'postgresql://postgres:postgres@localhost/sranking',
-  THIRDPARTY_API_USERAGENT: `@Yukinkling's League Battle Stats app/${process.env.npm_package_version}`,
+  THIRDPARTY_API_USERAGENT: `https://github.com/yukidaruma/splatoon-stats/${process.env.npm_package_version}`,
   // Cache duration for reverse proxy (shared cache). Set to 0 if unnecessary.
   GET_REQUEST_CACHE_DURATION: 86400,
 
