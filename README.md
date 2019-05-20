@@ -43,10 +43,10 @@ npm run setup
 # Note these 2 commands has long interval between fetching.
 # It's recommended to use screen/tmux to run these tasks in background.
 
-# Run if you want past league rankings. By default, it fetches all league rankings since 2018-01-01.
+# Run if you want past league rankings. By default, it will fetch all league rankings since 2018-01-01.
 npm run fetch-league-rankings
 
-# Run if you want past x rankings. By default, it fetches all x rankings since 2018-05.
+# Run if you want past x rankings. By default, it will fetch all x rankings since 2018-05.
 npm run fetch-x-rankings
 ```
 
