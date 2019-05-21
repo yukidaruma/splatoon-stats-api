@@ -7,7 +7,7 @@ pg.types.setTypeParser(1700, val => (val === null ? null : parseFloat(val, 10)))
 pg.types.setTypeParser(1114, val => val); // timestamp
 pg.types.setTypeParser(1184, val => val); // timestamptz
 
-console.log('connecting %s', (config.NODE_ENV === 'test' ? config.POSTGRES_TEST_URL : config.POSTGRES_URL));
+console.log('connecting %s', (process.env.NODE_ENV === 'test' ? config.POSTGRES_TEST_URL : config.POSTGRES_URL));
 const db = knex({
   client: 'pg',
   connection: config.POSTGRES_URL,
@@ -16,7 +16,7 @@ const db = knex({
       conn.query("SET TIME ZONE 'UTC'", (err) => {
         if (err) {
           console.log(err);
-        } else {
+        } else if (process.env.NODE_ENV === 'development') {
           console.log('Successfully connected to database.');
         }
         done(err, conn);
