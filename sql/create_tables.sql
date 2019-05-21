@@ -32,7 +32,8 @@ CREATE TABLE IF NOT EXISTS league_rankings (
   -- We need group_id as a PK too, because it's possible for someone to appear twice on ranking as a member for different teams.
   PRIMARY KEY (start_time, group_id, player_id)
 );
-CREATE INDEX IF NOT EXISTS league_rankings_group_type_idx ON league_rankings (group_type);
+-- CREATE INDEX IF NOT EXISTS league_rankings_group_type_idx ON league_rankings (group_type);
+CREATE INDEX IF NOT EXISTS league_rankings_league_id_idx ON league_rankings (player_id);
 
 -- This table is used to prevent fetch-league-rankings from fetching nonexistent league rankings.
 CREATE TABLE IF NOT EXISTS missing_league_rankings (
