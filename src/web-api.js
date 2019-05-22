@@ -64,22 +64,24 @@ app.get('/players/:playerId([\\da-f]{16})/rankings/:rankingType(league|x|splatfe
         -- You can't create array consists of different types so it convert weapon_id into varchar
         (
           select array_agg(
-            array[peer_league_rankings.player_id, peer_league_rankings.weapon_id::varchar]
+            array[peer_league_rankings.player_id, peer_league_rankings.weapon_id::varchar, player_names.player_name]
           )
           from league_rankings as peer_league_rankings
+          left outer join ??
           where peer_league_rankings.group_id = target_player_league_rankings.group_id
             AND peer_league_rankings.start_time = target_player_league_rankings.start_time
             AND peer_league_rankings.player_id != target_player_league_rankings.player_id
         ) as teammates
       from target_player_league_rankings
       inner join league_schedules on league_schedules.start_time = target_player_league_rankings.start_time
-      order by target_player_league_rankings.start_time desc`, [playerId])
+      order by target_player_league_rankings.start_time desc`, [playerId, joinLatestName('peer_league_rankings')])
       .then(queryResult => queryResult.rows.map((row) => {
         if (row.teammates) { // Sometimes data for every other member is missing
           // eslint-disable-next-line no-param-reassign
           row.teammates = row.teammates.map(teammate => ({
             player_id: teammate[0],
             weapon_id: parseInt(teammate[1], 10), // Convert back to Int
+            player_name: teammate[2],
           }));
         }
         return row;
@@ -149,16 +151,16 @@ app.get('/rankings/league/:leagueDate(\\d{8}):groupType([TP])', (req, res) => {
   if (Number.isNaN(startTime)) {
     return res.status(422).send('Bad league ID.');
   }
-
   db.raw(`
     select
         distinct rank, rating, group_id,
-        (select array_agg(array[l2.player_id, l2.weapon_id::varchar])
+        (select array_agg(array[l2.player_id, l2.weapon_id::varchar, player_names.player_name])
           from league_rankings as l2
+          left outer join :joinQuery:
           where l1.group_id = l2.group_id AND start_time = to_timestamp(:startTime)) as group_members
       from league_rankings as l1
       where start_time = to_timestamp(:startTime) AND group_type = :groupType
-      order by rank asc`, { startTime: startTime / 1000, groupType })
+      order by rank asc`, { startTime: startTime / 1000, groupType, joinQuery: joinLatestName('l2') })
     .then((result) => {
       res.json(result.rows);
     });
