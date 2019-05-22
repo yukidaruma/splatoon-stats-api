@@ -38,7 +38,7 @@ app.get('/', (req, res) => {
 
 app.get('/players/:playerId([\\da-f]{16})/known_names', (req, res) => {
   db
-    .select('player_name as name', 'last_used')
+    .select('player_name', 'last_used')
     .from('player_known_names')
     .where('player_id', '=', req.params.playerId)
     .orderBy('last_used', 'desc')
