@@ -78,9 +78,13 @@ const cacheImageFromSplatoon2Ink = async (remotePath, id) => {
 const insertKnownNames = (playerId, playerName, lastUsed) => db.raw(`INSERT
     INTO player_known_names (player_id, player_name, last_used)
     VALUES (:playerId, :playerName, to_timestamp(:lastUsed))
-    ON CONFLICT (player_id, player_name)
-    DO UPDATE SET player_name = :playerName, last_used = to_timestamp(:lastUsed)`,
-{ playerId, playerName, lastUsed });
+    ON CONFLICT ON CONSTRAINT player_known_names_pkey
+    DO UPDATE SET last_used =
+      CASE
+        WHEN to_timestamp(:lastUsed) > player_known_names.last_used THEN to_timestamp(:lastUsed)
+        ELSE player_known_names.last_used
+      END
+`, { playerId, playerName, lastUsed });
 
 /**
  * @param {Boolean} forceFetch Forces to fetch even when there's future schedules already.
@@ -313,17 +317,7 @@ const fetchSplatfestRanking = (region, splatfestId) => {
             }
 
             const playerId = player.principal_id;
-            queries.push(db.raw(`
-              INSERT INTO player_known_names (player_id, player_name, last_used)
-                VALUES (:playerId, :name, to_timestamp(:lastUsed))
-                ON CONFLICT ON CONSTRAINT player_known_names_pkey DO UPDATE
-                  SET last_used =
-                    CASE
-                      WHEN to_timestamp(:lastUsed) > player_known_names.last_used THEN to_timestamp(:lastUsed)
-                      ELSE player_known_names.last_used
-                    END
-              `, { playerId, name: player.info.nickname, lastUsed: player.updated_time }).transacting(trx));
-
+            queries.push(insertKnownNames(playerId, player.info.nickname, player.updated_time).transacting(trx));
             queries.push(db.raw(`
               INSERT
                 INTO splatfest_rankings (region, splatfest_id, team_id, player_id, weapon_id, rank, rating)
