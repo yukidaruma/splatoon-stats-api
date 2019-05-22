@@ -68,6 +68,26 @@ CREATE TABLE IF NOT EXISTS player_known_names (
   PRIMARY KEY (player_id, player_name)
 );
 
+CREATE MATERIALIZED VIEW IF NOT EXISTS latest_player_names_mv
+  (player_id, player_name)
+AS SELECT player_id, player_name FROM (
+  WITH player_latest_names AS (
+    SELECT
+        a.player_id,
+        a.player_name,
+        ROW_NUMBER () OVER (PARTITION BY a.player_id ORDER BY player_name ASC) as rownum
+      FROM player_known_names a
+    JOIN (SELECT player_id, MAX(last_used) latest_date
+            FROM player_known_names
+          GROUP BY player_id) b
+    ON a.player_id = b.player_id AND a.last_used = b.latest_date
+      WHERE a.player_id = b.player_id
+  )
+  SELECT player_id, player_name FROM player_latest_names
+    WHERE rownum = 1
+) AS unique_player_latest_names;
+CREATE UNIQUE INDEX IF NOT EXISTS latest_player_names_mv_player_id_idx ON latest_player_names_mv (player_id);
+
 CREATE TABLE IF NOT EXISTS ranked_rules (
   rule_id SMALLINT PRIMARY KEY,
   rule_key VARCHAR(31)

@@ -127,7 +127,7 @@ app.get('/rankings/x/:year(\\d{4})/:month([1-9]|1[0-2])/:ruleKey([a-z_]+)', (req
   const startTime = moment.utc({ year, month: month - 1 });
 
   db
-    .select(['x_rankings.player_id', 'weapon_id', 'rank', 'rating', 'names.player_name'])
+    .select(['x_rankings.player_id', 'weapon_id', 'rank', 'rating', 'player_names.player_name'])
     .from('x_rankings')
     .leftOuterJoin(joinLatestName('x_rankings'))
     .where('rule_id', ruleId)
@@ -168,7 +168,7 @@ app.get('/rankings/splatfest/:region((na|eu|jp))/:splatfestId(\\d+)', (req, res)
   const { region, splatfestId } = req.params;
 
   db
-    .select('*', 'names.player_name')
+    .select('*')
     .from('splatfest_rankings')
     .leftOuterJoin(joinLatestName('splatfest_rankings'))
     .where({ region, splatfest_id: splatfestId })

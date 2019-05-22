@@ -289,6 +289,7 @@ const fetchSplatfestSchedules = () => {
             teamNames,
           ]);
         });
+        queries.push('REFRESH MATERIALIZED VIEW CONCURRENTLY latest_player_names_mv;');
 
         Promise.all(queries);
       });
@@ -335,6 +336,7 @@ const fetchSplatfestRanking = (region, splatfestId) => {
           });
         });
 
+        queries.push('REFRESH MATERIALIZED VIEW CONCURRENTLY latest_player_names_mv;');
         return queries;
       })
       .then(queries => Promise.all(queries)
