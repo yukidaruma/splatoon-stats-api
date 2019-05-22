@@ -1,3 +1,4 @@
+-- The next line is used to switch database in setup process.
 \c sranking;
 
 /*
