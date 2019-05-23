@@ -186,15 +186,12 @@ const fetchLeagueRanking = leagueId => new Promise((resolve, reject) => {
 
       return queries;
     })
-      .then((queries) => {
-        Promise.all(queries)
-          .then(() => trx.commit())
-          .catch((err) => {
-            trx.rollback();
-            reject(err);
-          });
-      })
-      .catch(err => reject(err));
+      .then(queries => Promise.all(queries))
+      .then(() => trx.commit())
+      .catch((err) => {
+        trx.rollback();
+        reject(err);
+      });
   })
     .then(() => resolve())
     .catch(err => reject(err));
