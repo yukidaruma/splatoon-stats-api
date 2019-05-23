@@ -3,6 +3,8 @@ const fs = require('fs');
 const config = require('../config');
 const { populateDatabase } = require('./populate_database');
 
+const uiLocalization = require('./ui-localization');
+
 const downloadLocales = (statInkWeapons) => {
   const languages = ['ja', 'en'];
   languages.forEach(async (lang) => {
@@ -25,6 +27,10 @@ const downloadLocales = (statInkWeapons) => {
         .forEach((weapon) => {
           localeData.weapons[weapon.splatnet] = { name: weapon.name[locale] };
         });
+
+      if (lang in uiLocalization) {
+        Object.assign(localeData, { ui: uiLocalization[lang] });
+      }
 
       fs.writeFileSync(cachePath, JSON.stringify(localeData));
     }
