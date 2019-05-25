@@ -153,6 +153,10 @@ const fetchLeagueRanking = leagueId => new Promise((resolve, reject) => {
       const queries = [];
 
       ranking.rankings.forEach((group) => {
+        if (group.cheater) {
+          return;
+        }
+
         const groupType = {
           team: 'T',
           pair: 'P',
