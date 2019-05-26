@@ -49,7 +49,35 @@ const queryWeaponRanking = (rankingType, weaponType, startTime, endTime, ruleId)
     })
       .then(result => resolve(result.rows))
       .catch(err => reject(err));
-  } else if (weaponType === 'specials' || weaponType === 'subs') {
+  } else if (weaponType === 'mains') {
+    db.raw(`
+    with main_weapon_ranking as (
+      select main_reference as weapon_id, count(*) from :tableName:
+        inner join weapons on weapons.weapon_id = :tableName:.weapon_id
+        ${rankingType !== 'league' ? '-- ' : ''}inner join league_schedules on :tableName:.start_time = league_schedules.start_time
+        where
+          (
+            :ruleId = 0 or
+            :ruleId = ${rankingType === 'league' ? 'league_schedules' : ':tableName:'}.rule_id
+          )
+          and
+          (
+            :startTime <= :tableName:.start_time and
+            :tableName:.start_time < :endTime
+          )
+        group by main_reference
+        order by count desc
+    )
+    select
+        *,
+        rank () over (order by count desc),
+        100 * count / sum(count) over () as percentage
+      from main_weapon_ranking`, {
+      tableName, startTime, endTime, ruleId,
+    })
+      .then(result => resolve(result.rows))
+      .catch(err => reject(err));
+  } else if (['specials', 'subs'].includes(weaponType)) {
     // e.g.) specials -> special_weapon_id
     const weaponTypeColumnName = `${weaponType.substring(0, weaponType.length - 1)}_weapon_id`;
     db.raw(`
