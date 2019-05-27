@@ -180,7 +180,7 @@ app.get('/rankings/splatfest/:region((na|eu|jp))/:splatfestId(\\d+)', (req, res)
 
 const weaponPopularityRouterCallback = (req, res) => {
   const {
-    rankingType, weaponType, year, month, rule,
+    rankingType, weaponType, year, month, rule, region, splatfestId,
   } = req.params;
 
   const ruleId = rule ? findRuleId(rule) : 0;
@@ -189,7 +189,9 @@ const weaponPopularityRouterCallback = (req, res) => {
   const startTimestamp = dateToSqlTimestamp(startTime);
   const endTimestamp = dateToSqlTimestamp(startTime.add({ month: 1 }));
 
-  queryWeaponRanking(rankingType, weaponType, startTimestamp, endTimestamp, ruleId)
+  queryWeaponRanking({
+    rankingType, weaponType, startTime: startTimestamp, endTime: endTimestamp, ruleId, region, splatfestId,
+  })
     .then(ranking => res.json(ranking))
     .catch(err => res.status(500).send(err));
 };
@@ -198,6 +200,7 @@ const rulesPattern = rankedRules.map(rule => rule.key).join('|');
 
 app.get('/weapons/:weaponType(weapons|mains|specials|subs)/:rankingType(league|x)/:year(\\d{4})/:month([1-9]|1[012])', weaponPopularityRouterCallback);
 app.get(`/weapons/:weaponType(weapons|mains|specials|subs)/:rankingType(league|x)/:year(\\d{4})/:month([1-9]|1[012])/:rule(${rulesPattern})`, weaponPopularityRouterCallback);
+app.get('/weapons/:weaponType(weapons|mains|specials|subs)/:rankingType(splatfest)/:region(na|eu|jp)/:splatfestId(\\d+)', weaponPopularityRouterCallback);
 
 app.get('/weapons/x/top-players', (req, res) => {
   db

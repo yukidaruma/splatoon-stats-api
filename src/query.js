@@ -5,7 +5,7 @@ const joinLatestName = tableName => db.raw('latest_player_names_mv as player_nam
 
 const queryWeaponRanking = args => new Promise((resolve, reject) => {
   const {
-    rankingType, weaponType, startTime, endTime, ruleId,
+    rankingType, weaponType, startTime, endTime, ruleId, region, splatfestId,
   } = args;
 
   const tableName = `${rankingType}_rankings`;
@@ -64,12 +64,19 @@ const queryWeaponRanking = args => new Promise((resolve, reject) => {
 
       this
         .where(function whereRuleId() {
-          this.where(0, ruleId)
-            .orWhere(`${rankingType === 'league' ? 'league_schedules' : tableName}.rule_id`, ruleId);
+          this.where(0, ruleId);
+          if (rankingType !== 'splatfest') {
+            this.orWhere(`${rankingType === 'league' ? 'league_schedules' : tableName}.rule_id`, ruleId);
+          }
         })
         .andWhere(function whereStartTime() {
-          this.where(`${tableName}.start_time`, '>=', startTime)
-            .andWhere(`${tableName}.start_time`, '<=', endTime);
+          if (rankingType === 'splatfest') {
+            this.where(`${tableName}.region`, region)
+              .andWhere(`${tableName}.splatfest_id`, splatfestId);
+          } else {
+            this.where(`${tableName}.start_time`, '>=', startTime)
+              .andWhere(`${tableName}.start_time`, '<=', endTime);
+          }
         })
         .groupBy(...statements.groupBy)
         .orderBy('count', 'desc');
