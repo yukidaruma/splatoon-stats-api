@@ -73,7 +73,7 @@ const cacheImageFromSplatoon2Ink = async (remotePath, id) => {
 /**
  * @param {String} playerId
  * @param {String} playerName
- * @param {String} lastUsed
+ * @param {Number} lastUsed unix timestamp
  */
 const insertKnownNames = (playerId, playerName, lastUsed) => db.raw(`INSERT
     INTO player_known_names (player_id, player_name, last_used)
@@ -231,7 +231,6 @@ const fetchXRanking = (year, month) => new Promise((resolve, reject) => {
       for (const page of [1, 2, 3, 4, 5]) {
         console.log(`x_power_ranking/${rankingId}/${rule.key}?page=${page}`);
         const ranking = await getSplatnetApi(`x_power_ranking/${rankingId}/${rule.key}?page=${page}`);
-        const endTime = moment.unix(ranking.start_time).add({ month: 1 }).unix();
         const queries = flat(ranking.top_rankings.map(player => [
           db.raw(`
             INSERT
@@ -246,7 +245,7 @@ const fetchXRanking = (year, month) => new Promise((resolve, reject) => {
             player.rank,
             player.x_power,
           ]),
-          insertKnownNames(player.principal_id, player.name, endTime),
+          insertKnownNames(player.principal_id, player.name, end.unix()),
         ]));
 
         await Promise.all(queries);
