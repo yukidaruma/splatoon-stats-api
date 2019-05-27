@@ -58,18 +58,12 @@ const queryWeaponRanking = args => new Promise((resolve, reject) => {
         .from(tableName)
         .innerJoin('weapons', `${tableName}.weapon_id`, 'weapons.weapon_id');
 
-      if (rankingType === 'league') {
+      if (rankingType === 'league' && ruleId) {
         this.innerJoin('league_schedules', `${tableName}.start_time`, 'league_schedules.start_time');
       }
 
       this
-        .where(function whereRuleId() {
-          this.where(0, ruleId);
-          if (rankingType !== 'splatfest') {
-            this.orWhere(`${rankingType === 'league' ? 'league_schedules' : tableName}.rule_id`, ruleId);
-          }
-        })
-        .andWhere(function whereStartTime() {
+        .where(function whereStartTime() {
           if (rankingType === 'splatfest') {
             this.where(`${tableName}.region`, region)
               .andWhere(`${tableName}.splatfest_id`, splatfestId);
@@ -77,7 +71,13 @@ const queryWeaponRanking = args => new Promise((resolve, reject) => {
             this.where(`${tableName}.start_time`, '>=', startTime)
               .andWhere(`${tableName}.start_time`, '<=', endTime);
           }
-        })
+        });
+
+      if (rankingType !== 'splatfest' && ruleId) {
+        this.andWhere(`${rankingType === 'league' ? 'league_schedules' : tableName}.rule_id`, ruleId);
+      }
+
+      this
         .groupBy(...statements.groupBy)
         .orderBy('count', 'desc');
 
