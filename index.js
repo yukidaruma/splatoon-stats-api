@@ -62,11 +62,12 @@ new CronJob('23 0 * * *', async () => { // See https://crontab.guru/#23_0_*_*_*
 }, null, true, 'UTC');
 
 // Monthly job
+// X Ranking is updated at every second day of the month
 // eslint-disable-next-line no-new
-new CronJob('20 2 1 * *', () => { // See https://crontab.guru/#20_2_1_*_*
-  const date = new Date();
-  const year = date.getFullYear();
-  const month = date.getMonth + 1;
+new CronJob('20 2 2 * *', () => { // See https://crontab.guru/#20_2_2_*_*
+  const now = moment().utc();
+  const year = now.year();
+  const month = now.month(); // last month
   fetchXRanking(year, month)
     .then(() => {
       console.log(`Successfully fetched X Ranking for ${year}/${month}.`);
