@@ -7,6 +7,12 @@ module.exports = {
       rainmaker: 'RM',
       clam_blitz: 'CB',
     },
+    weapon_types: {
+      weapons: 'Weapons',
+      mains: 'Main Weapons',
+      subs: 'Sub Weapons',
+      specials: 'Special Weapons',
+    },
   },
 
   ja: {
@@ -16,6 +22,12 @@ module.exports = {
       tower_control: 'ヤグラ',
       rainmaker: 'ホコ',
       clam_blitz: 'アサリ',
+    },
+    weapon_types: {
+      weapons: 'ブキ',
+      mains: 'メインウェポン',
+      subs: 'サブウェポン',
+      specials: 'スペシャルウェポン',
     },
   },
 };
