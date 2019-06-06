@@ -46,7 +46,7 @@ const { dateToSqlTimestamp, wait, randomBetween } = require('./util');
   }
 }())
 /* eslint-enable no-restricted-syntax */
-  .then(() => { console.log('Successfully fetched all missingle league battle rankings.'); })
+  .then(() => { console.log('Successfully fetched all missingle X Ranked rankings.'); })
   .finally(() => {
     db.destroy();
   });
