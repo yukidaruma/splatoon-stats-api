@@ -9,6 +9,7 @@
     "start": "node -r dotenv/config index",
     "start-dev": "cross-env NODE_ENV=development node -r dotenv/config index",
     "setup": "node -r dotenv/config src/setup",
+    "update-locale": "npx rimraf cache/locale && node -r dotenv/config src/setup --no-database",
     "migrate": "node -r dotenv/config src/migrate",
     "fetch-league-rankings": "node -r dotenv/config src/fetch-league-rankings.js",
     "fetch-x-rankings": "node -r dotenv/config src/fetch-x-rankings.js"
@@ -19,6 +20,7 @@
   "dependencies": {
     "array.prototype.flat": "^1.2.1",
     "async": "^2.6.2",
+    "command-line-args": "^5.1.1",
     "cors": "^2.8.5",
     "cron": "^1.7.1",
     "dotenv": "^7.0.0",
@@ -30,7 +32,8 @@
     "morgan": "^1.9.1",
     "node-fetch": "^2.3.0",
     "pg": "^7.10.0",
-    "request-promise-native": "^1.0.7"
+    "request-promise-native": "^1.0.7",
+    "rimraf": "^2.6.3"
   },
   "devDependencies": {
     "cross-env": "^5.2.0",

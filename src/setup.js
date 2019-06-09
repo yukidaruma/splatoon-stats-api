@@ -1,5 +1,6 @@
 const fetch = require('node-fetch');
 const fs = require('fs');
+const commandLineArgs = require('command-line-args');
 const config = require('../config');
 const { populateDatabase } = require('./populate_database');
 
@@ -38,10 +39,30 @@ const downloadLocales = (statInkWeapons) => {
 };
 
 (async function () { // eslint-disable-line func-names
+  // Can't set --arg=false due to command-line-args's limitation
+  // c.f. https://github.com/75lb/command-line-args/issues/71
+  const options = commandLineArgs([
+    {
+      name: 'no-locale',
+      type: Boolean,
+      defaultValue: false,
+    },
+    {
+      name: 'no-database',
+      type: Boolean,
+      defaultValue: false,
+    },
+  ]);
+
   const res = await fetch('https://stat.ink/api/v2/weapon',
     { headers: { 'User-Agent': config.THIRDPARTY_API_USERAGENT } });
   const statInkWeapons = await res.json();
 
-  downloadLocales(statInkWeapons);
-  populateDatabase(statInkWeapons);
+  if (!options['no-locale']) {
+    downloadLocales(statInkWeapons);
+  }
+
+  if (!options['no-database']) {
+    populateDatabase(statInkWeapons);
+  }
 }());
