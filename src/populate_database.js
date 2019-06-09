@@ -24,7 +24,7 @@ const addWeapons = (statInkWeapons) => {
   const weaponKeyToWeaponId = {};
 
   return db.transaction((trx) => {
-    const tasks = statInkWeapons.map((weapon) => {
+    const queries = statInkWeapons.map((weapon) => {
       const weaponId = weapon.splatnet;
       weaponKeyToWeaponId[weapon.key] = weaponId;
       const subWeaponId = findSubWeaponId(weapon.sub.key);
@@ -62,7 +62,7 @@ const addWeapons = (statInkWeapons) => {
         reskinOfId,
       ]);
     });
-    Promise.all(tasks)
+    Promise.all(queries)
       .then(() => {
         trx.commit();
       })
@@ -75,12 +75,12 @@ const addWeapons = (statInkWeapons) => {
 const populateDatabase = (statInkWeapons) => {
   async.series({
     _addWeaponClasses(next) {
-      const tasks = weaponClasses.map(weaponClass => db.raw(
+      const queries = weaponClasses.map(weaponClass => db.raw(
         'INSERT INTO weapon_classes (weapon_class_id, weapon_class_key) VALUES (?, ?) ON CONFLICT DO NOTHING',
         [weaponClass.id, weaponClass.key],
       ));
 
-      Promise.all(tasks)
+      Promise.all(queries)
         .then(() => {
           next();
           console.log('_addWeaponClasses is successfully done.');
@@ -88,12 +88,12 @@ const populateDatabase = (statInkWeapons) => {
         .catch(err => next(err));
     },
     _addSpecialWeapons(next) {
-      const tasks = specialWeapons.map(specialWeapon => db.raw(
+      const queries = specialWeapons.map(specialWeapon => db.raw(
         'INSERT INTO special_weapons (special_weapon_id, special_weapon_key) VALUES (?, ?) ON CONFLICT DO NOTHING',
         [specialWeapon.id, specialWeapon.key],
       ));
 
-      Promise.all(tasks)
+      Promise.all(queries)
         .then(() => {
           next();
           console.log('_addSpecialWeapons is successfully done.');
@@ -101,12 +101,12 @@ const populateDatabase = (statInkWeapons) => {
         .catch(err => next(err));
     },
     _addSubWeapons(next) {
-      const tasks = subWeapons.map(subWeapon => db.raw(
+      const queries = subWeapons.map(subWeapon => db.raw(
         'INSERT INTO sub_weapons (sub_weapon_id, sub_weapon_key) VALUES (?, ?) ON CONFLICT DO NOTHING',
         [subWeapon.id, subWeapon.key],
       ));
 
-      Promise.all(tasks)
+      Promise.all(queries)
         .then(() => {
           next();
           console.log('_addSubWeapons is successfully done.');
@@ -114,12 +114,12 @@ const populateDatabase = (statInkWeapons) => {
         .catch(err => next(err));
     },
     _addStages(next) {
-      const tasks = stages.map(stage => db.raw(
+      const queries = stages.map(stage => db.raw(
         'INSERT INTO stages (stage_id, stage_key) VALUES (?, ?) ON CONFLICT DO NOTHING',
         [stage.id, stage.key],
       ));
 
-      Promise.all(tasks)
+      Promise.all(queries)
         .then(() => {
           next();
           console.log('_addStages is successfully done.');
@@ -127,12 +127,12 @@ const populateDatabase = (statInkWeapons) => {
         .catch(err => next(err));
     },
     _addRankedRules(next) {
-      const tasks = rankedRules.map(rule => db.raw(
+      const queries = rankedRules.map(rule => db.raw(
         'INSERT INTO ranked_rules (rule_id, rule_key) VALUES (?, ?) ON CONFLICT DO NOTHING',
         [rule.id, rule.key],
       ));
 
-      Promise.all(tasks)
+      Promise.all(queries)
         .then(() => {
           next();
           console.log('_addRankedRules is successfully done.');
@@ -154,7 +154,7 @@ const populateDatabase = (statInkWeapons) => {
         .then(res => res.json())
         .then((schedules) => {
           db.transaction((trx) => {
-            const tasks = schedules.result.map((_schedule) => {
+            const queries = schedules.result.map((_schedule) => {
               const schedule = convertScheduleFormat(_schedule);
               const stageIds = [schedule.stage_a.id, schedule.stage_b.id];
               return trx.raw(`
@@ -163,7 +163,7 @@ const populateDatabase = (statInkWeapons) => {
                   VALUES (to_timestamp(?), ?, ?) ON CONFLICT DO NOTHING`,
               [schedule.start_time, findRuleId(schedule.rule.key), stageIds]);
             });
-            Promise.all(tasks)
+            Promise.all(queries)
               .then(() => {
                 trx.commit();
                 console.log('_addPastLeagueStages is successfully done.');
