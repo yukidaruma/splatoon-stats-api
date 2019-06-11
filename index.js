@@ -47,8 +47,8 @@ new CronJob('23 0 * * *', async () => { // See https://crontab.guru/#23_0_*_*_*
     console.log(`[Daily job] There are ${unfetchedSplatfests.length} unfetched Splatfest(s).`);
 
     // unfetchedSplatfests = unfetchedSplatfests.slice(0, 5); // Limit to 5
-    /* eslint-disable no-await-in-loop, camelcase */
-    // eslint-disable-next-line no-restricted-syntax
+    /* eslint-disable no-await-in-loop */
+    // eslint-disable-next-line no-restricted-syntax, camelcase
     for (const { region, splatfest_id } of unfetchedSplatfests) {
       console.log(`[Daily job] Fetching Splatfest ranking for ${region} ${splatfest_id}.`);
       await fetchSplatfestRanking(region, splatfest_id);
