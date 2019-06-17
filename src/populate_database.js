@@ -54,8 +54,8 @@ const addWeapons = (statInkWeapons) => {
       .then(() => {
         trx.commit();
       })
-      .catch(() => {
-        trx.rollback();
+      .catch((err) => {
+        trx.rollback(err);
       });
   });
 };
@@ -158,7 +158,7 @@ const populateDatabase = (statInkWeapons) => {
                 next();
               })
               .catch((err) => {
-                trx.rollback();
+                trx.rollback(err);
                 next(err);
               });
           });

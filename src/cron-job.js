@@ -193,7 +193,7 @@ const fetchLeagueRanking = leagueId => new Promise((resolve, reject) => {
       .then(queries => Promise.all(queries))
       .then(() => trx.commit())
       .catch((err) => {
-        trx.rollback();
+        trx.rollback(err);
         reject(err);
       });
   })
@@ -340,7 +340,7 @@ const fetchSplatfestRanking = (region, splatfestId) => {
       .then(queries => Promise.all(queries)
         .then(() => trx.commit())
         .then(() => db.raw('REFRESH MATERIALIZED VIEW CONCURRENTLY latest_player_names_mv;'))
-        .catch(() => trx.rollback()));
+        .catch(err => trx.rollback(err)));
   });
 };
 
