@@ -80,27 +80,6 @@ const rankedRules = [
   { id: 4, key: 'clam_blitz' },
 ];
 
-// Since stat.ink API doesn't have specification for Bomb Pitcher, so we use this convert table
-// Note: You need to update this list when new weapon with Bomb Pitcher is added
-const bombPitcherTable = {
-  sputtery: 'kyubanbomb_pitcher',
-  promodeler_mg: 'curlingbomb_pitcher',
-  rapid: 'splashbomb_pitcher',
-  variableroller: 'splashbomb_pitcher',
-  splatcharger_collabo: 'kyubanbomb_pitcher',
-  splatscope_collabo: 'kyubanbomb_pitcher',
-  screwslosher_neo: 'splashbomb_pitcher',
-  nova_neo: 'kyubanbomb_pitcher',
-  parashelter_sorella: 'splashbomb_pitcher',
-  sharp_neo: 'kyubanbomb_pitcher',
-  carbon_deco: 'robotbomb_pitcher',
-  bamboo14mk2: 'quickbomb_pitcher',
-  campingshelter_sorella: 'curlingbomb_pitcher',
-  quadhopper_white: 'robotbomb_pitcher',
-  furo_deco: 'kyubanbomb_pitcher',
-  bucketslosher_soda: 'quickbomb_pitcher',
-};
-
 const findSpecialWeaponId = memoize(key => specialWeapons.find(specialWeapon => specialWeapon.key === key).id);
 const findSubWeaponId = memoize(key => subWeapons.find(subWeapon => subWeapon.key === key).id);
 const findWeaponClassId = memoize(key => weaponClasses.find(weaponClass => weaponClass.key === key).id);
@@ -113,7 +92,6 @@ module.exports = {
   subWeapons,
   stages,
   rankedRules,
-  bombPitcherTable,
   findSpecialWeaponId,
   findSubWeaponId,
   findWeaponClassId,

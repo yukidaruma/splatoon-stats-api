@@ -7,7 +7,6 @@ const {
   specialWeapons,
   subWeapons,
   stages,
-  bombPitcherTable,
   rankedRules,
   findSpecialWeaponId,
   findSubWeaponId,
@@ -32,15 +31,7 @@ const addWeapons = (statInkWeapons) => {
       const weaponType = weapon.type.key === 'reelgun' ? 'shooter' : weapon.type.key;
       const weaponClassId = findWeaponClassId(weaponType);
 
-      let specialWeaponId;
-      if (weapon.special.key === 'pitcher') {
-        if (!(weapon.key in bombPitcherTable)) {
-          throw new Error(`No bomb specified for ${weapon.key}'s bomb pitcher`);
-        }
-        specialWeaponId = findSpecialWeaponId(bombPitcherTable[weapon.key]);
-      } else {
-        specialWeaponId = findSpecialWeaponId(weapon.special.key);
-      }
+      const specialWeaponId = findSpecialWeaponId(weapon.special.key);
 
       let reskinOfId = null;
       if (weapon.reskin_of) {
