@@ -1,5 +1,6 @@
 const async = require('async');
 const fetch = require('node-fetch');
+const memoize = require('memoizee');
 const config = require('../config');
 const { db } = require('./db');
 const {
@@ -16,16 +17,12 @@ const {
 
 // Reference: https://github.com/fetus-hina/stat.ink/blob/master/doc/api-2/get-weapon.md
 const addWeapons = (statInkWeapons) => {
-  // This table is used to save lookup time.
-  // Note: This assumes weapon data from Stat.ink API is always in order of
-  // referenced weapon comes first before its variant(s).
-  // e.g.) [sshooter(main_ref: sshooter), ..., sshooter_collabo(main_ref: sshooter)]
-  const weaponKeyToWeaponId = {};
+  const weaponKeyToWeaponId = memoize(weaponKey => statInkWeapons
+    .find(weapon => weapon.key === weaponKey).splatnet);
 
   return db.transaction((trx) => {
     const queries = statInkWeapons.map((weapon) => {
       const weaponId = weapon.splatnet;
-      weaponKeyToWeaponId[weapon.key] = weaponId;
       const subWeaponId = findSubWeaponId(weapon.sub.key);
       // Cannot use weapon.type.key directly because there's type `reelgun`
       const weaponType = weapon.type.key === 'reelgun' ? 'shooter' : weapon.type.key;
@@ -35,7 +32,7 @@ const addWeapons = (statInkWeapons) => {
 
       let reskinOfId = null;
       if (weapon.reskin_of) {
-        reskinOfId = weaponKeyToWeaponId[weapon.reskin_of];
+        reskinOfId = weaponKeyToWeaponId(weapon.reskin_of);
       }
 
       return trx.raw(`
@@ -48,7 +45,7 @@ const addWeapons = (statInkWeapons) => {
         weapon.key,
         specialWeaponId,
         subWeaponId,
-        weaponKeyToWeaponId[weapon.main_ref],
+        weaponKeyToWeaponId(weapon.main_ref),
         weaponClassId,
         reskinOfId,
       ]);
