@@ -41,7 +41,7 @@ const addWeapons = (statInkWeapons) => {
           VALUES (?, ?, ?, ?, ?, ?, ?)
           ON CONFLICT DO NOTHING`,
       [
-        weapon.splatnet,
+        weaponId,
         weapon.key,
         specialWeaponId,
         subWeaponId,
