@@ -13,6 +13,12 @@ const { splatnetUrl, getSplatnetApi } = require('./splatnet');
 const cacheImageFromNintendoAPI = async (remotePath, cachePath) => {
   const res = await fetch(splatnetUrl + remotePath, { 'User-Agent': config.NINTENDO_API_USERAGENT });
   await new Promise((resolve, reject) => {
+    // Create if there's no cache directory
+    const cacheDir = cachePath.substring(0, cachePath.lastIndexOf('/'));
+    if (!fs.existsSync(cacheDir)) {
+      fs.mkdirSync(cacheDir, { recursive: true });
+    }
+
     const fileStream = fs.createWriteStream(cachePath);
     res.body.pipe(fileStream);
     res.body.on('error', (err) => {
@@ -345,6 +351,7 @@ const fetchSplatfestRanking = (region, splatfestId) => {
 };
 
 module.exports = {
+  cacheImageFromNintendoAPI,
   fetchStageRotations,
   fetchLeagueRanking,
   fetchXRanking,
