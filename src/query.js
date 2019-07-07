@@ -11,7 +11,7 @@ const queryWeaponUsageDifference = args => new Promise((resolve, reject) => {
 
   const weaponsOfMonthSubquery = (context, date) => {
     context
-      .select('unique_weapon_ids.weapon_id')
+      .select('unique_weapon_ids.actual_weapon_id AS weapon_id')
       .from(tableName)
       .innerJoin('unique_weapon_ids', `${tableName}.weapon_id`, 'unique_weapon_ids.weapon_id')
       .where('start_time', date);
@@ -47,13 +47,13 @@ const queryWeaponUsageDifference = args => new Promise((resolve, reject) => {
 
   const statements = {
     weapons: {
-      weaponIds: 'SELECT DISTINCT(weapon_id) FROM unique_weapon_ids',
+      weaponIds: 'SELECT DISTINCT(actual_weapon_id) AS weapon_id FROM unique_weapon_ids',
     },
     subs: {
-      weaponIds: 'SELECT DISTINCT(sub_weapon_id) AS weapon_id from sub_weapons',
+      weaponIds: 'SELECT sub_weapon_id AS weapon_id from sub_weapons',
     },
     specials: {
-      weaponIds: 'SELECT DISTINCT(special_weapon_id) AS weapon_id from special_weapons',
+      weaponIds: 'SELECT special_weapon_id AS weapon_id from special_weapons',
     },
     mains: {
       weaponIds: 'SELECT DISTINCT(main_reference) AS weapon_id FROM weapons',
@@ -67,12 +67,13 @@ const queryWeaponUsageDifference = args => new Promise((resolve, reject) => {
   const cte = db
     .with('unique_weapon_ids', db.raw(`
     SELECT
-      DISTINCT(actual_weapon_id) as weapon_id
+      *
       FROM (
-        SELECT CASE
-        WHEN reskin_of IS NOT NULL THEN reskin_of
-          ELSE weapon_id
-          END AS actual_weapon_id
+        SELECT
+          weapon_id,
+          CASE WHEN reskin_of IS NOT NULL THEN reskin_of
+            ELSE weapon_id
+            END AS actual_weapon_id
         FROM weapons) AS temp_weapon_ids`))
     .with('weapon_type_ids', db.raw(statements[weaponType].weaponIds))
     .with('previous_month_weapons', function subquery() {
