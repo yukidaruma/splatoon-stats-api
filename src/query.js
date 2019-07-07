@@ -3,6 +3,126 @@ const { db } = require('./db');
 // Note that you may need to add player_names.player_name in select clause.
 const joinLatestName = tableName => db.raw('latest_player_names_mv as player_names on player_names.player_id = :tableName:.player_id', { tableName });
 
+const queryWeaponUsageDifference = args => new Promise((resolve, reject) => {
+  const {
+    rankingType, weaponType, previousMonth, currentMonth, ruleId, /* region, splatfestId, */
+  } = args;
+  const tableName = `${rankingType}_rankings`;
+
+  const weaponsOfMonthSubquery = (context, date) => {
+    context
+      .select('unique_weapon_ids.weapon_id')
+      .from(tableName)
+      .innerJoin('unique_weapon_ids', `${tableName}.weapon_id`, 'unique_weapon_ids.weapon_id')
+      .where('start_time', date);
+
+    if (ruleId) {
+      context.andWhere('rule_id', ruleId);
+    }
+  };
+
+  const weaponAppearancesOfMonthSubquery = (context, relationName) => {
+    if (weaponType === 'weapons') {
+      context
+        .select('month.weapon_id', db.raw('count(month.*)'))
+        .from(`${relationName} AS month`)
+        .groupBy('month.weapon_id');
+    } else if (['subs', 'specials'].includes(weaponType)) {
+      const columnName = `${weaponType === 'subs' ? 'sub' : 'special'}_weapon_id`;
+      context
+        .select(`weapons.${columnName} AS weapon_id`, db.raw('count(month.*)'))
+        .from(`${relationName} AS month`)
+        .innerJoin('weapons', 'month.weapon_id', 'weapons.weapon_id')
+        .groupBy(`weapons.${columnName}`);
+    } else if (weaponType === 'mains') {
+      context
+        .select('weapons.main_reference AS weapon_id', db.raw('count(month.*)'))
+        .from(`${relationName} AS month`)
+        .innerJoin('weapons', 'month.weapon_id', 'weapons.weapon_id')
+        .groupBy('weapons.main_reference');
+    }
+
+    context.orderBy('count');
+  };
+
+  const statements = {
+    weapons: {
+      weaponIds: 'SELECT DISTINCT(weapon_id) FROM unique_weapon_ids',
+    },
+    subs: {
+      weaponIds: 'SELECT DISTINCT(sub_weapon_id) AS weapon_id from sub_weapons',
+    },
+    specials: {
+      weaponIds: 'SELECT DISTINCT(special_weapon_id) AS weapon_id from special_weapons',
+    },
+    mains: {
+      weaponIds: 'SELECT DISTINCT(main_reference) AS weapon_id FROM weapons',
+    },
+  };
+
+  if (!(weaponType in statements)) {
+    return reject(new TypeError('Wrong weaponType'));
+  }
+
+  const cte = db
+    .with('unique_weapon_ids', db.raw(`
+    SELECT
+      DISTINCT(actual_weapon_id) as weapon_id
+      FROM (
+        SELECT CASE
+        WHEN reskin_of IS NOT NULL THEN reskin_of
+          ELSE weapon_id
+          END AS actual_weapon_id
+        FROM weapons) AS temp_weapon_ids`))
+    .with('weapon_type_ids', db.raw(statements[weaponType].weaponIds))
+    .with('previous_month_weapons', function subquery() {
+      weaponsOfMonthSubquery(this, previousMonth);
+    })
+    .with('previous_month_weapon_appearances', function subquery() {
+      weaponAppearancesOfMonthSubquery(this, 'previous_month_weapons');
+    })
+    .with('current_month_weapons', function subquery() {
+      weaponsOfMonthSubquery(this, currentMonth);
+    })
+    .with('current_month_weapon_appearances', function subquery() {
+      weaponAppearancesOfMonthSubquery(this, 'current_month_weapons');
+    })
+    .with('weapon_appearances', function subquery() {
+      this
+        .select(
+          'weapon_type_ids.weapon_id',
+          db.raw('COALESCE(p.count, 0) AS previous_month_count'),
+          db.raw('COALESCE(c.count, 0) AS current_month_count'),
+        )
+        .from('weapon_type_ids')
+        .leftOuterJoin(
+          'previous_month_weapon_appearances AS p',
+          'weapon_type_ids.weapon_id',
+          'p.weapon_id',
+        )
+        .leftOuterJoin(
+          'current_month_weapon_appearances AS c',
+          'weapon_type_ids.weapon_id',
+          'c.weapon_id',
+        );
+    })
+    .with('weapon_appearances_with_rank', function subquery() {
+      this
+        .select(
+          '*',
+          db.raw('RANK() OVER (ORDER BY previous_month_count DESC) AS previous_month_rank'),
+          db.raw('RANK() OVER (ORDER BY current_month_count DESC) AS current_month_rank'),
+        )
+        .from('weapon_appearances');
+    });
+
+  cte
+    .select('*')
+    .from('weapon_appearances_with_rank')
+    .then(resolve)
+    .catch(reject);
+});
+
 const queryWeaponRanking = args => new Promise((resolve, reject) => {
   const {
     rankingType, weaponType, startTime, endTime, ruleId, region, splatfestId,
@@ -47,7 +167,7 @@ const queryWeaponRanking = args => new Promise((resolve, reject) => {
       columns: [weaponTypeColumnName],
     };
   } else { // Theoretically this code is unreachable
-    reject(new Error('Wrong weaponType'));
+    reject(new TypeError('Wrong weaponType'));
   }
 
   const popularWeaponsQuery = db.with(
@@ -175,6 +295,7 @@ select * from past_splatfests
 module.exports = {
   joinLatestName,
   queryWeaponRanking,
+  queryWeaponUsageDifference,
   queryWeaponTopPlayers,
   queryUnfetchedSplatfests,
 };

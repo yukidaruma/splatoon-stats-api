@@ -8,7 +8,12 @@ const config = require('../config');
 const { db } = require('./db');
 const { calculateStartTimeFromLeagueDate, dateToSqlTimestamp } = require('./util');
 const { findRuleId, rankedRules } = require('./data');
-const { joinLatestName, queryWeaponRanking, queryWeaponTopPlayers } = require('./query');
+const {
+  joinLatestName,
+  queryWeaponRanking,
+  queryWeaponUsageDifference,
+  queryWeaponTopPlayers,
+} = require('./query');
 
 const app = express();
 app.disable('x-powered-by');
@@ -196,11 +201,35 @@ const weaponPopularityRouterCallback = (req, res) => {
     .catch(err => res.status(500).send(err));
 };
 
+const weaponTrendRouterCallback = (req, res) => {
+  const {
+    rankingType, weaponType, rule, /* region, splatfestId, */
+  } = req.params;
+  const dateFormat = 'YYYY-MM';
+  const previousMonth = moment.utc(req.query.previous_month, dateFormat);
+  const currentMonth = moment.utc(req.query.current_month, dateFormat);
+
+  if (!(previousMonth.isValid() && currentMonth.isValid() && currentMonth > previousMonth)) {
+    return res.status(422).send('Invalid date(s).');
+  }
+
+  const ruleId = rule ? findRuleId(rule) : 0;
+
+  queryWeaponUsageDifference({
+    rankingType, weaponType, previousMonth, currentMonth, ruleId, /* region, splatfestId, */
+  })
+    .then(ranking => res.json(ranking))
+    .catch(err => res.status(500).send(err));
+};
+
 const rulesPattern = rankedRules.map(rule => rule.key).join('|');
 
 app.get('/weapons/:weaponType(weapons|mains|specials|subs)/:rankingType(league|x)/:year(\\d{4})/:month([1-9]|1[012])', weaponPopularityRouterCallback);
 app.get(`/weapons/:weaponType(weapons|mains|specials|subs)/:rankingType(league|x)/:year(\\d{4})/:month([1-9]|1[012])/:rule(${rulesPattern})`, weaponPopularityRouterCallback);
 app.get('/weapons/:weaponType(weapons|mains|specials|subs)/:rankingType(splatfest)/:region(na|eu|jp)/:splatfestId(\\d+)', weaponPopularityRouterCallback);
+
+app.get('/trends/:weaponType(weapons|mains|specials|subs)/:rankingType(x)/', weaponTrendRouterCallback);
+app.get(`/trends/:weaponType(weapons|mains|specials|subs)/:rankingType(x)/:rule(${rulesPattern})`, weaponTrendRouterCallback);
 
 app.get('/weapons/x/top-players', (req, res) => {
   db
