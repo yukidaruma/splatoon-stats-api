@@ -13,7 +13,20 @@ const defaults = {
 };
 
 Object.keys(defaults).forEach((key) => {
-  defaults[key] = (key in process.env) ? process.env[key] : defaults[key];
+  if (key in process.env) {
+    if (typeof defaults[key] === 'boolean') {
+      switch (process.env[key]) {
+        case 'true': defaults[key] = true; break;
+        case 'false': defaults[key] = false; break;
+        default: throw new TypeError(`Error parsing .env: Config for Boolean option ${key} must be 'true' or 'false'.`);
+      }
+    } else if (typeof defaults[key] === 'number') {
+      defaults[key] = Number(process.env[key]);
+    } else {
+      // string
+      defaults[key] = process.env[key];
+    }
+  }
 });
 
 if (!('NODE_ENV' in process.env)) {
