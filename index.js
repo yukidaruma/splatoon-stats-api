@@ -39,6 +39,10 @@ new CronJob('20 0-22/2 * * *', () => { // See https://crontab.guru/#20_0-22/2_*_
 // Daily job
 // eslint-disable-next-line no-new
 new CronJob('23 0 * * *', async () => { // See https://crontab.guru/#23_0_*_*_*
+  if (config.DO_NOT_FETCH_SPLATFEST) {
+    return;
+  }
+
   await fetchSplatfestSchedules();
 
   const unfetchedSplatfests = await queryUnfetchedSplatfests();
