@@ -9,7 +9,7 @@ const defaults = {
 
   // These values are used for Splatnet 2 API.
   FRONTEND_ORIGIN: 'http://localhost:8080',
-  NINTENDO_API_USERAGENT: 'com.nintendo.znca/1.5.0 (Android/4.4.2)',
+  NINTENDO_API_USERAGENT: 'com.nintendo.znca/1.5.2 (Android/4.4.2)',
   USER_LANGUAGE: 'ja-JP',
   IKSM_SESSION: '',
 };
