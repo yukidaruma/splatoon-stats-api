@@ -66,9 +66,9 @@ new CronJob('23 0 * * *', async () => { // See https://crontab.guru/#23_0_*_*_*
 }, null, true, 'UTC');
 
 // Monthly job
-// X Ranking is updated at every second day of the month
+// X Ranking is updated indeterminately (because of National holiday(s) in Japan)
 // eslint-disable-next-line no-new
-new CronJob('20 2 2 * *', () => { // See https://crontab.guru/#20_2_2_*_*
+new CronJob('20 9 * * *', () => { // See https://crontab.guru/#20_9_*_*_*
   const now = moment().utc();
   const year = now.year();
   const month = now.month(); // last month

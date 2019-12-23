@@ -237,6 +237,12 @@ const fetchXRanking = (year, month) => new Promise((resolve, reject) => {
       for (const page of [1, 2, 3, 4, 5]) {
         console.log(`x_power_ranking/${rankingId}/${rule.key}?page=${page}`);
         const ranking = await getSplatnetApi(`x_power_ranking/${rankingId}/${rule.key}?page=${page}`);
+
+        // Prevent updating before ranking is fully determined
+        if (ranking.top_rankings.length === 1) {
+          throw new Error();
+        }
+
         const queries = flat(ranking.top_rankings.map(player => [
           db.raw(`
             INSERT
