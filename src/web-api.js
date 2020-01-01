@@ -150,7 +150,7 @@ app.get('/rankings/x/:year(\\d{4})/:month([1-9]|1[0-2])/:ruleKey([a-z_]+)', (req
     });
 });
 
-// eslint-disable-next-line consistent-return
+// eslint-disable-next-line
 app.get('/rankings/league/:leagueDate(\\d{8}):groupType([TP])', (req, res) => {
   const { leagueDate, groupType } = req.params;
 
@@ -158,8 +158,10 @@ app.get('/rankings/league/:leagueDate(\\d{8}):groupType([TP])', (req, res) => {
 
   // Instead of validating, just check if it's a valid date.
   if (Number.isNaN(startTime)) {
-    return res.status(422).send('Bad league ID.');
+    res.status(422).send('Bad league ID.');
+    return;
   }
+
   db.raw(`
     select
         distinct rank, rating, group_id,
@@ -214,7 +216,8 @@ const weaponTrendRouterCallback = (req, res) => {
   const currentMonth = moment.utc(req.query.current_month, dateFormat);
 
   if (!(previousMonth.isValid() && currentMonth.isValid() && currentMonth > previousMonth)) {
-    return res.status(422).send('Invalid date(s).');
+    res.status(422).send('Invalid date(s).');
+    return;
   }
 
   const ruleId = rule ? findRuleId(rule) : 0;

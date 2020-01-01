@@ -61,7 +61,8 @@ const queryWeaponUsageDifference = args => new Promise((resolve, reject) => {
   };
 
   if (!(weaponType in statements)) {
-    return reject(new TypeError('Wrong weaponType'));
+    reject(new TypeError('Wrong weaponType'));
+    return;
   }
 
   const cte = db
