@@ -1,4 +1,4 @@
-cache
+cache/*
 !.gitkeep
 .env
 node_modules
