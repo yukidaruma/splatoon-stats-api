@@ -22,9 +22,13 @@ const {
 const app = express();
 app.disable('x-powered-by');
 
-app.use(cors({
-  origin: config.FRONTEND_ORIGIN,
-}));
+app.use(cors(
+  process.env.NODE_ENV === 'development'
+    ? undefined
+    : {
+      origin: config.FRONTEND_ORIGIN,
+    },
+));
 
 app.use((req, res, next) => {
   if (req.method === 'GET' && config.GET_REQUEST_CACHE_DURATION) {
