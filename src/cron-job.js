@@ -6,6 +6,7 @@ const config = require('../config');
 const { db } = require('./db');
 const { rankedRules, findRuleId } = require('./data');
 const { splatnetUrl, getSplatnetApi } = require('./splatnet');
+const { wait } = require('./util');
 
 /**
  * @desc Fallback function for cacheImageFromSplatoon2Ink.
@@ -228,8 +229,6 @@ const fetchXRanking = (year, month) => new Promise((resolve, reject) => {
   const format = 'YYMM01T00';
   const rankingId = [start, end].map(time => time.format(format)).join('_');
 
-  const sleep = async millis => new Promise(_resolve => setTimeout(_resolve, millis));
-
   (async function () { // eslint-disable-line func-names
     /* eslint-disable no-restricted-syntax, no-await-in-loop */
     for (const rule of rankedRules) {
@@ -261,7 +260,7 @@ const fetchXRanking = (year, month) => new Promise((resolve, reject) => {
         ]));
 
         await Promise.all(queries);
-        await sleep(10000);
+        await wait(10000);
       }
     }
     /* eslint-enable no-restricted-syntax, no-await-in-loop */
