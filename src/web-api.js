@@ -6,7 +6,11 @@ const moment = require('moment-timezone');
 
 const config = require('../config');
 const { db } = require('./db');
-const { calculateStartTimeFromLeagueDate, dateToSqlTimestamp } = require('./util');
+const {
+  calculateStartTimeFromLeagueDate,
+  dateToSqlTimestamp,
+  escapeLikeQuery,
+} = require('./util');
 const { findRuleId, rankedRules } = require('./data');
 const {
   joinLatestName,
@@ -120,7 +124,7 @@ app.get('/players/search', (req, res) => {
   db
     .select(['player_id', 'player_name', 'last_used'])
     .from('player_known_names')
-    .where('player_name', 'ilike', `%${name}%`)
+    .where('player_name', 'ilike', `%${escapeLikeQuery(name)}%`)
     .orderBy('last_used', 'desc')
     .orderBy('player_id', 'asc')
     .limit(50)

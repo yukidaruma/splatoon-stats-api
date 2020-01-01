@@ -36,23 +36,32 @@ const calculateStartTimeFromLeagueDate = leagueDate => moment.utc(leagueDate, 'Y
 const dateToSqlTimestamp = date => moment(date).tz('UTC').format('YYYY-MM-DD HH:mm:ss');
 
 /**
+ * @desc Escape query to be used in LIKE query.
+ * @param {String} Query
+ * @returns {String} Escaped query
+ * @example escapeLikeQuery('1% 2% foo_bar') === '1\\% 2\\% foo\\_bar'
+ */
+const escapeLikeQuery = query => query.replace(/[%_]/g, m => `\\${m}`);
+
+/**
+ * @desc Return random number between min and max.
+ * @param {Number} min
+ * @param {Number} max
+ */
+const randomBetween = (min, max) => Math.random() * (max - min + 1) + min;
+
+/**
  * @desc Convert Date object to SQL timestamp string.
  * @param {Number} ms Duration in milliseconds
  * @example await wait(1000); // Wait for 1 second
  */
 const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 
-/**
- * @desc Returns random number between min and max.
- * @param {Number} min
- * @param {Number} max
- */
-const randomBetween = (min, max) => Math.random() * (max - min + 1) + min;
-
 module.exports = {
   calculateLeagueDate,
   calculateStartTimeFromLeagueDate,
   dateToSqlTimestamp,
-  wait,
+  escapeLikeQuery,
   randomBetween,
+  wait,
 };

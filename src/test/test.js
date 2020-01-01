@@ -1,6 +1,11 @@
 /* eslint-env jest */
 
-const { calculateLeagueDate, calculateStartTimeFromLeagueDate, dateToSqlTimestamp } = require('../util');
+const {
+  calculateLeagueDate,
+  calculateStartTimeFromLeagueDate,
+  dateToSqlTimestamp,
+  escapeLikeQuery,
+} = require('../util');
 
 describe('Utility functions', () => {
   test('calculateLeagueDate', () => {
@@ -16,5 +21,9 @@ describe('Utility functions', () => {
 
   test('dateToSqlTimestamp', () => {
     expect(dateToSqlTimestamp(1550577600000)).toBe('2019-02-19 12:00:00');
+  });
+
+  test('escapeLikeQuery', () => {
+    expect(escapeLikeQuery('100% _sure_')).toBe('100\\% \\_sure\\_');
   });
 });
