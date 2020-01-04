@@ -7,6 +7,11 @@ module.exports = {
       rainmaker: 'RM',
       clam_blitz: 'CB',
     },
+    team_types: {
+      all: 'チーム+ペア',
+      team: 'チーム',
+      pair: 'ペア',
+    },
     weapon_types: {
       weapons: 'Weapons',
       mains: 'Main Weapons',
@@ -22,6 +27,11 @@ module.exports = {
       tower_control: 'ヤグラ',
       rainmaker: 'ホコ',
       clam_blitz: 'アサリ',
+    },
+    team_types: {
+      all: 'チーム+ペア',
+      team: 'チーム',
+      pair: 'ペア',
     },
     weapon_types: {
       weapons: 'ブキ',
