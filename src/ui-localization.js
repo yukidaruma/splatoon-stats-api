@@ -1,6 +1,8 @@
 module.exports = {
   en: {
     bomb_launchers_combined: 'Bomb launchers combined',
+    group_type: 'Group Type',
+    min_power: 'Min Power',
     rule_shortnames: {
       splat_zones: 'SZ',
       tower_control: 'TC',
@@ -22,6 +24,8 @@ module.exports = {
 
   ja: {
     bomb_launchers_combined: 'ボムピッチャー合計',
+    group_type: 'チーム種別',
+    min_power: '最小パワー',
     rule_shortnames: {
       splat_zones: 'エリア',
       tower_control: 'ヤグラ',
