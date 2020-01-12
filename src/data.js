@@ -79,6 +79,7 @@ const rankedRules = [
   { id: 3, key: 'rainmaker' },
   { id: 4, key: 'clam_blitz' },
 ];
+const rankedRuleIds = rankedRules.map(rule => rule.id);
 
 const findSpecialWeaponId = memoize(key => specialWeapons.find(specialWeapon => specialWeapon.key === key).id);
 const findSubWeaponId = memoize(key => subWeapons.find(subWeapon => subWeapon.key === key).id);
@@ -92,6 +93,7 @@ module.exports = {
   subWeapons,
   stages,
   rankedRules,
+  rankedRuleIds,
   findSpecialWeaponId,
   findSubWeaponId,
   findWeaponClassId,

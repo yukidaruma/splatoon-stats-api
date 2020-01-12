@@ -278,7 +278,22 @@ app.get('/records', async (req, res) => {
     });
   }
 
-  res.json(weaponTopPlayers);
+
+  const xRankedRatingRecords = await Promise.all(
+    rankedRuleIds.map(ruleId => db
+      .select('*')
+      .from('x_rankings')
+      .leftOuterJoin(joinLatestName('x_rankings'))
+      .where('rule_id', ruleId)
+      .orderBy('rating', 'desc')
+      .orderBy('x_rankings.player_id')
+      .limit(10)),
+  );
+
+  res.json({
+    x_ranked_rating_records: xRankedRatingRecords,
+    weapons_top_players: weaponTopPlayers,
+  });
 });
 
 app.get('/splatfests', (req, res) => {
