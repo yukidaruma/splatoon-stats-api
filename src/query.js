@@ -3,6 +3,13 @@ const { db } = require('./db');
 // Note that you may need to add player_names.player_name in select clause.
 const joinLatestName = tableName => db.raw('latest_player_names_mv as player_names on player_names.player_id = :tableName:.player_id', { tableName });
 
+const queryLatestXRankingStartTime = () => db
+  .distinct('start_time')
+  .from('x_rankings')
+  .orderBy('start_time', 'desc')
+  .limit(1)
+  .then(rows => rows[0] && rows[0].start_time);
+
 const queryWeaponUsageDifference = args => new Promise((resolve, reject) => {
   const {
     rankingType, weaponType, previousMonth, currentMonth, ruleId, /* region, splatfestId, */
@@ -296,6 +303,7 @@ select * from past_splatfests
 
 module.exports = {
   joinLatestName,
+  queryLatestXRankingStartTime,
   queryWeaponRanking,
   queryWeaponUsageDifference,
   queryWeaponTopPlayers,

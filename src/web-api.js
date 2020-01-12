@@ -11,9 +11,10 @@ const {
   dateToSqlTimestamp,
   escapeLikeQuery,
 } = require('./util');
-const { findRuleId, rankedRules } = require('./data');
+const { findRuleId, rankedRules, rankedRuleIds } = require('./data');
 const {
   joinLatestName,
+  queryLatestXRankingStartTime,
   queryWeaponRanking,
   queryWeaponUsageDifference,
   queryWeaponTopPlayers,
@@ -242,50 +243,42 @@ app.get('/weapons/:weaponType(weapons|mains|specials|subs)/:rankingType(splatfes
 app.get('/trends/:weaponType(weapons|mains|specials|subs)/:rankingType(x)/', weaponTrendRouterCallback);
 app.get(`/trends/:weaponType(weapons|mains|specials|subs)/:rankingType(x)/:rule(${rulesPattern})`, weaponTrendRouterCallback);
 
-app.get('/weapons/x/top-players', (req, res) => {
-  db
-    .distinct('start_time')
-    .from('x_rankings')
-    .orderBy('start_time', 'desc')
-    .limit(1)
-    .then(rows => rows[0] && rows[0].start_time)
-    .then((latestXRankingTime) => {
-      const cachePath = `cache/weapons-x-top-players.${moment(latestXRankingTime).format('YYYY-MM')}.json`;
-      return { cachePath, cacheExists: fs.existsSync(cachePath) };
-    })
-    .then(({ cachePath, cacheExists }) => {
-      if (cacheExists) { // cache hit
-        res.json(JSON.parse(fs.readFileSync(cachePath)));
-      } else {
-        queryWeaponTopPlayers()
-          .then((queryResult) => {
-            if (queryResult.rows.length === 0) {
-              return [];
-            }
-            return queryResult.rows.map((row) => {
-              const topPlayers = {
-                1: null, 2: null, 3: null, 4: null,
-              };
-              row.top_players.forEach((player) => {
-                topPlayers[player[0]] = {
-                  player_id: player[1],
-                  name: player[2],
-                  rating: Number(player[3]),
-                  start_time: player[4],
-                };
-              });
-              return {
-                weapon_id: row.weapon_id,
-                top_players: topPlayers,
-              };
-            });
-          })
-          .then((topPlayers) => {
-            res.json(topPlayers);
-            fs.writeFileSync(cachePath, JSON.stringify(topPlayers));
+app.get('/records', async (req, res) => {
+  const latestXRankingTime = await queryLatestXRankingStartTime();
+  const cachePath = `cache/weapons-x-top-players.${moment(latestXRankingTime).format('YYYY-MM')}.json`;
+  let weaponTopPlayers;
+
+  if (fs.existsSync(cachePath)) {
+    weaponTopPlayers = JSON.parse(fs.readFileSync(cachePath));
+  } else {
+    weaponTopPlayers = await queryWeaponTopPlayers()
+      .then((queryResult) => {
+        if (queryResult.rows.length === 0) {
+          return [];
+        }
+        return queryResult.rows.map((row) => {
+          const topPlayers = Object.fromEntries(rankedRuleIds.map(ruleId => [ruleId, null]));
+          row.top_players.forEach((player) => {
+            topPlayers[player[0]] = {
+              player_id: player[1],
+              name: player[2],
+              rating: Number(player[3]),
+              start_time: player[4],
+            };
           });
-      }
+          return {
+            weapon_id: row.weapon_id,
+            top_players: topPlayers,
+          };
+        });
+      });
+
+    fs.writeFile(cachePath, JSON.stringify(weaponTopPlayers), () => {
+      // fire and forget
     });
+  }
+
+  res.json(weaponTopPlayers);
 });
 
 app.get('/splatfests', (req, res) => {
