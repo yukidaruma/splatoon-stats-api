@@ -50,6 +50,7 @@ CREATE TABLE IF NOT EXISTS x_rankings (
   rating numeric(5, 1) NOT NULL,
   PRIMARY KEY (start_time, rule_id, player_id)
 );
+CREATE INDEX IF NOT EXISTS x_rankings_rating_idx ON x_rankings (rating);
 
 CREATE TABLE IF NOT EXISTS splatfest_rankings (
   region CHAR(2),
