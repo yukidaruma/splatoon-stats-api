@@ -34,7 +34,7 @@ You need to run following setup commands before first run.
 
 ```sh
 cat << EOF > .env # Create .env file to override settings in config.js
-iksm_session=<your iksm session>
+IKSM_SESSION=<your iksm session>
 EOF
 npm run setup
 
