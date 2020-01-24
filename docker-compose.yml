@@ -24,6 +24,8 @@ services:
       - postgres
     ports:
       - "3000:3000"
+    volumes:
+      - ./cache/screenshots:/var/tmp/screenshots
 
 volumes:
   pgdata:
