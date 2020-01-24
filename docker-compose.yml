@@ -4,8 +4,11 @@ services:
     build:
       context: .
       dockerfile: docker/postgres.Dockerfile
-    ports:
-      - "5432:5432"
+    # When running in production environment, use expose instead of ports.
+    expose:
+      - "5432"
+    # ports:
+    #   - "5432:5432"
     environment:
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "postgres"
@@ -13,18 +16,14 @@ services:
     container_name: sranking-postgres
     volumes:
       - pgdata:/var/lib/postgresql/data
-
-#   api:
-#     build:
-#       context: .
-#       dockerfile: Dockerfile
-#     image: splatranking/api
-#     entrypoint: bash docker/entrypoint.sh
-#     ports:
-#       - "5000:5000"
-#     links:
-#       - postgres
-#     container_name: sranking-api
+  app:
+    build:
+      context: .
+      dockerfile: docker/app.Dockerfile
+    depends_on:
+      - postgres
+    ports:
+      - "3000:3000"
 
 volumes:
   pgdata:
