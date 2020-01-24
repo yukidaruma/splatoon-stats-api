@@ -25,7 +25,8 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./cache/screenshots:/var/tmp/screenshots
+      - ./screenshots:/var/tmp/screenshots
+      - ./cache:/app/cache
 
 volumes:
   pgdata:

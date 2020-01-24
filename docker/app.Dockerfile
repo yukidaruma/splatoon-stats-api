@@ -24,7 +24,6 @@ RUN rm -rf /noto
 
 WORKDIR /app
 COPY . .
-RUN mkdir -p cache/images cache/locale
 RUN npm i --production --no-progress
 
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
