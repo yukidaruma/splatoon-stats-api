@@ -1,6 +1,5 @@
 const fs = require('fs');
 const fetch = require('node-fetch');
-const flat = require('array.prototype.flat');
 const moment = require('moment-timezone');
 const config = require('../config');
 const { db } = require('./db');
@@ -242,7 +241,7 @@ const fetchXRanking = (year, month) => new Promise((resolve, reject) => {
           throw new Error();
         }
 
-        const queries = flat(ranking.top_rankings.map(player => [
+        const queries = ranking.top_rankings.map(player => [
           db.raw(`
             INSERT
               INTO x_rankings (start_time, rule_id, player_id, weapon_id, rank, rating)
@@ -257,7 +256,7 @@ const fetchXRanking = (year, month) => new Promise((resolve, reject) => {
             player.x_power,
           ]),
           insertKnownNames(player.principal_id, player.name, end.unix()),
-        ]));
+        ]).flat();
 
         await Promise.all(queries);
         await wait(10000);

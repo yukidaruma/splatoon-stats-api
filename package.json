@@ -18,7 +18,6 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "array.prototype.flat": "^1.2.1",
     "async": "^2.6.2",
     "command-line-args": "^5.1.1",
     "cors": "^2.8.5",
