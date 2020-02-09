@@ -23,6 +23,9 @@ const {
 const app = express();
 app.disable('x-powered-by');
 
+// Wrap request handler to always handle exception to prevent unhandled promise rejection
+const wrap = fn => (req, res, next) => fn(req, res, next).catch(next);
+
 app.use(cors(
   process.env.NODE_ENV === 'development'
     ? undefined
@@ -49,6 +52,18 @@ app.use('/static', express.static('cache'));
 app.get('/', (req, res) => {
   res.send('It works.');
 });
+
+app.get('/data', wrap(async (req, res) => {
+  const weapons = await db
+    .select('weapon_id', db.raw('main_reference != weapon_id as is_variant'))
+    .from('weapons')
+    .whereNull('reskin_of')
+    .orderBy('weapon_id');
+
+  res.json({
+    weapons,
+  });
+}));
 
 app.get('/players/:playerId([\\da-f]{16})/known_names', (req, res) => {
   db
