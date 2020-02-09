@@ -44,6 +44,37 @@ const dateToSqlTimestamp = date => moment(date).tz('UTC').format('YYYY-MM-DD HH:
 const escapeLikeQuery = query => query.replace(/[%_]/g, m => `\\${m}`);
 
 /**
+ * @desc Get weapon class (defined in weaponClasses in `./data`) by weapon id.
+ * **Note that this function returns 'shooter' for unknown weapons.**
+ * @param {Number} weaponId
+ * @returns {String} weapon class
+ * @example getWeaponClassById(0) === 'shooter' // sploosh-o-matic is classified as shooter.
+ */
+const getWeaponClassById = (weaponId) => {
+  if ((0 <= weaponId && weaponId < 200) || (300 <= weaponId && weaponId < 1000)) {
+    return 'shooter';
+  } else if (200 <= weaponId && weaponId < 300) {
+    return 'blaster';
+  } else if (1000 <= weaponId && weaponId < 1100) {
+    return 'roller';
+  } else if (1100 <= weaponId && weaponId < 2000) {
+    return 'brush';
+  } else if (2000 <= weaponId && weaponId < 3000) {
+    return 'charger';
+  } else if (3000 <= weaponId && weaponId < 4000) {
+    return 'slosher';
+  } else if (4000 <= weaponId && weaponId < 5000) {
+    return 'splatling';
+  } else if (5000 <= weaponId && weaponId < 6000) {
+    return 'maneuver';
+  } else if (6000 <= weaponId && weaponId < 7000) {
+    return 'brella';
+  }
+
+  return 'shooter';
+};
+
+/**
  * @desc Return random number between min and max.
  * @param {Number} min
  * @param {Number} max
@@ -62,6 +93,7 @@ module.exports = {
   calculateStartTimeFromLeagueDate,
   dateToSqlTimestamp,
   escapeLikeQuery,
+  getWeaponClassById,
   randomBetween,
   wait,
 };

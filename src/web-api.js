@@ -10,6 +10,7 @@ const {
   calculateStartTimeFromLeagueDate,
   dateToSqlTimestamp,
   escapeLikeQuery,
+  getWeaponClassById,
 } = require('./util');
 const { findRuleId, rankedRules, rankedRuleIds } = require('./data');
 const {
@@ -54,11 +55,15 @@ app.get('/', (req, res) => {
 });
 
 app.get('/data', wrap(async (req, res) => {
-  const weapons = await db
+  const weapons = (await db
     .select('weapon_id', db.raw('main_reference != weapon_id as is_variant'))
     .from('weapons')
     .whereNull('reskin_of')
-    .orderBy('weapon_id');
+    .orderBy('weapon_id'))
+    .map(w => {
+      w.class = getWeaponClassById(w.weapon_id);
+      return w;
+    });
 
   res.json({
     weapons,
