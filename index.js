@@ -8,6 +8,7 @@ const {
   fetchXRanking,
   fetchSplatfestSchedules,
   fetchSplatfestRanking,
+  tweetLeagueUpdates,
 } = require('./src/cron-job');
 const { calculateLeagueDate, wait } = require('./src/util');
 const { queryUnfetchedSplatfests } = require('./src/query');
@@ -24,7 +25,7 @@ new CronJob('20 0-22/2 * * *', () => { // See https://crontab.guru/#20_0-22/2_*_
     return Promise.all(tasks);
   };
 
-  Promise.all([fetchStageRotations(), fetchLeagueRankings()])
+  Promise.all([fetchStageRotations(), fetchLeagueRankings().then(tweetLeagueUpdates)])
     .then(() => console.log(`Successfully completed cron job at ${moment().format('YYYY-MM-DD HH:mm:ss')}.`))
     .catch((err) => {
       if (err instanceof NintendoAPIError) { // Expected errors
