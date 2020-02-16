@@ -14,6 +14,7 @@ const defaults = {
   IKSM_SESSION: '',
 
   // These values are used for Twitter API (scheduled tweets).
+  ENABLE_SCHEDULED_TWEETS: true,
   TWITTER_API_CONSUMER_KEY: '',
   TWITTER_API_CONSUMER_SECRET: '',
   TWITTER_API_TOKEN_KEY: '',

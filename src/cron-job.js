@@ -400,7 +400,12 @@ const tweetLeagueUpdates = async (leagueResults) => {
   const startDate = moment(leagueResults[0].start_time * 1000).utc();
   const endDate = moment(leagueResults[0].start_time * 1000).utc().add(2, 'h');
   const leagueId = leagueResults[0].league_id;
+
+  if (!config.ENABLE_SCHEDULED_TWEETS) return;
+
   const text = `League Rankings for ${startDate.format('YYYY-MM-DD HH:mm')} ~ ${endDate.format('HH:mm')}\n\nSee full ranking on https://splatoon-stats.yuki.games/rankings/league/${leagueId}`;
+
+  // eslint-disable-next-line consistent-return
   return postMediaTweet(text, screenshots);
 };
 
