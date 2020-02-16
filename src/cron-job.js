@@ -1,7 +1,7 @@
 const fs = require('fs');
 const fetch = require('node-fetch');
 const moment = require('moment-timezone');
-const playwright = require('playwright');
+const playwright = require('playwright-core');
 const pug = require('pug');
 const config = require('../config');
 const { db } = require('./db');
