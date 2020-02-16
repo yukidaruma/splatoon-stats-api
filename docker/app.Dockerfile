@@ -3,8 +3,7 @@ FROM node:13-alpine3.11
 RUN apk add --update \
             dumb-init \
             udev \
-            ttf-freefont \
-            chromium
+            ttf-freefont
 
 RUN mkdir /noto
 
