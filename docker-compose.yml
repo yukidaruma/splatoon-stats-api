@@ -20,7 +20,7 @@ services:
     build:
       context: .
       dockerfile: docker/app.Dockerfile
-    shm_size: '128mb'
+    shm_size: '256mb'
     depends_on:
       - postgres
     ports:
