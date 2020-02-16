@@ -384,7 +384,10 @@ const generateLeagueResultHTML = async (leagueResult) => {
  */
 const tweetLeagueUpdates = async (leagueResults) => {
   const htmls = await Promise.all(leagueResults.map(generateLeagueResultHTML));
-  const browser = await playwright.chromium.launch();
+  const browser = await playwright.chromium.launch({
+    args: ['--no-sandbox'],
+    executablePath: 'chromium-browser',
+  });
   const context = await browser.newContext({
     viewport: { height: 640, width: 480 },
   });
