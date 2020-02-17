@@ -383,33 +383,41 @@ const generateLeagueResultHTML = async (leagueResult) => {
  * @desc Tweets league updates
  */
 const tweetLeagueUpdates = async (leagueResults) => {
-  const htmls = await Promise.all(leagueResults.map(generateLeagueResultHTML));
   const browser = await playwright.chromium.launch({
     args: ['--no-sandbox'],
     executablePath: 'chromium-browser',
   });
-  const context = await browser.newContext({
-    viewport: { height: 640, width: 480 },
-  });
-  const screenshots = await Promise.all(htmls.map(async (html, i) => {
-    const page = await context.newPage();
-    await page.setContent(html);
 
-    // Saves image to file for easier debugging.
-    const image = await page.screenshot({ path: `cache/tweets/league-${i}.png` });
-    return image;
-  }));
-  await browser.close();
-  const startDate = moment(leagueResults[0].start_time * 1000).utc();
-  const endDate = moment(leagueResults[0].start_time * 1000).utc().add(2, 'h');
-  const leagueId = leagueResults[0].league_id;
+  try {
+    const htmls = await Promise.all(leagueResults.map(generateLeagueResultHTML));
+    const context = await browser.newContext({
+      viewport: { height: 640, width: 480 },
+    });
+    const screenshots = await Promise.all(htmls.map(async (html, i) => {
+      const page = await context.newPage();
+      await page.setContent(html);
 
-  if (!config.ENABLE_SCHEDULED_TWEETS) return;
+      // Saves image to file for easier debugging.
+      const image = await page.screenshot({ path: `cache/tweets/league-${i}.png` });
+      await page.close();
+      return image;
+    }));
+    const startDate = moment(leagueResults[0].start_time * 1000).utc();
+    const endDate = moment(leagueResults[0].start_time * 1000).utc().add(2, 'h');
+    const leagueId = leagueResults[0].league_id;
 
-  const text = `League Rankings for ${startDate.format('YYYY-MM-DD HH:mm')} ~ ${endDate.format('HH:mm')}\n\nSee full ranking on https://splatoon-stats.yuki.games/rankings/league/${leagueId}`;
+    if (!config.ENABLE_SCHEDULED_TWEETS) return;
 
-  // eslint-disable-next-line consistent-return
-  return postMediaTweet(text, screenshots);
+    const text = `League Rankings for ${startDate.format('YYYY-MM-DD HH:mm')} ~ ${endDate.format('HH:mm')}\n\nSee full ranking on https://splatoon-stats.yuki.games/rankings/league/${leagueId}`;
+
+    // eslint-disable-next-line consistent-return
+    return postMediaTweet(text, screenshots);
+  } catch (e) {
+    console.error(e);
+    throw e;
+  } finally {
+    browser.close();
+  }
 };
 
 module.exports = {
