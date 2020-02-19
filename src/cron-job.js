@@ -5,7 +5,7 @@ const playwright = require('playwright-core');
 const pug = require('pug');
 const config = require('../config');
 const { db } = require('./db');
-const { rankedRules, findRuleId } = require('./data');
+const { findRuleKey, findRuleId, rankedRules } = require('./data');
 const { splatnetUrl, getSplatnetApi } = require('./splatnet');
 const { postMediaTweet } = require('./twitter-client');
 const { getLeagueSchedule } = require('./query');
@@ -408,9 +408,15 @@ const tweetLeagueUpdates = async (leagueResults) => {
     const endDate = moment(leagueResults[0].start_time * 1000).utc().add(2, 'h');
     const leagueId = leagueResults[0].league_id;
 
-    const stageIds = (await getLeagueSchedule(dateToSqlTimestamp(leagueResults[0].start_time * 1000))).stage_ids.slice().sort();
+    const schedule = await getLeagueSchedule(dateToSqlTimestamp(leagueResults[0].start_time * 1000));
+    const stageIds = schedule.stage_ids.slice().sort();
     const stageNames = stageIds.map(stageId => `stages.${stageId}.name`).map(i18nEn);
-    const text = `League Rankings for ${startDate.format('YYYY-MM-DD HH:mm')} ~ ${endDate.format('HH:mm')}\nStage: ${stageNames.join(' / ')}\n\nSee full ranking on https://splatoon-stats.yuki.games/rankings/league/${leagueId}`;
+    const ruleName = i18nEn(`rules.${findRuleKey(schedule.rule_id)}.name`);
+    const text = `League Rankings for ${startDate.format('YYYY-MM-DD HH:mm')} ~ ${endDate.format('HH:mm')}
+Rule: ${ruleName}
+Stage: ${stageNames.join(' / ')}
+
+See full ranking on https://splatoon-stats.yuki.games/rankings/league/${leagueId}`;
 
     if (!config.ENABLE_SCHEDULED_TWEETS) return;
 
