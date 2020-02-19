@@ -12,8 +12,13 @@ html
         .heading
           span.rank= `#${ranking.rank}`
           span.rating= ranking.point
-        .members
-          each member in ranking.tag_members
-            .member
-              img(src=`${imageBasePath}/weapon/${member.weapon.id}.png`, width=32, height=32)
-              span.player-name= playerNames[member.principal_id]
+        .body
+          .members
+            each member in ranking.tag_members
+              .member
+                img(src=`${imageBasePath}/weapon/${member.weapon.id}.png`, width=32, height=32)
+                span.player-name= playerNames[member.principal_id]
+
+    footer
+      div
+        a(href=splatoonStatsUrl)= splatoonStatsUrl

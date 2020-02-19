@@ -376,6 +376,7 @@ const generateLeagueResultHTML = async (leagueResult) => {
     groupType,
     playerNames,
     rankings: leagueResult.rankings.slice(0, 5),
+    splatoonStatsUrl: config.FRONTEND_ORIGIN,
     styles,
   });
 };

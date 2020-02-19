@@ -1,3 +1,14 @@
+:root {
+  --dark-color: rgb(25, 27, 34);
+  --dark-color-highlight: rgb(40, 42, 54);
+  --light-color: rgb(248, 248, 242);
+  --light-color-highlight: #fff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
 html, body {
   height: 100%;
   margin: 0;
@@ -6,9 +17,23 @@ html, body {
 
 body {
   font-family: 'Noto', 'Noto Sans CJK JP', sans-serif;
-  padding: 1em;
-  background-color: rgb(40, 42, 54);
-  color: rgb(248, 248, 242);
+  /* padding: 1em 0; */
+  background-color: var(--dark-color);
+  color: var(--light-color);
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  padding: 0 1em;
+  margin-bottom: 1em;
+  text-align: right;
+  font-size: 80%;
+  width: 100%;
+}
+
+a {
+  color: #2fe3be;
 }
 
 .group:not(:last-child) {
@@ -17,6 +42,10 @@ body {
 .group .heading {
   display: flex;
   align-items: center;
+  background-color: var(--dark-color-highlight);
+  color: var(--light-color-highlight);
+  padding: .125em 1em;
+  margin-bottom: .5em;
 }
 .group .heading .rank {
   font-size: 120%;
@@ -26,16 +55,19 @@ body {
   font-size: 110%;
   margin-left: 1em;
 }
-.group .members {
+.group .body {
+  margin: 0 1em;
+}
+.group .body .members {
   display: flex;
   flex-wrap: wrap;
 }
-.group .members .member {
+.group .body .members .member {
   display: flex;
   flex: 0 50%;
   align-items: center;
 }
-.group .members .member .player-name {
+.group .body .members .member .player-name {
   width: 10em;
   margin-left: 1em;
 }
