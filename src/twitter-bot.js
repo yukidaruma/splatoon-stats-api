@@ -20,7 +20,6 @@ const generateLeagueResultHTML = async (leagueResult) => {
   const queryStrings = playerIds.map((id) => `id=${id}`).join('&');
   const namesRes = await getSplatnetApi(`nickname_and_icon?${queryStrings}`);
   namesRes.nickname_and_icons.forEach((player) => { playerNames[player.nsa_id] = player.nickname; });
-  const styles = fs.readFileSync('./tweet-templates/league.css');
 
   return pug.renderFile('./tweet-templates/league.pug', {
     imageBasePath: `http://localhost:${config.PORT}/static/images`,
@@ -28,7 +27,6 @@ const generateLeagueResultHTML = async (leagueResult) => {
     playerNames,
     rankings: leagueResult.rankings.slice(0, 5),
     splatoonStatsUrl: config.FRONTEND_ORIGIN.replace(/https?:\/\//, ''),
-    styles,
   });
 };
 

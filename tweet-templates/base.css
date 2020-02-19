@@ -1,0 +1,39 @@
+:root {
+  --dark-color: rgb(25, 27, 34);
+  --dark-color-highlight: rgb(40, 42, 54);
+  --light-color: rgb(248, 248, 242);
+  --light-color-highlight: #fff;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Noto', 'Noto Sans CJK JP', sans-serif;
+  background-color: var(--dark-color);
+  color: var(--light-color);
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  padding: 0 1em;
+  margin-bottom: 1em;
+  text-align: right;
+  font-size: 80%;
+  width: 100%;
+}
+
+a {
+  color: #2fe3be;
+}
+
