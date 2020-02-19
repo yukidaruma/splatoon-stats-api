@@ -8,15 +8,14 @@ const {
   fetchXRanking,
   fetchSplatfestSchedules,
   fetchSplatfestRanking,
-  tweetLeagueUpdates,
 } = require('./src/cron-job');
-const { calculateLeagueDate, wait } = require('./src/util');
 const { hasXRankingForMonth, queryUnfetchedSplatfests } = require('./src/query');
+const { tweetLeagueUpdates } = require('./src/twitter-bot');
+const { calculateLeagueDate, wait } = require('./src/util');
 const { NintendoAPIError } = require('./src/errors');
 
-// Fetch League Ranking every 2 hours
-// eslint-disable-next-line no-new
-new CronJob('20 0-22/2 * * *', () => { // See https://crontab.guru/#20_0-22/2_*_*_*
+// Fetch League Rankings every 2 hours
+const fetchLeagueRankingsJob = () => { // See https://crontab.guru/#20_0-22/2_*_*_*
   // The latest ranking available is the one from 2 hours ago.
   const leagueDate = calculateLeagueDate(new Date() - 120 * 60 * 1000);
 
@@ -25,7 +24,7 @@ new CronJob('20 0-22/2 * * *', () => { // See https://crontab.guru/#20_0-22/2_*_
     return Promise.all(tasks);
   };
 
-  Promise.all([fetchStageRotations(), fetchLeagueRankings().then(tweetLeagueUpdates)])
+  return Promise.all([fetchStageRotations(), fetchLeagueRankings().then(tweetLeagueUpdates)])
     .then(() => console.log(`Successfully completed cron job at ${moment().format('YYYY-MM-DD HH:mm:ss')}.`))
     .catch((err) => {
       if (err instanceof NintendoAPIError) { // Expected errors
@@ -35,7 +34,10 @@ new CronJob('20 0-22/2 * * *', () => { // See https://crontab.guru/#20_0-22/2_*_
         console.error(err);
       }
     });
-}, null, true, 'UTC');
+};
+
+// eslint-disable-next-line no-new
+new CronJob('20 0-22/2 * * *', fetchLeagueRankingsJob, null, true, 'UTC');
 
 // Daily job
 // eslint-disable-next-line no-new
@@ -67,9 +69,7 @@ new CronJob('23 0 * * *', async () => { // See https://crontab.guru/#23_0_*_*_*
 }, null, true, 'UTC');
 
 // Monthly job
-// X Ranking is updated indeterminately (because of National holiday(s) in Japan)
-// eslint-disable-next-line no-new
-new CronJob('20 0-22/2 * * *', async () => { // See https://crontab.guru/#20_9_*_*_*
+const fetchXRankingsJob = async () => {
   const lastMonth = moment().utc().subtract(1, 'month');
   const year = lastMonth.year();
   const month = lastMonth.month() + 1;
@@ -88,7 +88,12 @@ new CronJob('20 0-22/2 * * *', async () => { // See https://crontab.guru/#20_9_*
     console.log(`Failed to fetch X Ranking for ${year}/${month}.`);
     console.error(e);
   }
-}, null, true, 'UTC');
+};
+
+// X Ranking is updated indeterminately (because of National holiday(s) in Japan)
+// See https://crontab.guru/#20_0-22%2F2_*_*_*
+// eslint-disable-next-line no-new
+new CronJob('20 0-22/2 * * *', fetchXRankingsJob, null, true, 'UTC');
 
 // Web interface
 app.listen(config.PORT, () => {
