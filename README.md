@@ -3,6 +3,7 @@
 ## Overview
 - This project provides API used by [splatoon-stats-web](https://github.com/yukidaruma/splatoon-stats-web).
 - The app is available online at [https://splatoon-stats.yuki.games](https://splatoon-stats.yuki.games).
+- Updates are available on Twitter [@SplatoonStats](https://twitter.com/SplatoonStats).
 
 This program fetches
 - League Ranking every 2 hours.
