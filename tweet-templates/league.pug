@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<!-- Layout is optimized for width: 480px, height: 600px -->
+html
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    style!= styles
+
+  body
+    each ranking in rankings
+      .group
+        .heading
+          span.rank= `#${ranking.rank}`
+          span.rating= ranking.point
+        .body
+          .members
+            each member in ranking.tag_members
+              .member
+                img(src=`${imageBasePath}/weapon/${member.weapon.id}.png`, width=32, height=32)
+                span.player-name= playerNames[member.principal_id]
+
+    footer
+      div
+        a(href=splatoonStatsUrl)= splatoonStatsUrl

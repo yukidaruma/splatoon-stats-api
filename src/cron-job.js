@@ -1,11 +1,15 @@
 const fs = require('fs');
 const fetch = require('node-fetch');
 const moment = require('moment-timezone');
+const playwright = require('playwright-core');
+const pug = require('pug');
 const config = require('../config');
 const { db } = require('./db');
-const { rankedRules, findRuleId } = require('./data');
+const { findRuleKey, findRuleId, rankedRules } = require('./data');
 const { splatnetUrl, getSplatnetApi } = require('./splatnet');
-const { wait } = require('./util');
+const { postMediaTweet } = require('./twitter-client');
+const { getLeagueSchedule } = require('./query');
+const { dateToSqlTimestamp, i18nEn, wait } = require('./util');
 
 /**
  * @desc Fallback function for cacheImageFromSplatoon2Ink.
@@ -141,7 +145,8 @@ const fetchStageRotations = forceFetch => new Promise((resolve, reject) => {
  * // Fetch league battle ranking for 2019-01-02 04:00 ~ 06:00 (UTC)
  * fetchLeagueRanking('19010204T')
  */
-const fetchLeagueRanking = leagueId => new Promise((resolve, reject) => {
+// eslint-disable-next-line arrow-body-style
+const fetchLeagueRanking = async (leagueId) => {
   /*
     ranking.league_id '19021912T'
     ranking.league_type ('team' or 'pair')
@@ -153,59 +158,59 @@ const fetchLeagueRanking = leagueId => new Promise((resolve, reject) => {
     ranking.rankings[].point
   */
 
-  db.transaction((trx) => {
+  const ranking = await getSplatnetApi(`league_match_ranking/${leagueId}/ALL`);
+
+  await db.transaction(async (trx) => {
     // ALL = global ranking
-    getSplatnetApi(`league_match_ranking/${leagueId}/ALL`).then((ranking) => {
-      const queries = [];
+    const queries = [];
 
-      ranking.rankings.forEach((group) => {
-        if (group.cheater) {
-          return;
-        }
+    ranking.rankings.forEach((group) => {
+      if (group.cheater) {
+        return;
+      }
 
-        const groupType = {
-          team: 'T',
-          pair: 'P',
-        }[ranking.league_type.key];
+      const groupType = {
+        team: 'T',
+        pair: 'P',
+      }[ranking.league_type.key];
 
-        // Cache Weapon images (as well as Sub and Special images).
-        group.tag_members.forEach((member) => {
-          const imagesToBeCached = [
-            [member.weapon.image, member.weapon.id],
-            [member.weapon.special.image_a, member.weapon.special.id],
-            [member.weapon.sub.image_a, member.weapon.sub.id],
-          ];
-          imagesToBeCached.forEach(imageToBeCached => cacheImageFromSplatoon2Ink(...imageToBeCached));
-        });
-
-        queries.push(...group.tag_members.map(member => db.raw(`
-          INSERT
-            INTO league_rankings (start_time, group_type, group_id, player_id, weapon_id, rank, rating)
-            VALUES (to_timestamp(?), ?, ?, ?, ?, ?, ?)
-            ON CONFLICT DO NOTHING`,
-        [
-          ranking.start_time,
-          groupType,
-          group.tag_id,
-          member.principal_id,
-          member.weapon.id,
-          group.rank,
-          group.point,
-        ]).transacting(trx)));
+      // Cache Weapon images (as well as Sub and Special images).
+      group.tag_members.forEach((member) => {
+        const imagesToBeCached = [
+          [member.weapon.image, member.weapon.id],
+          [member.weapon.special.image_a, member.weapon.special.id],
+          [member.weapon.sub.image_a, member.weapon.sub.id],
+        ];
+        imagesToBeCached.forEach(imageToBeCached => cacheImageFromSplatoon2Ink(...imageToBeCached));
       });
 
-      return queries;
-    })
-      .then(queries => Promise.all(queries))
-      .then(() => trx.commit())
-      .catch((err) => {
-        trx.rollback(err);
-        reject(err);
-      });
-  })
-    .then(() => resolve())
-    .catch(err => reject(err));
-});
+      queries.push(...group.tag_members.map(member => db.raw(`
+        INSERT
+          INTO league_rankings (start_time, group_type, group_id, player_id, weapon_id, rank, rating)
+          VALUES (to_timestamp(?), ?, ?, ?, ?, ?, ?)
+          ON CONFLICT DO NOTHING`,
+      [
+        ranking.start_time,
+        groupType,
+        group.tag_id,
+        member.principal_id,
+        member.weapon.id,
+        group.rank,
+        group.point,
+      ]).transacting(trx)));
+    });
+
+    try {
+      await Promise.all(queries);
+      await trx.commit();
+    } catch (err) {
+      await trx.rollback(err);
+      throw err;
+    }
+  });
+
+  return ranking;
+};
 
 /**
  * @param {Number} year
@@ -354,6 +359,78 @@ const fetchSplatfestRanking = (region, splatfestId) => {
   });
 };
 
+/**
+ * @desc Generate HTML from league result
+ */
+const generateLeagueResultHTML = async (leagueResult) => {
+  const groupType = leagueResult.league_type.key;
+  const playerNames = {};
+  const playerIds = leagueResult.rankings.slice(0, 5).flatMap(team => team.tag_members.map(member => member.principal_id));
+  const queryStrings = playerIds.map(id => `id=${id}`).join('&');
+  const namesRes = await getSplatnetApi(`nickname_and_icon?${queryStrings}`);
+  namesRes.nickname_and_icons.forEach((player) => { playerNames[player.nsa_id] = player.nickname; });
+  const styles = fs.readFileSync('./tweet-templates/league.css');
+
+  return pug.renderFile('./tweet-templates/league.pug', {
+    imageBasePath: `http://localhost:${config.PORT}/static/images`,
+    groupType,
+    playerNames,
+    rankings: leagueResult.rankings.slice(0, 5),
+    splatoonStatsUrl: config.FRONTEND_ORIGIN,
+    styles,
+  });
+};
+
+/**
+ * @desc Tweets league updates
+ */
+const tweetLeagueUpdates = async (leagueResults) => {
+  const browser = await playwright.chromium.launch({
+    args: ['--no-sandbox'],
+    executablePath: config.CHROMIUM_PATH,
+  });
+
+  try {
+    const htmls = await Promise.all(leagueResults.map(generateLeagueResultHTML));
+    const context = await browser.newContext({
+      viewport: { height: 640, width: 480 },
+    });
+    const screenshots = await Promise.all(htmls.map(async (html, i) => {
+      const page = await context.newPage();
+      await page.setContent(html);
+
+      // Saves image and html to file for easier debugging.
+      fs.writeFileSync(`cache/tweets/league-${i}.html`, html);
+      const image = await page.screenshot({ path: `cache/tweets/league-${i}.png` });
+      await page.close();
+      return image;
+    }));
+    const startDate = moment(leagueResults[0].start_time * 1000).utc();
+    const endDate = moment(leagueResults[0].start_time * 1000).utc().add(2, 'h');
+    const leagueId = leagueResults[0].league_id;
+
+    const schedule = await getLeagueSchedule(dateToSqlTimestamp(leagueResults[0].start_time * 1000));
+    const stageIds = schedule.stage_ids.slice().sort();
+    const stageNames = stageIds.map(stageId => `stages.${stageId}.name`).map(i18nEn);
+    const ruleName = i18nEn(`rules.${findRuleKey(schedule.rule_id)}.name`);
+    const text = `League Rankings for ${startDate.format('YYYY-MM-DD HH:mm')} ~ ${endDate.format('HH:mm')}
+Rule: ${ruleName}
+Stage: ${stageNames.join(' / ')}
+
+See full ranking on https://splatoon-stats.yuki.games/rankings/league/${leagueId}`;
+
+    if (!config.ENABLE_SCHEDULED_TWEETS) return;
+
+    // eslint-disable-next-line consistent-return
+    return postMediaTweet(text, screenshots);
+  } catch (e) {
+    console.error(e);
+    throw e;
+  } finally {
+    browser.close();
+  }
+};
+
 module.exports = {
   cacheImageFromNintendoAPI,
   fetchStageRotations,
@@ -361,4 +438,5 @@ module.exports = {
   fetchXRanking,
   fetchSplatfestSchedules,
   fetchSplatfestRanking,
+  tweetLeagueUpdates,
 };

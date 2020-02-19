@@ -1,17 +1,25 @@
 const defaults = {
+  CHROMIUM_PATH: 'chromium-browser',
   PORT: 3000,
   POSTGRES_URL: 'postgresql://postgres:postgres@postgres/sranking',
   THIRDPARTY_API_USERAGENT: `https://github.com/yukidaruma/splatoon-stats/${process.env.npm_package_version}`,
+  FRONTEND_ORIGIN: 'http://localhost:8080',
   // Cache duration for reverse proxy (shared cache). Set to 0 if unnecessary.
   GET_REQUEST_CACHE_DURATION: 86400,
 
   DO_NOT_FETCH_SPLATFEST: true,
 
   // These values are used for Splatnet 2 API.
-  FRONTEND_ORIGIN: 'http://localhost:8080',
   NINTENDO_API_USERAGENT: 'com.nintendo.znca/1.5.2 (Android/4.4.2)',
   USER_LANGUAGE: 'ja-JP',
   IKSM_SESSION: '',
+
+  // These values are used for Twitter API (scheduled tweets).
+  ENABLE_SCHEDULED_TWEETS: true,
+  TWITTER_API_CONSUMER_KEY: '',
+  TWITTER_API_CONSUMER_SECRET: '',
+  TWITTER_API_TOKEN_KEY: '',
+  TWITTER_API_TOKEN_SECRET: '',
 };
 
 Object.keys(defaults).forEach((key) => {

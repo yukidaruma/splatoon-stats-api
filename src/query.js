@@ -10,6 +10,11 @@ const queryLatestXRankingStartTime = () => db
   .limit(1)
   .then(rows => rows[0] && rows[0].start_time);
 
+const getLeagueSchedule = async startTime => (await db
+  .select('*')
+  .from('league_schedules')
+  .where('start_time', startTime))[0];
+
 const queryWeaponUsageDifference = args => new Promise((resolve, reject) => {
   const {
     rankingType, weaponType, previousMonth, currentMonth, ruleId, /* region, splatfestId, */
@@ -302,6 +307,7 @@ select * from past_splatfests
   .catch(err => reject(err)));
 
 module.exports = {
+  getLeagueSchedule,
   joinLatestName,
   queryLatestXRankingStartTime,
   queryWeaponRanking,
