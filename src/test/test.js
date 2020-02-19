@@ -5,6 +5,7 @@ const {
   calculateStartTimeFromLeagueDate,
   dateToSqlTimestamp,
   escapeLikeQuery,
+  resolveObjectPath,
 } = require('../util');
 
 describe('Utility functions', () => {
@@ -25,5 +26,10 @@ describe('Utility functions', () => {
 
   test('escapeLikeQuery', () => {
     expect(escapeLikeQuery('100% _sure_')).toBe('100\\% \\_sure\\_');
+  });
+
+  test('resolveObjectPath', () => {
+    expect(resolveObjectPath({ foo: { bar: 1 } }, 'foo.bar')).toBe(1);
+    expect(resolveObjectPath({ foo: { bar: [2, 4, 6] } }, 'foo.bar.1')).toBe(4);
   });
 });

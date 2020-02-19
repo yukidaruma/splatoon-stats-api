@@ -1,4 +1,20 @@
+const fs = require('fs');
 const moment = require('moment-timezone');
+
+/**
+ * @desc Resolve object value by path. Also works on arrays.
+ * @param {Object} object
+ * @param {Number} path `.` splitted path
+ * @example resolveObjectPath({ foo: { bar: 1 } }, 'foo.bar') === 1
+ */
+const resolveObjectPath = (obj, path) => {
+  if (!obj) return undefined;
+
+  return path.split('.').reduce(
+    (acc, e) => ((acc === undefined) ? undefined : acc[e]),
+    obj,
+  );
+};
 
 /**
  * @desc Calculate league date (used in leagueId) from given date.
@@ -74,6 +90,27 @@ const getWeaponClassById = (weaponId) => {
   return 'shooter';
 };
 
+
+const i18nCache = new Map();
+
+/**
+ * @desc Return localized text.
+ * @example i18n('en', 'stages.0.name') === 'The Reef'
+ * @param {String} lang language code
+ * @param {String} key text key
+ * @returns {String} localized text
+ */
+const i18n = (lang, key) => {
+  if (!i18nCache.has(lang)) {
+    i18nCache.set(lang, JSON.parse(fs.readFileSync(`cache/locale/${lang}.json`)));
+  }
+
+  return resolveObjectPath(i18nCache.get(lang), key);
+};
+
+
+const i18nEn = key => i18n('en', key);
+
 /**
  * @desc Return random number between min and max.
  * @param {Number} min
@@ -94,6 +131,9 @@ module.exports = {
   dateToSqlTimestamp,
   escapeLikeQuery,
   getWeaponClassById,
+  i18n,
+  i18nEn,
   randomBetween,
+  resolveObjectPath,
   wait,
 };

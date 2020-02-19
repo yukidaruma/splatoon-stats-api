@@ -8,7 +8,8 @@ const { db } = require('./db');
 const { rankedRules, findRuleId } = require('./data');
 const { splatnetUrl, getSplatnetApi } = require('./splatnet');
 const { postMediaTweet } = require('./twitter-client');
-const { wait } = require('./util');
+const { getLeagueSchedule } = require('./query');
+const { dateToSqlTimestamp, i18nEn, wait } = require('./util');
 
 /**
  * @desc Fallback function for cacheImageFromSplatoon2Ink.
@@ -397,7 +398,8 @@ const tweetLeagueUpdates = async (leagueResults) => {
       const page = await context.newPage();
       await page.setContent(html);
 
-      // Saves image to file for easier debugging.
+      // Saves image and html to file for easier debugging.
+      fs.writeFileSync(`cache/tweets/league-${i}.html`, html);
       const image = await page.screenshot({ path: `cache/tweets/league-${i}.png` });
       await page.close();
       return image;
@@ -406,9 +408,11 @@ const tweetLeagueUpdates = async (leagueResults) => {
     const endDate = moment(leagueResults[0].start_time * 1000).utc().add(2, 'h');
     const leagueId = leagueResults[0].league_id;
 
-    if (!config.ENABLE_SCHEDULED_TWEETS) return;
+    const stageIds = (await getLeagueSchedule(dateToSqlTimestamp(leagueResults[0].start_time * 1000))).stage_ids.slice().sort();
+    const stageNames = stageIds.map(stageId => `stages.${stageId}.name`).map(i18nEn);
+    const text = `League Rankings for ${startDate.format('YYYY-MM-DD HH:mm')} ~ ${endDate.format('HH:mm')}\nStage: ${stageNames.join(' / ')}\n\nSee full ranking on https://splatoon-stats.yuki.games/rankings/league/${leagueId}`;
 
-    const text = `League Rankings for ${startDate.format('YYYY-MM-DD HH:mm')} ~ ${endDate.format('HH:mm')}\n\nSee full ranking on https://splatoon-stats.yuki.games/rankings/league/${leagueId}`;
+    if (!config.ENABLE_SCHEDULED_TWEETS) return;
 
     // eslint-disable-next-line consistent-return
     return postMediaTweet(text, screenshots);
