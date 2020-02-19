@@ -1,4 +1,5 @@
 const defaults = {
+  CHROMIUM_PATH: 'chromium-browser',
   PORT: 3000,
   POSTGRES_URL: 'postgresql://postgres:postgres@postgres/sranking',
   THIRDPARTY_API_USERAGENT: `https://github.com/yukidaruma/splatoon-stats/${process.env.npm_package_version}`,

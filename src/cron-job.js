@@ -385,7 +385,7 @@ const generateLeagueResultHTML = async (leagueResult) => {
 const tweetLeagueUpdates = async (leagueResults) => {
   const browser = await playwright.chromium.launch({
     args: ['--no-sandbox'],
-    executablePath: 'chromium-browser',
+    executablePath: config.CHROMIUM_PATH,
   });
 
   try {
