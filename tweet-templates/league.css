@@ -5,7 +5,7 @@ html, body {
 }
 
 body {
-  font-family: sans-serif;
+  font-family: 'Noto', 'Noto Sans CJK JP', sans-serif;
   padding: 1em;
   background-color: rgb(40, 42, 54);
   color: rgb(248, 248, 242);
