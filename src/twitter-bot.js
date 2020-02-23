@@ -11,6 +11,43 @@ const { postMediaTweet } = require('./twitter-client');
 const { dateToSqlTimestamp, i18nEn } = require('./util');
 
 /**
+ * @desc Take screenshots of given HTMLs.
+ * @param {String[]} htmls
+ * @param {String} cachePrefix
+ * @returns {Promise<Buffer[]>} Screenshots
+ */
+const takeScreenshots = async (htmls, cachePrefix) => {
+  const browser = await playwright.chromium.launch({
+    args: ['--no-sandbox'],
+    executablePath: config.CHROMIUM_PATH,
+  });
+
+  try {
+    const context = await browser.newContext({
+      viewport: { height: 640, width: 480 },
+    });
+    const screenshots = await Promise.all(htmls.map(async (html, i) => {
+      const page = await context.newPage();
+      await page.setContent(html);
+
+      // Saves image and html to file for easier debugging.
+      const filename = `${cachePrefix}-${i}`;
+      fs.writeFileSync(`cache/tweets/${filename}.html`, html);
+      const image = await page.screenshot({ path: `cache/tweets/${filename}.png` });
+      await page.close();
+      return image;
+    }));
+
+    return screenshots;
+  } catch (e) {
+    console.error(e);
+    throw e;
+  } finally {
+    browser.close();
+  }
+};
+
+/**
  * @desc Generate HTML from league result
  */
 const generateLeagueResultHTML = async (leagueResult) => {
@@ -34,50 +71,34 @@ const generateLeagueResultHTML = async (leagueResult) => {
  * @desc Tweets league updates
  */
 const tweetLeagueUpdates = async (leagueResults) => {
-  const browser = await playwright.chromium.launch({
-    args: ['--no-sandbox'],
-    executablePath: config.CHROMIUM_PATH,
-  });
+  const htmls = await Promise.all(leagueResults.map(generateLeagueResultHTML));
+  let screenshots;
 
   try {
-    const htmls = await Promise.all(leagueResults.map(generateLeagueResultHTML));
-    const context = await browser.newContext({
-      viewport: { height: 640, width: 480 },
-    });
-    const screenshots = await Promise.all(htmls.map(async (html, i) => {
-      const page = await context.newPage();
-      await page.setContent(html);
+    screenshots = await takeScreenshots(htmls, 'league');
+  } catch (e) {
+    console.log(e);
+    throw e;
+  }
 
-      // Saves image and html to file for easier debugging.
-      fs.writeFileSync(`cache/tweets/league-${i}.html`, html);
-      const image = await page.screenshot({ path: `cache/tweets/league-${i}.png` });
-      await page.close();
-      return image;
-    }));
-    const startDate = moment(leagueResults[0].start_time * 1000).utc();
-    const endDate = moment(leagueResults[0].start_time * 1000).utc().add(2, 'h');
-    const leagueId = leagueResults[0].league_id;
+  const startDate = moment(leagueResults[0].start_time * 1000).utc();
+  const endDate = moment(leagueResults[0].start_time * 1000).utc().add(2, 'h');
+  const leagueId = leagueResults[0].league_id;
 
-    const schedule = await getLeagueSchedule(dateToSqlTimestamp(leagueResults[0].start_time * 1000));
-    const stageIds = schedule.stage_ids.slice().sort();
-    const stageNames = stageIds.map((stageId) => `stages.${stageId}.name`).map(i18nEn);
-    const ruleName = i18nEn(`rules.${findRuleKey(schedule.rule_id)}.name`);
-    const text = `League Rankings for ${startDate.format('YYYY-MM-DD HH:mm')} ~ ${endDate.format('HH:mm')}
+  const schedule = await getLeagueSchedule(dateToSqlTimestamp(leagueResults[0].start_time * 1000));
+  const stageIds = schedule.stage_ids.slice().sort();
+  const stageNames = stageIds.map((stageId) => `stages.${stageId}.name`).map(i18nEn);
+  const ruleName = i18nEn(`rules.${findRuleKey(schedule.rule_id)}.name`);
+  const text = `League Rankings for ${startDate.format('YYYY-MM-DD HH:mm')} ~ ${endDate.format('HH:mm')}
 Rule: ${ruleName}
 Stage: ${stageNames.join(' / ')}
 
 See full ranking on ${config.FRONTEND_ORIGIN}/rankings/league/${leagueId}`;
 
-    if (!config.ENABLE_SCHEDULED_TWEETS) return;
+  if (!config.ENABLE_SCHEDULED_TWEETS) return;
 
-    // eslint-disable-next-line consistent-return
-    return postMediaTweet(text, screenshots);
-  } catch (e) {
-    console.error(e);
-    throw e;
-  } finally {
-    browser.close();
-  }
+  // eslint-disable-next-line consistent-return
+  return postMediaTweet(text, screenshots);
 };
 
 module.exports = {
