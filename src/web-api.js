@@ -338,7 +338,7 @@ app.get('/records', async (req, res) => {
       -- You can't create array consists of different types so it convert weapon_id into varchar
       SELECT cte.group_type, cte.group_id, cte.rating, cte.start_time, cte.stage_ids, array_agg(ARRAY[cte.player_id, weapon_id::varchar, player_names.player_name]) as teammates
       FROM cte
-      INNER JOIN :joinQuery:
+      LEFT OUTER JOIN :joinQuery:
       GROUP BY group_id, group_type, start_time, rating, stage_ids
       ORDER BY rating DESC
     `,
