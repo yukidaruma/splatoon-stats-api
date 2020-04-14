@@ -1,8 +1,12 @@
 :root {
-  --dark-color: rgb(25, 27, 34);
-  --dark-color-highlight: rgb(40, 42, 54);
+  --dark-color: #191b22;
+  --dark-color2: #1d2028;
+  --dark-color3: #22242e;
+  --dark-color-highlight: #282a36;
   --light-color: rgb(248, 248, 242);
   --light-color-highlight: #fff;
+  --win-color: rgb(241, 60, 135);
+  --lose-color: rgb(59, 232, 59);
 }
 
 * {
@@ -12,12 +16,17 @@
 }
 
 html, body {
-  height: 100%;
   margin: 0;
   padding: 0;
 }
 
+html {
+  background-color: rgb(60, 63, 81);
+}
+
 body {
+  height: 640px;
+  width: 480px;
   font-family: 'Noto', 'Noto Sans CJK JP', sans-serif;
   background-color: var(--dark-color);
   color: var(--light-color);
@@ -37,3 +46,16 @@ a {
   color: #2fe3be;
 }
 
+b {
+  color: var(--light-color-highlight);
+  font-weight: bold;
+}
+
+h1 {
+  white-space: pre-wrap;
+  font-size: 150%;
+  background-color: var(--dark-color-highlight);
+  color: var(--light-color-highlight);
+  padding: .375em 1em;
+  margin-bottom: .5em;
+}
