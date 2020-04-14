@@ -60,10 +60,10 @@ app.get('/data', wrap(async (req, res) => {
     .from('weapons')
     .whereNull('reskin_of')
     .orderBy('weapon_id'))
-    .map(w => {
-      w.class = getWeaponClassById(w.weapon_id);
-      return w;
-    });
+    .map(w => ({
+      ...w,
+      class: getWeaponClassById(w.weapon_id),
+    }));
 
   res.json({
     weapons,
@@ -293,11 +293,8 @@ app.get('/records', async (req, res) => {
         });
       });
 
-    fs.writeFile(cachePath, JSON.stringify(weaponTopPlayers), () => {
-      // fire and forget
-    });
+    fs.writeFileSync(cachePath, JSON.stringify(weaponTopPlayers));
   }
-
 
   const xRankedRatingRecords = await Promise.all(
     rankedRuleIds.map(ruleId => db
@@ -310,8 +307,53 @@ app.get('/records', async (req, res) => {
       .limit(10)),
   );
 
+  const groupTypes = [
+    {
+      key: 'team',
+      query: 'T',
+      members: 4,
+    },
+    {
+      key: 'pair',
+      query: 'P',
+      members: 2,
+    },
+  ];
+
+  const leagueRatingRecords = {};
+  await Promise.all(groupTypes.map((async (groupType) => {
+    await Promise.all(rankedRuleIds.map(async (ruleId, i) => {
+      if (!(groupType.key in leagueRatingRecords)) {
+        leagueRatingRecords[groupType.key] = [];
+      }
+
+      leagueRatingRecords[groupType.key][i] = (await db.raw(`
+      WITH cte AS (
+        SELECT league_rankings.group_type, league_rankings.group_id, league_rankings.player_id, league_rankings.rating, league_rankings.start_time, league_rankings.weapon_id, league_schedules.stage_ids FROM league_rankings
+        INNER JOIN league_schedules ON league_rankings.start_time = league_schedules.start_time
+        WHERE group_type = :groupType AND rule_id = :ruleId
+        ORDER BY rating DESC
+        LIMIT :limit
+      )
+      -- You can't create array consists of different types so it convert weapon_id into varchar
+      SELECT cte.group_type, cte.group_id, cte.rating, cte.start_time, cte.stage_ids, array_agg(ARRAY[cte.player_id, weapon_id::varchar, player_names.player_name]) as teammates
+      FROM cte
+      INNER JOIN :joinQuery:
+      GROUP BY group_id, group_type, start_time, rating, stage_ids
+      ORDER BY rating DESC
+    `,
+      {
+        groupType: groupType.query,
+        ruleId,
+        joinQuery: joinLatestName('cte'),
+        limit: groupType.members * 10,
+      })).rows;
+    }));
+  })));
+
   res.json({
     x_ranked_rating_records: xRankedRatingRecords,
+    league_rating_records: leagueRatingRecords,
     weapons_top_players: weaponTopPlayers,
   });
 });
