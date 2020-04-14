@@ -376,7 +376,7 @@ const generateLeagueResultHTML = async (leagueResult) => {
     groupType,
     playerNames,
     rankings: leagueResult.rankings.slice(0, 5),
-    splatoonStatsUrl: config.FRONTEND_ORIGIN,
+    splatoonStatsUrl: config.FRONTEND_ORIGIN.replace(/https?:\/\//, ''),
     styles,
   });
 };
@@ -417,7 +417,7 @@ const tweetLeagueUpdates = async (leagueResults) => {
 Rule: ${ruleName}
 Stage: ${stageNames.join(' / ')}
 
-See full ranking on https://splatoon-stats.yuki.games/rankings/league/${leagueId}`;
+See full ranking on ${config.FRONTEND_ORIGIN}/rankings/league/${leagueId}`;
 
     if (!config.ENABLE_SCHEDULED_TWEETS) return;
 
