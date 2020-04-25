@@ -125,3 +125,8 @@ CREATE TABLE IF NOT EXISTS sub_weapons (
   sub_weapon_id SMALLINT PRIMARY KEY,
   sub_weapon_key VARCHAR(31) NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS monthly_league_battle_schedules (
+  start_time TIMESTAMP PRIMARY KEY,
+  FOREIGN KEY (start_time) REFERENCES league_schedules (start_time)
+);
