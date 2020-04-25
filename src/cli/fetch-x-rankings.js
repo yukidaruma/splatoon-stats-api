@@ -2,9 +2,9 @@
 
 const moment = require('moment-timezone');
 
-const { db } = require('./db');
-const { fetchXRanking } = require('./cron-job');
-const { dateToSqlTimestamp, wait, randomBetween } = require('./util');
+const { db } = require('../db');
+const { fetchXRanking } = require('../cron-job');
+const { dateToSqlTimestamp, wait, randomBetween } = require('../util');
 
 /* eslint-disable no-restricted-syntax, no-await-in-loop */
 (async function () { // eslint-disable-line func-names

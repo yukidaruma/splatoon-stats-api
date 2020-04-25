@@ -1,11 +1,11 @@
 const fetch = require('node-fetch');
 const fs = require('fs');
 const commandLineArgs = require('command-line-args');
-const config = require('../config');
-const { populateDatabase } = require('./populate_database');
-const { cacheImageFromNintendoAPI } = require('./cron-job');
+const config = require('../../config');
+const { populateDatabase } = require('../populate_database');
+const { cacheImageFromNintendoAPI } = require('../cron-job');
 
-const uiLocalization = require('./ui-localization');
+const uiLocalization = require('../ui-localization');
 
 const downloadLocales = (statInkWeapons) => {
   const languages = ['ja', 'en'];

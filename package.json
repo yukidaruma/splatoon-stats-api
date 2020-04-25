@@ -8,11 +8,11 @@
     "lint": "eslint . --ext .js --ignore-path .gitignore",
     "start": "node -r dotenv/config index",
     "start-dev": "cross-env NODE_ENV=development node -r dotenv/config index",
-    "setup": "node -r dotenv/config src/setup",
-    "update-locale": "npx rimraf cache/locale && node -r dotenv/config src/setup --no-database",
-    "migrate": "node -r dotenv/config src/migrate",
-    "fetch-league-rankings": "node -r dotenv/config src/fetch-league-rankings.js",
-    "fetch-x-rankings": "node -r dotenv/config src/fetch-x-rankings.js"
+    "setup": "node -r dotenv/config src/cli/setup",
+    "update-locale": "npx rimraf cache/locale && node -r dotenv/config src/cli/setup --no-database",
+    "migrate": "node -r dotenv/config src/cli/migrate",
+    "fetch-league-rankings": "node -r dotenv/config src/cli/fetch-league-rankings.js",
+    "fetch-x-rankings": "node -r dotenv/config src/cli/fetch-x-rankings.js"
   },
   "author": "yukidaruman (https://github.com/yukidaruma)",
   "license": "MIT",
