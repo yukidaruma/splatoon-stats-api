@@ -2,9 +2,9 @@
 
 const moment = require('moment-timezone');
 
-const { db } = require('./db');
-const { fetchLeagueRanking } = require('./cron-job');
-const { randomBetween, dateToSqlTimestamp, wait } = require('./util');
+const { db } = require('../db');
+const { fetchLeagueRanking } = require('../cron-job');
+const { randomBetween, dateToSqlTimestamp, wait } = require('../util');
 
 const ongoingSplatfestCount = async time => db.raw(`
   with ongoing_splatfests as (

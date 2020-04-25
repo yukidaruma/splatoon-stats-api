@@ -1,5 +1,5 @@
 const fs = require('fs');
-const { db } = require('./db');
+const { db } = require('../db');
 
 const queries = fs.readFileSync('./sql/create_tables.sql', 'utf8')
   .split('\n')

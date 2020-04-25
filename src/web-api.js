@@ -351,10 +351,23 @@ app.get('/records', async (req, res) => {
     }));
   })));
 
+  // const monthlyLeagueBattlesRecords = [];
+  const monthlyLeagueBattlesRecordsColumns = ['monthly_league_battle_schedules.start_time', 'rating', 'rule_id', 'group_type'];
+  const monthlyLeagueBattlesRecords = await db
+    .select(monthlyLeagueBattlesRecordsColumns)
+    .from('monthly_league_battle_schedules')
+    .innerJoin('league_schedules', 'monthly_league_battle_schedules.start_time', 'league_schedules.start_time')
+    .innerJoin('league_rankings', 'monthly_league_battle_schedules.start_time', 'league_rankings.start_time')
+    .where('rank', 1)
+    .where('group_type', 'T')
+    .groupBy(monthlyLeagueBattlesRecordsColumns)
+    .orderBy('start_time', 'desc');
+
   res.json({
-    x_ranked_rating_records: xRankedRatingRecords,
     league_rating_records: leagueRatingRecords,
+    monthly_league_battles_records: monthlyLeagueBattlesRecords,
     weapons_top_players: weaponTopPlayers,
+    x_ranked_rating_records: xRankedRatingRecords,
   });
 });
 
