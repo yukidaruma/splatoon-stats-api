@@ -133,7 +133,7 @@ const getMissingLeagueDatesIterator = (startTime, endTime) => ({
   }
 }())
 /* eslint-enable no-restricted-syntax */
-  .then(() => { console.log('Successfully fetched all missingle league battle rankings.'); })
+  .then(() => { console.log('Successfully fetched all missing league battle rankings.'); })
   .finally(() => {
     db.destroy();
   });

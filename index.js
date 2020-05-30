@@ -6,16 +6,14 @@ const {
   fetchStageRotations,
   fetchLeagueRanking,
   fetchXRanking,
-  fetchSplatfestSchedules,
-  fetchSplatfestRanking,
+  fetchSplatfestRankingsJob,
 } = require('./src/cron-job');
-const { hasXRankingForMonth, queryUnfetchedSplatfests } = require('./src/query');
 const { tweetLeagueUpdates } = require('./src/twitter-bot');
-const { calculateLeagueDate, wait } = require('./src/util');
+const { calculateLeagueDate } = require('./src/util');
 const { NintendoAPIError } = require('./src/errors');
 
 // Fetch League Rankings every 2 hours
-const fetchLeagueRankingsJob = () => { // See https://crontab.guru/#20_0-22/2_*_*_*
+const fetchLeagueRankingsJob = () => {
   // The latest ranking available is the one from 2 hours ago.
   const leagueDate = calculateLeagueDate(new Date() - 120 * 60 * 1000);
 
@@ -37,7 +35,7 @@ const fetchLeagueRankingsJob = () => { // See https://crontab.guru/#20_0-22/2_*_
 };
 
 // eslint-disable-next-line no-new
-new CronJob('20 0-22/2 * * *', fetchLeagueRankingsJob, null, true, 'UTC');
+new CronJob('20 0-22/2 * * *', fetchLeagueRankingsJob, null, true, 'UTC'); // See https://crontab.guru/#20_0-22/2_*_*_*
 
 // Daily job
 // eslint-disable-next-line no-new
@@ -46,25 +44,8 @@ new CronJob('23 0 * * *', async () => { // See https://crontab.guru/#23_0_*_*_*
     return;
   }
 
-  await fetchSplatfestSchedules();
-
-  const unfetchedSplatfests = await queryUnfetchedSplatfests();
-
-  if (unfetchedSplatfests.length) {
-    console.log(`[Daily job] There are ${unfetchedSplatfests.length} unfetched Splatfest(s).`);
-
-    // unfetchedSplatfests = unfetchedSplatfests.slice(0, 5); // Limit to 5
-    /* eslint-disable no-await-in-loop, camelcase */
-    // eslint-disable-next-line no-restricted-syntax
-    for (const { region, splatfest_id } of unfetchedSplatfests) {
-      console.log(`[Daily job] Fetching Splatfest ranking for ${region} ${splatfest_id}.`);
-      await fetchSplatfestRanking(region, splatfest_id);
-      console.log('[Daily job] Done.');
-      await wait(60000);
-    }
-    /* eslint-enable no-await-in-loop */
-  }
-
+  console.log('[Daily job] Running fetchSplatfestRankingsJob.');
+  await fetchSplatfestRankingsJob();
   console.log(`[Daily job] Successfully completed daily cron job on ${moment().format('YYYY-MM-DD')}.`);
 }, null, true, 'UTC');
 

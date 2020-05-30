@@ -4,6 +4,7 @@ const moment = require('moment-timezone');
 const config = require('../config');
 const { db } = require('./db');
 const { findRuleId, rankedRules } = require('./data');
+const { queryUnfetchedSplatfests } = require('./query');
 const { splatnetUrl, getSplatnetApi } = require('./splatnet');
 const { wait } = require('./util');
 
@@ -313,7 +314,7 @@ const fetchSplatfestSchedules = () => {
  * @param {Number} splatfestId
  */
 const fetchSplatfestRanking = (region, splatfestId) => {
-  db.transaction((trx) => {
+  return db.transaction((trx) => {
     fetch(`https://splatoon2.ink/data/festivals/${region}-${splatfestId}-rankings.json`,
       { 'User-Agent': config.THIRDPARTY_API_USERAGENT })
       .then((res) => res.json())
@@ -355,6 +356,24 @@ const fetchSplatfestRanking = (region, splatfestId) => {
   });
 };
 
+const fetchSplatfestRankingsJob = async () => {
+  await fetchSplatfestSchedules();
+
+  const unfetchedSplatfests = await queryUnfetchedSplatfests();
+
+  if (unfetchedSplatfests.length) {
+    console.log(`There are ${unfetchedSplatfests.length} unfetched Splatfest(s).`);
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const { region, splatfest_id: splatfestId } of unfetchedSplatfests) {
+      console.log(`Fetching Splatfest ranking for ${region} ${splatfestId}.`);
+      await fetchSplatfestRanking(region, splatfestId);
+      console.log('Done.');
+      await wait(5000);
+    }
+  }
+};
+
 module.exports = {
   cacheImageFromNintendoAPI,
   fetchStageRotations,
@@ -362,4 +381,5 @@ module.exports = {
   fetchXRanking,
   fetchSplatfestSchedules,
   fetchSplatfestRanking,
+  fetchSplatfestRankingsJob,
 };
