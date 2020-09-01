@@ -79,14 +79,14 @@ const rankedRules = [
   { id: 3, key: 'rainmaker' },
   { id: 4, key: 'clam_blitz' },
 ];
-const rankedRuleIds = rankedRules.map(rule => rule.id);
+const rankedRuleIds = rankedRules.map((rule) => rule.id);
 
-const findSpecialWeaponId = memoize(key => specialWeapons.find(specialWeapon => specialWeapon.key === key).id);
-const findSubWeaponId = memoize(key => subWeapons.find(subWeapon => subWeapon.key === key).id);
-const findWeaponClassId = memoize(key => weaponClasses.find(weaponClass => weaponClass.key === key).id);
-const findStageId = memoize(key => stages.find(stage => stage.key === key).id);
-const findRuleKey = memoize(id => rankedRules.find(rule => rule.id === id).key);
-const findRuleId = memoize(key => rankedRules.find(rule => rule.key === key).id);
+const findSpecialWeaponId = memoize((key) => specialWeapons.find((specialWeapon) => specialWeapon.key === key).id);
+const findSubWeaponId = memoize((key) => subWeapons.find((subWeapon) => subWeapon.key === key).id);
+const findWeaponClassId = memoize((key) => weaponClasses.find((weaponClass) => weaponClass.key === key).id);
+const findStageId = memoize((key) => stages.find((stage) => stage.key === key).id);
+const findRuleKey = memoize((id) => rankedRules.find((rule) => rule.id === id).key);
+const findRuleId = memoize((key) => rankedRules.find((rule) => rule.key === key).id);
 
 module.exports = {
   weaponClasses,

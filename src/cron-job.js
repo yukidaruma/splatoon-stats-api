@@ -99,13 +99,13 @@ const insertKnownNames = (playerId, playerName, lastUsed) => db.raw(`INSERT
 /**
  * @param {Boolean} forceFetch Forces to fetch even when there's future schedules already.
  */
-const fetchStageRotations = forceFetch => new Promise((resolve, reject) => {
+const fetchStageRotations = (forceFetch) => new Promise((resolve, reject) => {
   // TODO: You can skip running query when forceFetch is true.
   db('league_schedules').where('start_time', '>=', 'now()').then((rows) => {
     if (forceFetch || rows.length < 6) { // When there's less than 6 future schedules
       fetch('https://splatoon2.ink/data/schedules.json',
         { headers: { 'User-Agent': config.THIRDPARTY_API_USERAGENT } })
-        .then(res => res.json())
+        .then((res) => res.json())
         .then((schedule) => {
           const queries = schedule.league.map((league) => {
             const stageIds = [league.stage_a.id, league.stage_b.id];
@@ -130,7 +130,7 @@ const fetchStageRotations = forceFetch => new Promise((resolve, reject) => {
 
           Promise.all(queries)
             .then(() => resolve())
-            .catch(err => reject(err));
+            .catch((err) => reject(err));
         });
     } else {
       console.log(`There are ${rows.length} future schedule(s). Skipped fetching.`);
@@ -181,10 +181,10 @@ const fetchLeagueRanking = async (leagueId) => {
           [member.weapon.special.image_a, member.weapon.special.id],
           [member.weapon.sub.image_a, member.weapon.sub.id],
         ];
-        imagesToBeCached.forEach(imageToBeCached => cacheImageFromSplatoon2Ink(...imageToBeCached));
+        imagesToBeCached.forEach((imageToBeCached) => cacheImageFromSplatoon2Ink(...imageToBeCached));
       });
 
-      queries.push(...group.tag_members.map(member => db.raw(`
+      queries.push(...group.tag_members.map((member) => db.raw(`
         INSERT
           INTO league_rankings (start_time, group_type, group_id, player_id, weapon_id, rank, rating)
           VALUES (to_timestamp(?), ?, ?, ?, ?, ?, ?)
@@ -231,7 +231,7 @@ const fetchXRanking = (year, month) => new Promise((resolve, reject) => {
   const startTimeInDb = start.clone().add({ month: duration - 1 });
   const end = start.clone().add({ month: duration });
   const format = 'YYMM01T00';
-  const rankingId = [start, end].map(time => time.format(format)).join('_');
+  const rankingId = [start, end].map((time) => time.format(format)).join('_');
 
   (async function () { // eslint-disable-line func-names
     /* eslint-disable no-restricted-syntax, no-await-in-loop */
@@ -246,7 +246,7 @@ const fetchXRanking = (year, month) => new Promise((resolve, reject) => {
           throw new Error();
         }
 
-        const queries = ranking.top_rankings.map(player => [
+        const queries = ranking.top_rankings.map((player) => [
           db.raw(`
             INSERT
               INTO x_rankings (start_time, rule_id, player_id, weapon_id, rank, rating)
@@ -271,7 +271,7 @@ const fetchXRanking = (year, month) => new Promise((resolve, reject) => {
   }())
     .then(() => db.raw('REFRESH MATERIALIZED VIEW CONCURRENTLY latest_player_names_mv;'))
     .then(() => resolve())
-    .catch(err => reject(err));
+    .catch((err) => reject(err));
 });
 
 /**
@@ -280,7 +280,7 @@ const fetchXRanking = (year, month) => new Promise((resolve, reject) => {
 const fetchSplatfestSchedules = () => {
   fetch('https://splatoon2.ink/data/festivals.json',
     { 'User-Agent': config.THIRDPARTY_API_USERAGENT })
-    .then(res => res.json())
+    .then((res) => res.json())
     .then((regions) => {
       Object.entries(regions).forEach(([region, splatfests]) => {
         const queries = splatfests.festivals.map((splatfest) => {
@@ -320,8 +320,8 @@ const fetchSplatfestRanking = (region, splatfestId) => {
   db.transaction((trx) => {
     fetch(`https://splatoon2.ink/data/festivals/${region}-${splatfestId}-rankings.json`,
       { 'User-Agent': config.THIRDPARTY_API_USERAGENT })
-      .then(res => res.json())
-      .then(_rankings => _rankings.rankings)
+      .then((res) => res.json())
+      .then((_rankings) => _rankings.rankings)
       .then((rankings) => {
         const queries = [];
 
@@ -352,10 +352,10 @@ const fetchSplatfestRanking = (region, splatfestId) => {
         });
         return queries;
       })
-      .then(queries => Promise.all(queries)
+      .then((queries) => Promise.all(queries)
         .then(() => trx.commit())
         .then(() => db.raw('REFRESH MATERIALIZED VIEW CONCURRENTLY latest_player_names_mv;'))
-        .catch(err => trx.rollback(err)));
+        .catch((err) => trx.rollback(err)));
   });
 };
 
@@ -365,8 +365,8 @@ const fetchSplatfestRanking = (region, splatfestId) => {
 const generateLeagueResultHTML = async (leagueResult) => {
   const groupType = leagueResult.league_type.key;
   const playerNames = {};
-  const playerIds = leagueResult.rankings.slice(0, 5).flatMap(team => team.tag_members.map(member => member.principal_id));
-  const queryStrings = playerIds.map(id => `id=${id}`).join('&');
+  const playerIds = leagueResult.rankings.slice(0, 5).flatMap((team) => team.tag_members.map((member) => member.principal_id));
+  const queryStrings = playerIds.map((id) => `id=${id}`).join('&');
   const namesRes = await getSplatnetApi(`nickname_and_icon?${queryStrings}`);
   namesRes.nickname_and_icons.forEach((player) => { playerNames[player.nsa_id] = player.nickname; });
   const styles = fs.readFileSync('./tweet-templates/league.css');
@@ -411,7 +411,7 @@ const tweetLeagueUpdates = async (leagueResults) => {
 
     const schedule = await getLeagueSchedule(dateToSqlTimestamp(leagueResults[0].start_time * 1000));
     const stageIds = schedule.stage_ids.slice().sort();
-    const stageNames = stageIds.map(stageId => `stages.${stageId}.name`).map(i18nEn);
+    const stageNames = stageIds.map((stageId) => `stages.${stageId}.name`).map(i18nEn);
     const ruleName = i18nEn(`rules.${findRuleKey(schedule.rule_id)}.name`);
     const text = `League Rankings for ${startDate.format('YYYY-MM-DD HH:mm')} ~ ${endDate.format('HH:mm')}
 Rule: ${ruleName}

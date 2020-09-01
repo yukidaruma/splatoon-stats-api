@@ -21,7 +21,7 @@ new CronJob('20 0-22/2 * * *', () => { // See https://crontab.guru/#20_0-22/2_*_
   const leagueDate = calculateLeagueDate(new Date() - 120 * 60 * 1000);
 
   const fetchLeagueRankings = () => {
-    const tasks = [`${leagueDate}T`, `${leagueDate}P`].map(leagueId => fetchLeagueRanking(leagueId));
+    const tasks = [`${leagueDate}T`, `${leagueDate}P`].map((leagueId) => fetchLeagueRanking(leagueId));
     return Promise.all(tasks);
   };
 
@@ -74,7 +74,7 @@ new CronJob('20 0-22/2 * * *', async () => { // See https://crontab.guru/#20_9_*
   const year = lastMonth.year();
   const month = lastMonth.month() + 1;
 
-  const hasFetched = await hasXRankingForMonth(2020, 1);
+  const hasFetched = await hasXRankingForMonth(year, month);
   if (hasFetched) {
     return;
   }

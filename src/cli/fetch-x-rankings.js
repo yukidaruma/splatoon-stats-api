@@ -21,7 +21,7 @@ const { dateToSqlTimestamp, wait, randomBetween } = require('../util');
       .select('start_time')
       .from('x_rankings')
       .where('start_time', dateToSqlTimestamp(time))
-      .then(rows => !!rows.length);
+      .then((rows) => !!rows.length);
 
     if (xRankingExists) {
       continue; // eslint-disable-line no-continue

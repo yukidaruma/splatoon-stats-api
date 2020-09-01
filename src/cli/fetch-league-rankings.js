@@ -6,13 +6,13 @@ const { db } = require('../db');
 const { fetchLeagueRanking } = require('../cron-job');
 const { randomBetween, dateToSqlTimestamp, wait } = require('../util');
 
-const ongoingSplatfestCount = async time => db.raw(`
+const ongoingSplatfestCount = async (time) => db.raw(`
   with ongoing_splatfests as (
     select splatfest_id from splatfest_schedules
       where start_time <= to_timestamp(:time) AND to_timestamp(:time) <= end_time
   )
   select count(splatfest_id) from ongoing_splatfests`, { time: time.unix() })
-  .then(result => (result.rows[0] && result.rows[0].count) || 0);
+  .then((result) => (result.rows[0] && result.rows[0].count) || 0);
 
 const getMissingLeagueDatesIterator = (startTime, endTime) => ({
   [Symbol.iterator]() {
@@ -58,7 +58,7 @@ const getMissingLeagueDatesIterator = (startTime, endTime) => ({
     select start_time, next_start_time
       from league_start_times_with_gap_between
       where gap_between != '2 hour'::interval`)
-    .then(queryResult => queryResult.rows);
+    .then((queryResult) => queryResult.rows);
 
   // Check gap between defaultDate and the first record of league_rankings
   const defaultDate = moment.utc({ year: 2018, month: 0 });
@@ -66,7 +66,7 @@ const getMissingLeagueDatesIterator = (startTime, endTime) => ({
     .select('start_time')
     .from('league_rankings')
     .where('start_time', '=', dateToSqlTimestamp(defaultDate))
-    .then(rows => rows.length !== 0);
+    .then((rows) => rows.length !== 0);
 
   if (!hasDefaultDateFetched) {
     gapsBetweenLeagueRankings.unshift({
@@ -91,7 +91,7 @@ const getMissingLeagueDatesIterator = (startTime, endTime) => ({
         .select('start_time')
         .from('missing_league_rankings')
         .where('start_time', dateToSqlTimestamp(leagueDate))
-        .then(rows => !!rows.length);
+        .then((rows) => !!rows.length);
 
       if (isRankingMissing) {
         // console.log(`No ranking is available for ${leagueDate.format('YYYY-MM-DD HH:mm')}. Skipped fetching.`);

@@ -17,8 +17,8 @@ const {
 
 // Reference: https://github.com/fetus-hina/stat.ink/blob/master/doc/api-2/get-weapon.md
 const addWeapons = (statInkWeapons) => {
-  const weaponKeyToWeaponId = memoize(weaponKey => statInkWeapons
-    .find(weapon => weapon.key === weaponKey).splatnet);
+  const weaponKeyToWeaponId = memoize((weaponKey) => statInkWeapons
+    .find((weapon) => weapon.key === weaponKey).splatnet);
 
   return db.transaction((trx) => {
     const queries = statInkWeapons.map((weapon) => {
@@ -63,7 +63,7 @@ const addWeapons = (statInkWeapons) => {
 const populateDatabase = (statInkWeapons) => {
   async.series({
     _addWeaponClasses(next) {
-      const queries = weaponClasses.map(weaponClass => db.raw(
+      const queries = weaponClasses.map((weaponClass) => db.raw(
         'INSERT INTO weapon_classes (weapon_class_id, weapon_class_key) VALUES (?, ?) ON CONFLICT DO NOTHING',
         [weaponClass.id, weaponClass.key],
       ));
@@ -73,10 +73,10 @@ const populateDatabase = (statInkWeapons) => {
           next();
           console.log('_addWeaponClasses is successfully done.');
         })
-        .catch(err => next(err));
+        .catch((err) => next(err));
     },
     _addSpecialWeapons(next) {
-      const queries = specialWeapons.map(specialWeapon => db.raw(
+      const queries = specialWeapons.map((specialWeapon) => db.raw(
         'INSERT INTO special_weapons (special_weapon_id, special_weapon_key) VALUES (?, ?) ON CONFLICT DO NOTHING',
         [specialWeapon.id, specialWeapon.key],
       ));
@@ -86,10 +86,10 @@ const populateDatabase = (statInkWeapons) => {
           next();
           console.log('_addSpecialWeapons is successfully done.');
         })
-        .catch(err => next(err));
+        .catch((err) => next(err));
     },
     _addSubWeapons(next) {
-      const queries = subWeapons.map(subWeapon => db.raw(
+      const queries = subWeapons.map((subWeapon) => db.raw(
         'INSERT INTO sub_weapons (sub_weapon_id, sub_weapon_key) VALUES (?, ?) ON CONFLICT DO NOTHING',
         [subWeapon.id, subWeapon.key],
       ));
@@ -99,10 +99,10 @@ const populateDatabase = (statInkWeapons) => {
           next();
           console.log('_addSubWeapons is successfully done.');
         })
-        .catch(err => next(err));
+        .catch((err) => next(err));
     },
     _addStages(next) {
-      const queries = stages.map(stage => db.raw(
+      const queries = stages.map((stage) => db.raw(
         'INSERT INTO stages (stage_id, stage_key) VALUES (?, ?) ON CONFLICT DO NOTHING',
         [stage.id, stage.key],
       ));
@@ -112,10 +112,10 @@ const populateDatabase = (statInkWeapons) => {
           next();
           console.log('_addStages is successfully done.');
         })
-        .catch(err => next(err));
+        .catch((err) => next(err));
     },
     _addRankedRules(next) {
-      const queries = rankedRules.map(rule => db.raw(
+      const queries = rankedRules.map((rule) => db.raw(
         'INSERT INTO ranked_rules (rule_id, rule_key) VALUES (?, ?) ON CONFLICT DO NOTHING',
         [rule.id, rule.key],
       ));
@@ -125,7 +125,7 @@ const populateDatabase = (statInkWeapons) => {
           next();
           console.log('_addRankedRules is successfully done.');
         })
-        .catch(err => next(err));
+        .catch((err) => next(err));
     },
     _addPastLeagueStages(next) {
       // Convert spla2.yuu26.com format to splatoon2.ink format
@@ -139,7 +139,7 @@ const populateDatabase = (statInkWeapons) => {
       };
 
       fetch('https://spla2.yuu26.com/league', { headers: { 'User-Agent': config.THIRDPARTY_API_USERAGENT } })
-        .then(res => res.json())
+        .then((res) => res.json())
         .then((schedules) => {
           db.transaction((trx) => {
             const queries = schedules.result.map((_schedule) => {
@@ -174,12 +174,12 @@ const populateDatabase = (statInkWeapons) => {
           { headers: { 'User-Agent': config.THIRDPARTY_API_USERAGENT } });
         return res.json();
       }())
-        .then(weapons => addWeapons(weapons))
+        .then((weapons) => addWeapons(weapons))
         .then(() => {
           console.log('_addWeapons is successfully done.');
           next();
         })
-        .catch(err => next(err));
+        .catch((err) => next(err));
     },
   },
   (err) => {

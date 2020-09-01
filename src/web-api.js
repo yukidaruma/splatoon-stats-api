@@ -25,7 +25,7 @@ const app = express();
 app.disable('x-powered-by');
 
 // Wrap request handler to always handle exception to prevent unhandled promise rejection
-const wrap = fn => (req, res, next) => fn(req, res, next).catch(next);
+const wrap = (fn) => (req, res, next) => fn(req, res, next).catch(next);
 
 app.use(cors(
   process.env.NODE_ENV === 'development'
@@ -60,7 +60,7 @@ app.get('/data', wrap(async (req, res) => {
     .from('weapons')
     .whereNull('reskin_of')
     .orderBy('weapon_id'))
-    .map(w => ({
+    .map((w) => ({
       ...w,
       class: getWeaponClassById(w.weapon_id),
     }));
@@ -77,7 +77,7 @@ app.get('/players/:playerId([\\da-f]{16})/known_names', (req, res) => {
     .where('player_id', '=', req.params.playerId)
     .orderBy('last_used', 'desc')
     .orderBy('player_name', 'asc')
-    .then(rows => res.send(rows));
+    .then((rows) => res.send(rows));
 });
 
 app.get('/players/:playerId([\\da-f]{16})/rankings/:rankingType(league|x|splatfest)', (req, res) => {
@@ -109,10 +109,10 @@ app.get('/players/:playerId([\\da-f]{16})/rankings/:rankingType(league|x|splatfe
       from target_player_league_rankings
       inner join league_schedules on league_schedules.start_time = target_player_league_rankings.start_time
       order by target_player_league_rankings.start_time desc`, [playerId, joinLatestName('peer_league_rankings')])
-      .then(queryResult => queryResult.rows.map((row) => {
+      .then((queryResult) => queryResult.rows.map((row) => {
         if (row.teammates) { // Sometimes data for every other member is missing
           // eslint-disable-next-line no-param-reassign
-          row.teammates = row.teammates.map(teammate => ({
+          row.teammates = row.teammates.map((teammate) => ({
             player_id: teammate[0],
             weapon_id: parseInt(teammate[1], 10), // Convert back to Int
             player_name: teammate[2],
@@ -132,7 +132,7 @@ app.get('/players/:playerId([\\da-f]{16})/rankings/:rankingType(league|x|splatfe
         .orderBy('rule_id', 'asc');
     } else if (rankingType === 'splatfest') {
       query = query
-        .join('splatfest_schedules', knex => knex
+        .join('splatfest_schedules', (knex) => knex
           .on('splatfest_schedules.region', 'splatfest_rankings.region')
           .on('splatfest_schedules.splatfest_id', 'splatfest_rankings.splatfest_id'))
         .orderBy('splatfest_schedules.start_time', 'desc');
@@ -153,7 +153,7 @@ app.get('/players/search', (req, res) => {
     .orderBy('last_used', 'desc')
     .orderBy('player_id', 'asc')
     .limit(50)
-    .then(rows => res.json(rows));
+    .then((rows) => res.json(rows));
 });
 
 app.get('/rankings/x/:year(\\d{4})/:month([1-9]|1[0-2])/:ruleKey([a-z_]+)', (req, res) => {
@@ -211,7 +211,7 @@ app.get('/rankings/splatfest/:region((na|eu|jp))/:splatfestId(\\d+)', (req, res)
     .leftOuterJoin(joinLatestName('splatfest_rankings'))
     .where({ region, splatfest_id: splatfestId })
     .orderBy('rank', 'asc')
-    .then(rows => res.json(rows));
+    .then((rows) => res.json(rows));
 });
 
 const weaponPopularityRouterCallback = (req, res) => {
@@ -228,8 +228,8 @@ const weaponPopularityRouterCallback = (req, res) => {
   queryWeaponRanking({
     rankingType, weaponType, startTime: startTimestamp, endTime: endTimestamp, ruleId, region, splatfestId,
   })
-    .then(ranking => res.json(ranking))
-    .catch(err => res.status(500).send(err));
+    .then((ranking) => res.json(ranking))
+    .catch((err) => res.status(500).send(err));
 };
 
 const weaponTrendRouterCallback = (req, res) => {
@@ -250,11 +250,11 @@ const weaponTrendRouterCallback = (req, res) => {
   queryWeaponUsageDifference({
     rankingType, weaponType, previousMonth, currentMonth, ruleId, /* region, splatfestId, */
   })
-    .then(ranking => res.json(ranking))
-    .catch(err => res.status(500).send(err));
+    .then((ranking) => res.json(ranking))
+    .catch((err) => res.status(500).send(err));
 };
 
-const rulesPattern = rankedRules.map(rule => rule.key).join('|');
+const rulesPattern = rankedRules.map((rule) => rule.key).join('|');
 
 app.get('/weapons/:weaponType(weapons|mains|specials|subs)/:rankingType(league|x)/:year(\\d{4})/:month([1-9]|1[012])', weaponPopularityRouterCallback);
 app.get(`/weapons/:weaponType(weapons|mains|specials|subs)/:rankingType(league|x)/:year(\\d{4})/:month([1-9]|1[012])/:rule(${rulesPattern})`, weaponPopularityRouterCallback);
@@ -277,7 +277,7 @@ app.get('/records', async (req, res) => {
           return [];
         }
         return queryResult.rows.map((row) => {
-          const topPlayers = Object.fromEntries(rankedRuleIds.map(ruleId => [ruleId, null]));
+          const topPlayers = Object.fromEntries(rankedRuleIds.map((ruleId) => [ruleId, null]));
           row.top_players.forEach((player) => {
             topPlayers[player[0]] = {
               player_id: player[1],
@@ -297,7 +297,7 @@ app.get('/records', async (req, res) => {
   }
 
   const xRankedRatingRecords = await Promise.all(
-    rankedRuleIds.map(ruleId => db
+    rankedRuleIds.map((ruleId) => db
       .select('*')
       .from('x_rankings')
       .leftOuterJoin(joinLatestName('x_rankings'))
@@ -377,7 +377,7 @@ app.get('/splatfests', (req, res) => {
     .from('splatfest_schedules')
     .where('start_time', '<', 'now()')
     .orderBy('start_time', 'desc')
-    .then(rows => res.json(rows));
+    .then((rows) => res.json(rows));
 });
 
 app.get('/stats', (req, res) => {
@@ -386,8 +386,8 @@ app.get('/stats', (req, res) => {
         (select count(distinct(start_time)) from x_rankings) as x_rankings,
         (select reltuples::bigint from pg_class where relname='league_rankings') as league_rankings_estimate,
         (select count(*) from splatfest_schedules) as splatfests`)
-    .then(queryResult => queryResult.rows[0])
-    .then(result => res.json(result));
+    .then((queryResult) => queryResult.rows[0])
+    .then((result) => res.json(result));
 });
 
 module.exports = app;

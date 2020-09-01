@@ -41,7 +41,7 @@ const calculateLeagueDate = (startTime) => {
  * @desc Inverse function of calculateLeagueDate.
  * @example calculateStartTimeFromLeagueDate(calculateLeagueDate(startTime)) === startTime
  */
-const calculateStartTimeFromLeagueDate = leagueDate => moment.utc(leagueDate, 'YYMMDDHH', true).local().valueOf();
+const calculateStartTimeFromLeagueDate = (leagueDate) => moment.utc(leagueDate, 'YYMMDDHH', true).local().valueOf();
 
 /**
  * @desc Convert Date object to SQL timestamp string.
@@ -49,7 +49,7 @@ const calculateStartTimeFromLeagueDate = leagueDate => moment.utc(leagueDate, 'Y
  * @returns {String} SQL timestamp string
  * @example dateToSqlTimestamp(moment({ year: 2018, month: 0 })) === '2018-01-01 00:00:00'
  */
-const dateToSqlTimestamp = date => moment(date).tz('UTC').format('YYYY-MM-DD HH:mm:ss');
+const dateToSqlTimestamp = (date) => moment(date).tz('UTC').format('YYYY-MM-DD HH:mm:ss');
 
 /**
  * @desc Escape query to be used in LIKE query.
@@ -57,7 +57,7 @@ const dateToSqlTimestamp = date => moment(date).tz('UTC').format('YYYY-MM-DD HH:
  * @returns {String} Escaped query
  * @example escapeLikeQuery('1% 2% foo_bar') === '1\\% 2\\% foo\\_bar'
  */
-const escapeLikeQuery = query => query.replace(/[%_]/g, m => `\\${m}`);
+const escapeLikeQuery = (query) => query.replace(/[%_]/g, (m) => `\\${m}`);
 
 /**
  * @desc Get weapon class (defined in weaponClasses in `./data`) by weapon id.
@@ -67,29 +67,28 @@ const escapeLikeQuery = query => query.replace(/[%_]/g, m => `\\${m}`);
  * @example getWeaponClassById(0) === 'shooter' // sploosh-o-matic is classified as shooter.
  */
 const getWeaponClassById = (weaponId) => {
-  if ((0 <= weaponId && weaponId < 200) || (300 <= weaponId && weaponId < 1000)) {
+  if ((weaponId >= 0 && weaponId < 200) || (weaponId >= 300 && weaponId < 1000)) {
     return 'shooter';
-  } else if (200 <= weaponId && weaponId < 300) {
+  } if (weaponId >= 200 && weaponId < 300) {
     return 'blaster';
-  } else if (1000 <= weaponId && weaponId < 1100) {
+  } if (weaponId >= 1000 && weaponId < 1100) {
     return 'roller';
-  } else if (1100 <= weaponId && weaponId < 2000) {
+  } if (weaponId >= 1100 && weaponId < 2000) {
     return 'brush';
-  } else if (2000 <= weaponId && weaponId < 3000) {
+  } if (weaponId >= 2000 && weaponId < 3000) {
     return 'charger';
-  } else if (3000 <= weaponId && weaponId < 4000) {
+  } if (weaponId >= 3000 && weaponId < 4000) {
     return 'slosher';
-  } else if (4000 <= weaponId && weaponId < 5000) {
+  } if (weaponId >= 4000 && weaponId < 5000) {
     return 'splatling';
-  } else if (5000 <= weaponId && weaponId < 6000) {
+  } if (weaponId >= 5000 && weaponId < 6000) {
     return 'maneuver';
-  } else if (6000 <= weaponId && weaponId < 7000) {
+  } if (weaponId >= 6000 && weaponId < 7000) {
     return 'brella';
   }
 
   return 'shooter';
 };
-
 
 const i18nCache = new Map();
 
@@ -108,8 +107,7 @@ const i18n = (lang, key) => {
   return resolveObjectPath(i18nCache.get(lang), key);
 };
 
-
-const i18nEn = key => i18n('en', key);
+const i18nEn = (key) => i18n('en', key);
 
 /**
  * @desc Return random number between min and max.
@@ -123,7 +121,7 @@ const randomBetween = (min, max) => Math.random() * (max - min + 1) + min;
  * @param {Number} ms Duration in milliseconds
  * @example await wait(1000); // Wait for 1 second
  */
-const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 module.exports = {
   calculateLeagueDate,

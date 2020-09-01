@@ -2,10 +2,10 @@ const pg = require('pg');
 const knex = require('knex');
 const config = require('../config');
 
-pg.types.setTypeParser(20, val => (val === null ? null : parseInt(val, 10))); // int
-pg.types.setTypeParser(1700, val => (val === null ? null : parseFloat(val, 10))); // numeric
-pg.types.setTypeParser(1114, val => val); // timestamp
-pg.types.setTypeParser(1184, val => val); // timestamptz
+pg.types.setTypeParser(20, (val) => (val === null ? null : parseInt(val, 10))); // int
+pg.types.setTypeParser(1700, (val) => (val === null ? null : parseFloat(val, 10))); // numeric
+pg.types.setTypeParser(1114, (val) => val); // timestamp
+pg.types.setTypeParser(1184, (val) => val); // timestamptz
 
 console.log('connecting %s', (process.env.NODE_ENV === 'test' ? config.POSTGRES_TEST_URL : config.POSTGRES_URL));
 const db = knex({

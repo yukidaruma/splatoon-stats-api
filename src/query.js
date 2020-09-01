@@ -1,16 +1,16 @@
 const { db } = require('./db');
 
 // Note that you may need to add player_names.player_name in select clause.
-const joinLatestName = tableName => db.raw('latest_player_names_mv as player_names on player_names.player_id = :tableName:.player_id', { tableName });
+const joinLatestName = (tableName) => db.raw('latest_player_names_mv as player_names on player_names.player_id = :tableName:.player_id', { tableName });
 
 const queryLatestXRankingStartTime = () => db
   .distinct('start_time')
   .from('x_rankings')
   .orderBy('start_time', 'desc')
   .limit(1)
-  .then(rows => rows[0] && rows[0].start_time);
+  .then((rows) => rows[0] && rows[0].start_time);
 
-const getLeagueSchedule = async startTime => (await db
+const getLeagueSchedule = async (startTime) => (await db
   .select('*')
   .from('league_schedules')
   .where('start_time', startTime))[0];
@@ -21,7 +21,7 @@ const hasXRankingForMonth = async (year, month) => {
   return rows[0].exists;
 };
 
-const queryWeaponUsageDifference = args => new Promise((resolve, reject) => {
+const queryWeaponUsageDifference = (args) => new Promise((resolve, reject) => {
   const {
     rankingType, weaponType, previousMonth, currentMonth, ruleId, /* region, splatfestId, */
   } = args;
@@ -143,7 +143,7 @@ const queryWeaponUsageDifference = args => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-const queryWeaponRanking = args => new Promise((resolve, reject) => {
+const queryWeaponRanking = (args) => new Promise((resolve, reject) => {
   const {
     rankingType, weaponType, startTime, endTime, ruleId, region, splatfestId,
   } = args;
@@ -235,8 +235,8 @@ const queryWeaponRanking = args => new Promise((resolve, reject) => {
       db.raw('100 * count / sum(count) over () as percentage'),
     )
     .from('popular_weapons')
-    .then(result => resolve(result))
-    .catch(err => reject(err));
+    .then((result) => resolve(result))
+    .catch((err) => reject(err));
 });
 
 const queryWeaponTopPlayers = () => db.raw(`
@@ -309,11 +309,12 @@ fetched_splatfests as (
 )
 select * from past_splatfests
   except select * from fetched_splatfests`)
-  .then(queryResult => resolve(queryResult.rows))
-  .catch(err => reject(err)));
+  .then((queryResult) => resolve(queryResult.rows))
+  .catch((err) => reject(err)));
 
 module.exports = {
   getLeagueSchedule,
+  hasXRankingForMonth,
   joinLatestName,
   queryLatestXRankingStartTime,
   queryWeaponRanking,
