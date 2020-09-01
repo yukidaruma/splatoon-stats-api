@@ -11,7 +11,7 @@ const {
   tweetLeagueUpdates,
 } = require('./src/cron-job');
 const { calculateLeagueDate, wait } = require('./src/util');
-const { queryUnfetchedSplatfests } = require('./src/query');
+const { hasXRankingForMonth, queryUnfetchedSplatfests } = require('./src/query');
 const { NintendoAPIError } = require('./src/errors');
 
 // Fetch League Ranking every 2 hours
@@ -69,19 +69,25 @@ new CronJob('23 0 * * *', async () => { // See https://crontab.guru/#23_0_*_*_*
 // Monthly job
 // X Ranking is updated indeterminately (because of National holiday(s) in Japan)
 // eslint-disable-next-line no-new
-new CronJob('20 9 * * *', () => { // See https://crontab.guru/#20_9_*_*_*
+new CronJob('20 0-22/2 * * *', async () => { // See https://crontab.guru/#20_9_*_*_*
   const lastMonth = moment().utc().subtract(1, 'month');
   const year = lastMonth.year();
   const month = lastMonth.month() + 1;
 
-  fetchXRanking(year, month)
-    .then(() => {
-      console.log(`Successfully fetched X Ranking for ${year}/${month}.`);
-    })
-    .catch((err) => {
-      console.log(`Failed to fetch X Ranking for ${year}/${month}.`);
-      console.error(err);
-    });
+  const hasFetched = await hasXRankingForMonth(2020, 1);
+  if (hasFetched) {
+    return;
+  }
+
+  console.log(`Fetching X Ranking for ${year}/${month}.`);
+
+  try {
+    await fetchXRanking(year, month);
+    console.log(`Successfully fetched X Ranking for ${year}/${month}.`);
+  } catch (e) {
+    console.log(`Failed to fetch X Ranking for ${year}/${month}.`);
+    console.error(e);
+  }
 }, null, true, 'UTC');
 
 // Web interface

@@ -15,6 +15,12 @@ const getLeagueSchedule = async startTime => (await db
   .from('league_schedules')
   .where('start_time', startTime))[0];
 
+const hasXRankingForMonth = async (year, month) => {
+  const { rows } = await db.raw('SELECT EXISTS(SELECT 1 FROM X_RANKINGS WHERE START_TIME = ?) AS exists', [`${year}-${month}-1`]);
+
+  return rows[0].exists;
+};
+
 const queryWeaponUsageDifference = args => new Promise((resolve, reject) => {
   const {
     rankingType, weaponType, previousMonth, currentMonth, ruleId, /* region, splatfestId, */
