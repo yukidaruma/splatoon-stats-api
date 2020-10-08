@@ -10,6 +10,52 @@ const queryLatestXRankingStartTime = () => db
   .limit(1)
   .then((rows) => rows[0] && rows[0].start_time);
 
+const LEAGUE_WEAPON_RECORD_COUNT = 10;
+const queryLeagueWeaponRuleRecords = (ruleId, groupType, weaponId) => db.with(
+  'weapon_top_ratings',
+  (cte) => cte
+    .select('group_id', 'rating', 'lr.start_time')
+    .from({ lr: 'league_rankings' })
+    .innerJoin({ ls: 'league_schedules' }, 'lr.start_time', 'ls.start_time')
+    .leftJoin({ w: 'weapons' }, 'lr.weapon_id', 'w.weapon_id')
+    .where('rule_id', ruleId)
+    .where('group_type', groupType.query)
+    .where((q) => q.where('lr.weapon_id', weaponId)
+      .orWhere('reskin_of', weaponId))
+    .orderBy('rating', 'desc')
+    .limit(LEAGUE_WEAPON_RECORD_COUNT * groupType.members),
+).with(
+  'unique_weapon_top_ratings',
+  (cte) => cte.select('*')
+    .from('weapon_top_ratings')
+    .groupBy('group_id')
+    .groupBy('rating')
+    .groupBy('start_time')
+    .orderBy('rating', 'desc')
+    .limit(LEAGUE_WEAPON_RECORD_COUNT),
+).select(
+  'r.group_id',
+  'r.start_time',
+  'ls.stage_ids',
+  'r.rating',
+  db.raw(`array_agg(array[
+    lr.player_id::varchar,
+    lr.weapon_id::varchar,
+    player_name::varchar
+  ]) as teammates`),
+).from({ r: 'unique_weapon_top_ratings' })
+  .groupBy('r.group_id')
+  .groupBy('r.start_time')
+  .groupBy('r.rating')
+  .groupBy('ls.stage_ids')
+  .orderBy('r.rating', 'desc')
+  .innerJoin(
+    { lr: 'league_rankings' },
+    (join) => join.on('r.start_time', 'lr.start_time').andOn('r.group_id', 'lr.group_id'),
+  )
+  .innerJoin({ ls: 'league_schedules' }, 'r.start_time', 'ls.start_time')
+  .leftJoin({ n: 'latest_player_names_mv' }, 'lr.player_id', 'n.player_id');
+
 const getLeagueSchedule = async (startTime) => (await db
   .select('*')
   .from('league_schedules')
@@ -317,6 +363,7 @@ module.exports = {
   hasXRankingForMonth,
   joinLatestName,
   queryLatestXRankingStartTime,
+  queryLeagueWeaponRuleRecords,
   queryWeaponRanking,
   queryWeaponUsageDifference,
   queryWeaponTopPlayers,

@@ -12,10 +12,13 @@ const {
   escapeLikeQuery,
   getWeaponClassById,
 } = require('./util');
-const { findRuleId, rankedRules, rankedRuleIds } = require('./data');
+const {
+  groupTypes, findRuleId, rankedRules, rankedRuleIds,
+} = require('./data');
 const {
   joinLatestName,
   queryLatestXRankingStartTime,
+  queryLeagueWeaponRuleRecords,
   queryWeaponRanking,
   queryWeaponUsageDifference,
   queryWeaponTopPlayers,
@@ -307,19 +310,6 @@ app.get('/records', async (req, res) => {
       .limit(10)),
   );
 
-  const groupTypes = [
-    {
-      key: 'team',
-      query: 'T',
-      members: 4,
-    },
-    {
-      key: 'pair',
-      query: 'P',
-      members: 2,
-    },
-  ];
-
   const leagueRatingRecords = {};
   await Promise.all(groupTypes.map((async (groupType) => {
     await Promise.all(rankedRuleIds.map(async (ruleId, i) => {
@@ -370,6 +360,23 @@ app.get('/records', async (req, res) => {
     x_ranked_rating_records: xRankedRatingRecords,
   });
 });
+
+app.get('/records/league-weapon', wrap(async (req, res) => {
+  let { group_type: groupType, weapon_id: weaponId } = req.query;
+  weaponId = Number.parseInt(weaponId, 10);
+
+  if (Number.isNaN(weaponId)) {
+    res.status(400).send('Missing required parameter: weaponId.');
+    return;
+  }
+
+  groupType = groupTypes.find((type) => type.query === groupType) || groupTypes[0];
+
+  const promises = rankedRuleIds.map((ruleId) => queryLeagueWeaponRuleRecords(ruleId, groupType, weaponId));
+  const records = await Promise.all(promises);
+
+  res.json(Object.fromEntries(records.map((value, i) => [i + 1, value])));
+}));
 
 app.get('/splatfests', (req, res) => {
   db

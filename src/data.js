@@ -1,5 +1,21 @@
 const memoize = require('memoizee');
 
+/**
+ * @var Array<{ key: string; query: string; members: number; }>
+ */
+const groupTypes = [
+  {
+    key: 'team',
+    query: 'T',
+    members: 4,
+  },
+  {
+    key: 'pair',
+    query: 'P',
+    members: 2,
+  },
+];
+
 // numbers in comments indicates Splatnet API weapon id
 const weaponClasses = [
   'shooter', // 0~
@@ -89,6 +105,7 @@ const findRuleKey = memoize((id) => rankedRules.find((rule) => rule.id === id).k
 const findRuleId = memoize((key) => rankedRules.find((rule) => rule.key === key).id);
 
 module.exports = {
+  groupTypes,
   weaponClasses,
   specialWeapons,
   subWeapons,
