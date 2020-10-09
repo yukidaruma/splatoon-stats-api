@@ -56,6 +56,26 @@ const queryLeagueWeaponRuleRecords = (ruleId, groupType, weaponId) => db.with(
   .innerJoin({ ls: 'league_schedules' }, 'r.start_time', 'ls.start_time')
   .leftJoin({ n: 'latest_player_names_mv' }, 'lr.player_id', 'n.player_id');
 
+const xWeaponRuleRecordsQuery = (query, cols, ruleId, weaponId) => query.select(...cols)
+  .from({ xr: 'x_rankings' })
+  .leftJoin({ w: 'weapons' }, 'xr.weapon_id', 'w.weapon_id')
+  .where('rule_id', ruleId)
+  .where((q) => q.where('xr.weapon_id', weaponId)
+    .orWhere('reskin_of', weaponId));
+
+const queryXWeaponRuleRecords = (ruleId, weaponId) => db.with(
+  'weapon_top_ratings',
+  (cte) => xWeaponRuleRecordsQuery(cte, ['player_id', 'xr.weapon_id', 'rating', 'start_time'], ruleId, weaponId)
+    .orderBy('rating', 'desc')
+    .limit(LEAGUE_WEAPON_RECORD_COUNT),
+)
+  .select('*')
+  .from({ r: 'weapon_top_ratings' })
+  .innerJoin({ n: 'latest_player_names_mv' }, 'r.player_id', 'n.player_id');
+
+const queryXWeaponRuleRecordsCount = (ruleId, weaponId) => xWeaponRuleRecordsQuery(db, [db.raw('count(*)')], ruleId, weaponId)
+  .then(([count]) => count.count);
+
 const getLeagueSchedule = async (startTime) => (await db
   .select('*')
   .from('league_schedules')
@@ -344,7 +364,7 @@ const queryWeaponTopPlayers = () => db.raw(`
       group by unique_weapon_id
       order by unique_weapon_id asc`, [joinLatestName('x_rankings')]);
 
-const queryUnfetchedSplatfests = () => new Promise((resolve, reject) => db.raw(`
+const queryUnfetchedSplatfests = () => db.raw(`
 with past_splatfests as (
   select region, splatfest_id from splatfest_schedules
     where end_time < now()
@@ -355,8 +375,7 @@ fetched_splatfests as (
 )
 select * from past_splatfests
   except select * from fetched_splatfests`)
-  .then((queryResult) => resolve(queryResult.rows))
-  .catch((err) => reject(err)));
+  .then((queryResult) => queryResult.rows);
 
 module.exports = {
   getLeagueSchedule,
@@ -364,6 +383,8 @@ module.exports = {
   joinLatestName,
   queryLatestXRankingStartTime,
   queryLeagueWeaponRuleRecords,
+  queryXWeaponRuleRecords,
+  queryXWeaponRuleRecordsCount,
   queryWeaponRanking,
   queryWeaponUsageDifference,
   queryWeaponTopPlayers,
