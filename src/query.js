@@ -1,4 +1,12 @@
+const fs = require('fs');
 const { db } = require('./db');
+
+const weaponTable = JSON.parse(fs.readFileSync('cache/weapon-table.json'));
+/**
+ * @param {Number} weaponId
+ * @returns {Number[]} Reskin weapon ids
+ */
+const getWeaponReskins = (weaponId) => weaponTable.reskins[weaponId] || [];
 
 // Note that you may need to add player_names.player_name in select clause.
 const joinLatestName = (tableName) => db.raw('latest_player_names_mv as player_names on player_names.player_id = :tableName:.player_id', { tableName });
@@ -17,11 +25,9 @@ const queryLeagueWeaponRuleRecords = (ruleId, groupType, weaponId) => db.with(
     .select('group_id', 'rating', 'lr.start_time')
     .from({ lr: 'league_rankings' })
     .innerJoin({ ls: 'league_schedules' }, 'lr.start_time', 'ls.start_time')
-    .leftJoin({ w: 'weapons' }, 'lr.weapon_id', 'w.weapon_id')
     .where('rule_id', ruleId)
     .where('group_type', groupType.query)
-    .where((q) => q.where('lr.weapon_id', weaponId)
-      .orWhere('reskin_of', weaponId))
+    .whereIn('lr.weapon_id', [weaponId, ...getWeaponReskins(weaponId)])
     .orderBy('rating', 'desc')
     .limit(LEAGUE_WEAPON_RECORD_COUNT * groupType.members),
 ).with(
@@ -58,10 +64,8 @@ const queryLeagueWeaponRuleRecords = (ruleId, groupType, weaponId) => db.with(
 
 const xWeaponRuleRecordsQuery = (query, cols, ruleId, weaponId) => query.select(...cols)
   .from({ xr: 'x_rankings' })
-  .leftJoin({ w: 'weapons' }, 'xr.weapon_id', 'w.weapon_id')
   .where('rule_id', ruleId)
-  .where((q) => q.where('xr.weapon_id', weaponId)
-    .orWhere('reskin_of', weaponId));
+  .whereIn('xr.weapon_id', [weaponId, ...getWeaponReskins(weaponId)]);
 
 const queryXWeaponRuleRecords = (ruleId, weaponId) => db.with(
   'weapon_top_ratings',

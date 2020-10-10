@@ -3,9 +3,10 @@ const fs = require('fs');
 const { db } = require('../db');
 
 /** @type {{ out: string }} */
-const { out: outPath } = commandLineArgs([
-  { name: 'out', type: String },
+const { stdout } = commandLineArgs([
+  { name: 'stdout', type: Boolean },
 ]);
+const outPath = stdout ? null : 'cache/weapon-table.json';
 
 (async () => {
   const groupByColumnNames = ['main_reference', 'special_weapon_id', 'sub_weapon_id'];
@@ -15,7 +16,19 @@ const { out: outPath } = commandLineArgs([
     sub_weapon_id: 'subs',
   };
 
-  const output = {};
+  const output = {
+    reskins: {},
+  };
+
+  const { rows: reskins } = await db.raw(`
+  SELECT reskin_of, array_agg(weapon_id) AS weapon_ids
+  FROM weapons
+  WHERE reskin_of IS NOT NULL
+  GROUP BY reskin_of
+  `);
+  reskins.forEach((row) => {
+    output.reskins[row.reskin_of] = row.weapon_ids;
+  });
 
   // eslint-disable-next-line no-restricted-syntax
   for await (const columName of groupByColumnNames) {
