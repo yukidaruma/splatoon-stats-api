@@ -36,6 +36,7 @@ CREATE TABLE IF NOT EXISTS league_rankings (
 -- CREATE INDEX IF NOT EXISTS league_rankings_group_type_idx ON league_rankings (group_type);
 CREATE INDEX IF NOT EXISTS league_rankings_player_id_idx ON league_rankings (player_id);
 CREATE INDEX IF NOT EXISTS league_rankings_rating_idx ON league_rankings (rating);
+CREATE INDEX IF NOT EXISTS league_rankings_rating_weapon_id_idx ON league_rankings (rating, weapon_id);
 
 -- This table is used to prevent fetch-league-rankings from fetching nonexistent league rankings.
 CREATE TABLE IF NOT EXISTS missing_league_rankings (
@@ -52,6 +53,7 @@ CREATE TABLE IF NOT EXISTS x_rankings (
   PRIMARY KEY (start_time, rule_id, player_id)
 );
 CREATE INDEX IF NOT EXISTS x_rankings_rating_idx ON x_rankings (rating);
+CREATE INDEX IF NOT EXISTS x_rankings_rating_weapon_id_idx ON x_rankings (rating, weapon_id);
 
 CREATE TABLE IF NOT EXISTS splatfest_rankings (
   region CHAR(2),
