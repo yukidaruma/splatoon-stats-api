@@ -309,7 +309,7 @@ app.get('/records', async (req, res) => {
       .where('rule_id', ruleId)
       .orderBy('rating', 'desc')
       .orderBy('x_rankings.player_id')
-      .limit(10)),
+      .limit(30)),
   );
 
   const leagueRatingRecords = {};
@@ -338,7 +338,7 @@ app.get('/records', async (req, res) => {
         groupType: groupType.query,
         ruleId,
         joinQuery: joinLatestName('cte'),
-        limit: groupType.members * 10,
+        limit: groupType.members * 30,
       })).rows;
     }));
   })));
