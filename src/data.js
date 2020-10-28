@@ -1,4 +1,18 @@
+const fs = require('fs');
 const memoize = require('memoizee');
+
+const weaponTable = JSON.parse(fs.readFileSync('cache/weapon-table.json'));
+/**
+ * @param {Number} weaponId
+ * @returns {Number[]} Reskin weapon ids
+ */
+const getWeaponReskins = (weaponId) => weaponTable.reskins[weaponId] || [];
+
+const getOriginalWeaponId = memoize((weaponId) => {
+  const reskins = Object.entries(weaponTable.reskins).find(([_, variants]) => variants.includes(weaponId));
+  if (reskins) { return Number(reskins[0]); }
+  return weaponId;
+});
 
 /**
  * @var Array<{ key: string; query: string; members: number; }>
@@ -105,6 +119,8 @@ const findRuleKey = memoize((id) => rankedRules.find((rule) => rule.id === id).k
 const findRuleId = memoize((key) => rankedRules.find((rule) => rule.key === key).id);
 
 module.exports = {
+  getOriginalWeaponId,
+  getWeaponReskins,
   groupTypes,
   weaponClasses,
   specialWeapons,

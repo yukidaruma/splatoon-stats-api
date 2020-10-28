@@ -13,7 +13,7 @@ const {
   getWeaponClassById,
 } = require('./util');
 const {
-  groupTypes, findRuleId, rankedRules, rankedRuleIds,
+  groupTypes, findRuleId, rankedRules, rankedRuleIds, getOriginalWeaponId,
 } = require('./data');
 const {
   joinLatestName,
@@ -24,6 +24,7 @@ const {
   queryWeaponTopPlayers,
   queryXWeaponRuleRecords,
   queryXWeaponRuleRecordsCount,
+  getWeaponIds,
 } = require('./query');
 
 const app = express();
@@ -268,35 +269,35 @@ app.get('/weapons/:weaponType(weapons|mains|specials|subs)/:rankingType(splatfes
 app.get('/trends/:weaponType(weapons|mains|specials|subs)/:rankingType(x)/', weaponTrendRouterCallback);
 app.get(`/trends/:weaponType(weapons|mains|specials|subs)/:rankingType(x)/:rule(${rulesPattern})`, weaponTrendRouterCallback);
 
-app.get('/records', async (req, res) => {
+app.get('/records', wrap(async (req, res) => {
   const latestXRankingTime = await queryLatestXRankingStartTime();
   const cachePath = `cache/weapons-x-top-players.${moment(latestXRankingTime).format('YYYY-MM')}.json`;
-  let weaponTopPlayers;
+  let cacheHit = false;
+  let weaponTopPlayers = [];
 
   if (fs.existsSync(cachePath)) {
+    cacheHit = true;
     weaponTopPlayers = JSON.parse(fs.readFileSync(cachePath));
   } else {
-    weaponTopPlayers = await queryWeaponTopPlayers()
-      .then((queryResult) => {
-        if (queryResult.rows.length === 0) {
-          return [];
-        }
-        return queryResult.rows.map((row) => {
-          const topPlayers = Object.fromEntries(rankedRuleIds.map((ruleId) => [ruleId, null]));
-          row.top_players.forEach((player) => {
-            topPlayers[player[0]] = {
-              player_id: player[1],
-              name: player[2],
-              rating: Number(player[3]),
-              start_time: player[4],
-            };
-          });
-          return {
-            weapon_id: row.weapon_id,
-            top_players: topPlayers,
-          };
-        });
-      });
+    const weaponIds = await getWeaponIds();
+    /** @type Array<Array<{ rule_id: number; rating: number; start_time: string; player_name: string; player_id: string; weapon_id: number; }>>> */
+    const weaponRecords = (await Promise.all(weaponIds.map(queryWeaponTopPlayers))).filter(Boolean);
+    weaponTopPlayers = weaponRecords.map((weapon) => {
+      const topPlayers = Object.fromEntries(weapon.map((player) => [
+        player.rule_id,
+        {
+          player_id: player.player_id,
+          name: player.player_name,
+          rating: Number(player.rating),
+          start_time: player.start_time,
+        },
+      ]));
+
+      return {
+        weapon_id: getOriginalWeaponId(weapon[0].weapon_id),
+        top_players: topPlayers,
+      };
+    });
 
     fs.writeFileSync(cachePath, JSON.stringify(weaponTopPlayers));
   }
@@ -356,12 +357,13 @@ app.get('/records', async (req, res) => {
     .orderBy('start_time', 'desc');
 
   res.json({
+    cacheHit,
     league_rating_records: leagueRatingRecords,
     monthly_league_battles_records: monthlyLeagueBattlesRecords,
     weapons_top_players: weaponTopPlayers,
     x_ranked_rating_records: xRankedRatingRecords,
   });
-});
+}));
 
 app.get('/records/league-weapon', wrap(async (req, res) => {
   let { group_type: groupType, weapon_id: weaponId } = req.query;

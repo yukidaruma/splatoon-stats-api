@@ -1,12 +1,6 @@
-const fs = require('fs');
+const Knex = require('knex');
 const { db } = require('./db');
-
-const weaponTable = JSON.parse(fs.readFileSync('cache/weapon-table.json'));
-/**
- * @param {Number} weaponId
- * @returns {Number[]} Reskin weapon ids
- */
-const getWeaponReskins = (weaponId) => weaponTable.reskins[weaponId] || [];
+const { getWeaponReskins } = require('./data');
 
 // Note that you may need to add player_names.player_name in select clause.
 const joinLatestName = (tableName) => db.raw('latest_player_names_mv as player_names on player_names.player_id = :tableName:.player_id', { tableName });
@@ -84,6 +78,11 @@ const getLeagueSchedule = async (startTime) => (await db
   .select('*')
   .from('league_schedules')
   .where('start_time', startTime))[0];
+
+const getWeaponIds = async () => {
+  const rows = await db.select('weapon_id').from('weapons').whereNull('reskin_of').orderBy('weapon_id');
+  return rows.map(({ weapon_id: id }) => id);
+};
 
 const hasXRankingForMonth = async (year, month) => {
   const { rows } = await db.raw('SELECT EXISTS(SELECT 1 FROM X_RANKINGS WHERE START_TIME = ?) AS exists', [`${year}-${month}-1`]);
@@ -309,65 +308,29 @@ const queryWeaponRanking = (args) => new Promise((resolve, reject) => {
     .catch((err) => reject(err));
 });
 
-const queryWeaponTopPlayers = () => db.raw(`
-    with unique_weapon_ids as (
-      select
-          case
-            when weapons.reskin_of is NOT NULL then weapons.reskin_of
-            else weapons.weapon_id
-          end as unique_weapon_id
-          from weapons
-          group by unique_weapon_id
-    ),
-    weapon_x_rule as (
-      select rule_id, unique_weapon_id
-        from unique_weapon_ids
-        cross join (select rule_id from ranked_rules) as rule_ids
-    ),
-    weapon_x_rule_top_players as (
-      select
-          weapon_x_rule.rule_id,
-          weapon_x_rule.unique_weapon_id,
-          top_players.player_id,
-          player_name,
-          rating,
-          start_time
-        from weapon_x_rule
-        inner join (
-          select
-              rule_id,
-              x_rankings.player_id,
-              player_name,
-              start_time,
-              rating,
-              row_number () over
-                (partition by x_rankings.rule_id, x_rankings.weapon_id order by rating desc, x_rankings.player_id asc)
-                as weapon_top_players_rank,
-              case
-                when weapons.reskin_of is NOT NULL then weapons.reskin_of
-                else weapons.weapon_id
-              end as unique_weapon_id
-            from x_rankings
-            inner join weapons on weapons.weapon_id = x_rankings.weapon_id
-            left outer join ?
-        ) as top_players
-        on weapon_x_rule.rule_id = top_players.rule_id and
-          weapon_x_rule.unique_weapon_id = top_players.unique_weapon_id and
-          weapon_top_players_rank = 1
-    )
-    select
-        unique_weapon_id as weapon_id,
-        array_agg(array[
-          rule_id::varchar,
-          player_id::varchar,
-          player_name::varchar,
-          rating::varchar,
-          start_time::varchar
-        ]) as top_players
-      from weapon_x_rule_top_players
-      group by unique_weapon_id
-      order by unique_weapon_id asc`, [joinLatestName('x_rankings')]);
-
+const queryWeaponTopPlayers = async (weaponId) => {
+  const { rows } = await db.raw(`
+  WITH cte AS (
+    SELECT
+      rule_id,
+      start_time,
+      player_id,
+      ROW_NUMBER() OVER (partition BY rule_id ORDER BY rating DESC) AS rn
+    FROM x_rankings
+    WHERE weapon_id = ANY(:weaponIds)
+  )
+  SELECT *
+  FROM cte
+  INNER JOIN x_rankings xr
+    ON cte.rule_id = xr.rule_id
+    AND cte.player_id = xr.player_id
+    AND cte.start_time = xr.start_time
+  INNER JOIN latest_player_names_mv n
+    ON cte.player_id = n.player_id
+  WHERE rn = 1
+  `, { weaponIds: [weaponId, ...getWeaponReskins(weaponId)] });
+  return rows;
+};
 const queryUnfetchedSplatfests = () => db.raw(`
 with past_splatfests as (
   select region, splatfest_id from splatfest_schedules
@@ -383,6 +346,7 @@ select * from past_splatfests
 
 module.exports = {
   getLeagueSchedule,
+  getWeaponIds,
   hasXRankingForMonth,
   joinLatestName,
   queryLatestXRankingStartTime,
