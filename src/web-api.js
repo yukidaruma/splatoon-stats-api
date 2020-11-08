@@ -199,6 +199,10 @@ app.get('/rankings/x/:year(\\d{4})/:month([1-9]|1[0-2])/:ruleKey([a-z_]+)', wrap
     .whereRaw('start_time = to_timestamp(?)', [startTime.unix()])
     .orderBy('rank', 'asc')
     .orderBy('x_rankings.player_id', 'asc');
+  if (!rows.length) {
+    res.sendStatus(404);
+    return;
+  }
   res.json(rows);
 }));
 
@@ -226,6 +230,12 @@ app.get('/rankings/league/:leagueDate(\\d{8}):groupType([TP])', wrap(async (req,
       order by rank asc`,
     { startTime: startTime / 1000, groupType, joinQuery: joinLatestName('l2') },
   );
+
+  const { rows } = result;
+  if (!rows.length) {
+    res.sendStatus(404);
+    return;
+  }
   res.json(result.rows);
 }));
 
@@ -238,6 +248,10 @@ app.get('/rankings/splatfest/:region((na|eu|jp))/:splatfestId(\\d+)', wrap(async
     .leftOuterJoin(joinLatestName('splatfest_rankings'))
     .where({ region, splatfest_id: splatfestId })
     .orderBy('rank', 'asc');
+  if (!rows.length) {
+    res.sendStatus(404);
+    return;
+  }
   res.json(rows);
 }));
 
@@ -253,10 +267,14 @@ const weaponPopularityRouterCallback = wrap(async (req, res) => {
   const endTimestamp = dateToSqlTimestamp(startTime.add({ month: 1 }));
 
   try {
-    const ranking = await queryWeaponRanking({
+    const rows = await queryWeaponRanking({
       rankingType, weaponType, startTime: startTimestamp, endTime: endTimestamp, ruleId, region, splatfestId,
     });
-    res.json(ranking);
+    if (!rows.length) {
+      res.sendStatus(404);
+      return;
+    }
+    res.json(rows);
   } catch (e) {
     res.status(500).send(e);
   }
@@ -278,10 +296,14 @@ const weaponTrendRouterCallback = wrap(async (req, res) => {
   const ruleId = rule ? findRuleId(rule) : 0;
 
   try {
-    const ranking = await queryWeaponUsageDifference({
+    const rows = await queryWeaponUsageDifference({
       rankingType, weaponType, previousMonth, currentMonth, ruleId, /* region, splatfestId, */
     });
-    res.json(ranking);
+    if (rows[0].current_month_count === 0) {
+      res.sendStatus(404);
+      return;
+    }
+    res.json(rows);
   } catch (e) {
     res.status(500).send(e);
   }
