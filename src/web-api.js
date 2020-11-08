@@ -1,3 +1,5 @@
+/** @typedef {import('..').AsyncRouteHandler} AsyncRouteHandler */
+
 const fs = require('fs');
 const express = require('express');
 const morgan = require('morgan');
@@ -30,7 +32,7 @@ const {
 const app = express();
 app.disable('x-powered-by');
 
-// Wrap request handler to always handle exception to prevent unhandled promise rejection
+/** @type {AsyncRouteHandler} */
 const wrap = (fn) => (req, res, next) => fn(req, res, next).catch(next);
 
 app.use(cors(
@@ -61,32 +63,33 @@ app.get('/', (req, res) => {
 });
 
 app.get('/data', wrap(async (req, res) => {
-  const weapons = (await db
+  const rows = await db
     .select('weapon_id', db.raw('main_reference != weapon_id as is_variant'))
     .from('weapons')
     .whereNull('reskin_of')
-    .orderBy('weapon_id'))
-    .map((w) => ({
-      ...w,
-      class: getWeaponClassById(w.weapon_id),
-    }));
+    .orderBy('weapon_id');
+  const weapons = rows.map((w) => ({
+    ...w,
+    class: getWeaponClassById(w.weapon_id),
+  }));
 
   res.json({
     weapons,
   });
 }));
 
-app.get('/players/:playerId([\\da-f]{16})/known_names', (req, res) => {
-  db
+app.get('/players/:playerId([\\da-f]{16})/known_names', wrap(async (req, res) => {
+  const rows = await db
     .select('player_name', 'last_used')
     .from('player_known_names')
     .where('player_id', '=', req.params.playerId)
     .orderBy('last_used', 'desc')
-    .orderBy('player_name', 'asc')
-    .then((rows) => res.send(rows));
-});
+    .orderBy('player_name', 'asc');
 
-app.get('/players/:playerId([\\da-f]{16})/rankings/:rankingType(league|x|splatfest)', (req, res) => {
+  res.send(rows);
+}));
+
+app.get('/players/:playerId([\\da-f]{16})/rankings/:rankingType(league|x|splatfest)', wrap(async (req, res) => {
   const { rankingType, playerId } = req.params;
 
   const tableName = `${rankingType}_rankings`;
@@ -145,44 +148,42 @@ app.get('/players/:playerId([\\da-f]{16})/rankings/:rankingType(league|x|splatfe
     }
   }
 
-  query.then((rows) => {
-    res.json(rows);
-  });
-});
+  const rows = await query;
+  res.json(rows);
+}));
 
-app.get('/players/search', (req, res) => {
+app.get('/players/search', wrap(async (req, res) => {
   const { name } = req.query;
-  db
+
+  const rows = await db
     .select(['player_id', 'player_name', 'last_used'])
     .from('player_known_names')
     .where('player_name', 'ilike', `%${escapeLikeQuery(name)}%`)
     .orderBy('last_used', 'desc')
     .orderBy('player_id', 'asc')
-    .limit(50)
-    .then((rows) => res.json(rows));
-});
+    .limit(50);
+  res.json(rows);
+}));
 
-app.get('/rankings/x/:year(\\d{4})/:month([1-9]|1[0-2])/:ruleKey([a-z_]+)', (req, res) => {
+app.get('/rankings/x/:year(\\d{4})/:month([1-9]|1[0-2])/:ruleKey([a-z_]+)', wrap(async (req, res) => {
   const { year, month, ruleKey } = req.params;
 
   const ruleId = findRuleId(ruleKey);
   const startTime = moment.utc({ year, month: month - 1 });
 
-  db
+  const rows = await db
     .select(['x_rankings.player_id', 'weapon_id', 'rank', 'rating', 'player_names.player_name'])
     .from('x_rankings')
     .leftOuterJoin(joinLatestName('x_rankings'))
     .where('rule_id', ruleId)
     .whereRaw('start_time = to_timestamp(?)', [startTime.unix()])
     .orderBy('rank', 'asc')
-    .orderBy('x_rankings.player_id', 'asc')
-    .then((rows) => {
-      res.json(rows);
-    });
-});
+    .orderBy('x_rankings.player_id', 'asc');
+  res.json(rows);
+}));
 
 // eslint-disable-next-line
-app.get('/rankings/league/:leagueDate(\\d{8}):groupType([TP])', (req, res) => {
+app.get('/rankings/league/:leagueDate(\\d{8}):groupType([TP])', wrap(async (req, res) => {
   const { leagueDate, groupType } = req.params;
 
   const startTime = calculateStartTimeFromLeagueDate(leagueDate);
@@ -193,8 +194,8 @@ app.get('/rankings/league/:leagueDate(\\d{8}):groupType([TP])', (req, res) => {
     return;
   }
 
-  db.raw(`
-    select
+  const result = await db.raw(
+    `select
         distinct rank, rating, group_id,
         (select array_agg(array[l2.player_id, l2.weapon_id::varchar, player_names.player_name])
           from league_rankings as l2
@@ -202,25 +203,25 @@ app.get('/rankings/league/:leagueDate(\\d{8}):groupType([TP])', (req, res) => {
           where l1.group_id = l2.group_id AND start_time = to_timestamp(:startTime)) as group_members
       from league_rankings as l1
       where start_time = to_timestamp(:startTime) AND group_type = :groupType
-      order by rank asc`, { startTime: startTime / 1000, groupType, joinQuery: joinLatestName('l2') })
-    .then((result) => {
-      res.json(result.rows);
-    });
-});
+      order by rank asc`,
+    { startTime: startTime / 1000, groupType, joinQuery: joinLatestName('l2') },
+  );
+  res.json(result.rows);
+}));
 
-app.get('/rankings/splatfest/:region((na|eu|jp))/:splatfestId(\\d+)', (req, res) => {
+app.get('/rankings/splatfest/:region((na|eu|jp))/:splatfestId(\\d+)', wrap(async (req, res) => {
   const { region, splatfestId } = req.params;
 
-  db
+  const rows = await db
     .select('*')
     .from('splatfest_rankings')
     .leftOuterJoin(joinLatestName('splatfest_rankings'))
     .where({ region, splatfest_id: splatfestId })
-    .orderBy('rank', 'asc')
-    .then((rows) => res.json(rows));
-});
+    .orderBy('rank', 'asc');
+  res.json(rows);
+}));
 
-const weaponPopularityRouterCallback = (req, res) => {
+const weaponPopularityRouterCallback = wrap(async (req, res) => {
   const {
     rankingType, weaponType, year, month, rule, region, splatfestId,
   } = req.params;
@@ -231,14 +232,17 @@ const weaponPopularityRouterCallback = (req, res) => {
   const startTimestamp = dateToSqlTimestamp(startTime);
   const endTimestamp = dateToSqlTimestamp(startTime.add({ month: 1 }));
 
-  queryWeaponRanking({
-    rankingType, weaponType, startTime: startTimestamp, endTime: endTimestamp, ruleId, region, splatfestId,
-  })
-    .then((ranking) => res.json(ranking))
-    .catch((err) => res.status(500).send(err));
-};
+  try {
+    const ranking = await queryWeaponRanking({
+      rankingType, weaponType, startTime: startTimestamp, endTime: endTimestamp, ruleId, region, splatfestId,
+    });
+    res.json(ranking);
+  } catch (e) {
+    res.status(500).send(e);
+  }
+});
 
-const weaponTrendRouterCallback = (req, res) => {
+const weaponTrendRouterCallback = wrap(async (req, res) => {
   const {
     rankingType, weaponType, rule, /* region, splatfestId, */
   } = req.params;
@@ -253,12 +257,15 @@ const weaponTrendRouterCallback = (req, res) => {
 
   const ruleId = rule ? findRuleId(rule) : 0;
 
-  queryWeaponUsageDifference({
-    rankingType, weaponType, previousMonth, currentMonth, ruleId, /* region, splatfestId, */
-  })
-    .then((ranking) => res.json(ranking))
-    .catch((err) => res.status(500).send(err));
-};
+  try {
+    const ranking = await queryWeaponUsageDifference({
+      rankingType, weaponType, previousMonth, currentMonth, ruleId, /* region, splatfestId, */
+    });
+    res.json(ranking);
+  } catch (e) {
+    res.status(500).send(e);
+  }
+});
 
 const rulesPattern = rankedRules.map((rule) => rule.key).join('|');
 
@@ -405,23 +412,22 @@ app.get('/records/x-weapon', wrap(async (req, res) => {
   res.json(Object.fromEntries(records.map((value, i) => [i + 1, value])));
 }));
 
-app.get('/splatfests', (req, res) => {
-  db
+app.get('/splatfests', wrap(async (req, res) => {
+  const rows = await db
     .select('*')
     .from('splatfest_schedules')
     .where('start_time', '<', 'now()')
-    .orderBy('start_time', 'desc')
-    .then((rows) => res.json(rows));
-});
+    .orderBy('start_time', 'desc');
+  res.json(rows);
+}));
 
-app.get('/stats', (req, res) => {
-  db.raw(`
+app.get('/stats', wrap(async (req, res) => {
+  const result = await db.raw(`
     select
         (select count(distinct(start_time)) from x_rankings) as x_rankings,
         (select reltuples::bigint from pg_class where relname='league_rankings') as league_rankings_estimate,
-        (select count(*) from splatfest_schedules) as splatfests`)
-    .then((queryResult) => queryResult.rows[0])
-    .then((result) => res.json(result));
-});
+        (select count(*) from splatfest_schedules) as splatfests`);
+  res.json(result.rows[0]);
+}));
 
 module.exports = app;
