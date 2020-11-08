@@ -45,11 +45,24 @@ if (config.SENTRY_DSN) {
       new Tracing.Integrations.Express({ app }),
     ],
 
-    tracesSampleRate: 1.0,
+    tracesSampler(context) {
+      if (context.parentSampled) {
+        return context.parentSampled;
+      }
+
+      const url = new URL(context.request.url);
+      if (url.pathname.startsWith('/static')) {
+        return 0;
+      }
+
+      return config.SENTRY_TRACE_SAMPLE_RATE;
+    },
   });
 
   app.use(Sentry.Handlers.requestHandler());
-  app.use(Sentry.Handlers.tracingHandler());
+  if (process.env.NODE_ENV === 'production') {
+    app.use(Sentry.Handlers.tracingHandler());
+  }
 }
 
 /** @type {AsyncRouteHandler} */
