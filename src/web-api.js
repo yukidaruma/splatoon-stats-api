@@ -5,6 +5,8 @@ const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
 const moment = require('moment-timezone');
+const Sentry = require('@sentry/node');
+const Tracing = require('@sentry/tracing');
 
 const config = require('../config');
 const { db } = require('./db');
@@ -31,6 +33,24 @@ const {
 
 const app = express();
 app.disable('x-powered-by');
+
+if (config.SENTRY_DSN) {
+  console.log('Sentry is enabled for logging.');
+
+  Sentry.init({
+    dsn: config.SENTRY_DSN,
+    environment: process.env.NODE_ENV,
+    integrations: [
+      new Sentry.Integrations.Http({ tracing: true }),
+      new Tracing.Integrations.Express({ app }),
+    ],
+
+    tracesSampleRate: 1.0,
+  });
+
+  app.use(Sentry.Handlers.requestHandler());
+  app.use(Sentry.Handlers.tracingHandler());
+}
 
 /** @type {AsyncRouteHandler} */
 const wrap = (fn) => (req, res, next) => fn(req, res, next).catch(next);

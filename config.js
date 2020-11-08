@@ -7,6 +7,8 @@ const defaults = {
   // Cache duration for reverse proxy (shared cache). Set to 0 if unnecessary.
   GET_REQUEST_CACHE_DURATION: 86400,
 
+  SENTRY_DSN: '',
+
   DO_NOT_FETCH_SPLATFEST: true,
 
   // These values are used for Splatnet 2 API.

@@ -78,5 +78,5 @@ new CronJob('20 0-22/2 * * *', fetchXRankingsJob, null, true, 'UTC');
 
 // Web interface
 app.listen(config.PORT, () => {
-  console.log(`Web server is listening on ${config.PORT}.`);
+  console.log(`Web server is listening on ${config.PORT} (NODE_ENV=${process.env.NODE_ENV}).`);
 });
