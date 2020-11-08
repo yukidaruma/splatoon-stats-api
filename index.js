@@ -11,6 +11,7 @@ const {
 const { tweetLeagueUpdates } = require('./src/twitter-bot');
 const { calculateLeagueDate } = require('./src/util');
 const { NintendoAPIError } = require('./src/errors');
+const { hasXRankingForMonth } = require('./src/query');
 
 // Fetch League Rankings every 2 hours
 const fetchLeagueRankingsJob = () => {
