@@ -310,6 +310,28 @@ const queryWeaponRanking = (args) => new Promise((resolve, reject) => {
     .catch((err) => reject(err));
 });
 
+const queryWeaponTopPlayersForMonth = async (month, ruleId, weaponIds) => {
+  const rows = await db.with('cte', (context) => {
+    return context.select(
+      'player_id',
+      'rank',
+      'rating',
+      'weapon_id',
+      db.raw('ROW_NUMBER() OVER (partition BY weapon_id ORDER BY rating DESC) AS rank_of_weapon'),
+    )
+      .from('x_rankings')
+      .where('rule_id', ruleId)
+      .where('start_time', month)
+      .whereIn('weapon_id', weaponIds);
+  })
+    .select('*')
+    .from('cte')
+    .innerJoin({ n: 'latest_player_names_mv' }, 'n.player_id', 'cte.player_id')
+    .where('rank_of_weapon', 1);
+
+  return Object.fromEntries(rows.map((row) => [row.weapon_id, row]));
+};
+
 const queryWeaponTopPlayers = async (weaponId) => {
   const { rows } = await db.raw(`
   WITH cte AS (
@@ -358,5 +380,6 @@ module.exports = {
   queryWeaponRanking,
   queryWeaponUsageDifference,
   queryWeaponTopPlayers,
+  queryWeaponTopPlayersForMonth,
   queryUnfetchedSplatfests,
 };

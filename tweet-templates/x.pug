@@ -1,0 +1,49 @@
+extends base.pug
+
+block styles
+  include x.css
+
+block body
+  h1= title
+
+  table
+    - const barSizeDivider = weaponRanking[0].count
+
+    each record in weaponRanking
+      - const { rank, count, weapon_id: weapon } = record
+      - const diff = differences[weapon]
+      - const { previous_month_rank: prevRank, previous_month_count: prevCount } = diff
+      - const rankDiff = prevRank - rank
+      - const countDiff = prevCount - count
+
+      //- tr
+      //-   td(colspan=4)
+      //-     pre= JSON.stringify([diff, record],undefined,2)
+
+      tr
+        td
+          img(src=`${imageBasePath}/weapon/${weapon}.png`, width=40, height=40)
+
+        td
+          //- Rank
+          .flex
+            b(style='width: 2em')= `#${rank}`
+            - if (rankDiff != 0)
+                small(class=['diff', rankDiff > 0 ? 'increased' : 'decreased'])= addSign(rankDiff)
+
+        td
+          p(style='text-align: right')
+            b= `${record.percentage.toFixed(1)}%`
+          small.flex(style='justify-content: flex-end')
+            span= count
+            - if (countDiff != 0)
+                span(class=['diff', countDiff > 0 ? 'increased' : 'decreased'])= addSign(countDiff)
+
+        //- Weapon top player
+        td(style='width: 100%')
+          - const player = topPlayers[weapon]
+          p
+            b= player.rating
+            small(style='margin-left: .5em')= `(#${player.rank})`
+          p
+            small= player.player_name

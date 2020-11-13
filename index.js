@@ -8,7 +8,7 @@ const {
   fetchXRanking,
   fetchSplatfestRankingsJob,
 } = require('./src/cron-job');
-const { tweetLeagueUpdates } = require('./src/twitter-bot');
+const { tweetLeagueUpdates, tweetXUpdates } = require('./src/twitter-bot');
 const { calculateLeagueDate } = require('./src/util');
 const { NintendoAPIError } = require('./src/errors');
 const { hasXRankingForMonth } = require('./src/query');
@@ -52,7 +52,7 @@ new CronJob('23 0 * * *', async () => { // See https://crontab.guru/#23_0_*_*_*
 
 // Monthly job
 const fetchXRankingsJob = async () => {
-  const lastMonth = moment().utc().subtract(1, 'month');
+  const lastMonth = moment().utc().subtract(1, 'month').startOf('month');
   const year = lastMonth.year();
   const month = lastMonth.month() + 1;
 
@@ -66,6 +66,8 @@ const fetchXRankingsJob = async () => {
   try {
     await fetchXRanking(year, month);
     console.log(`Successfully fetched X Ranking for ${year}/${month}.`);
+
+    await tweetXUpdates(lastMonth);
   } catch (e) {
     console.log(`Failed to fetch X Ranking for ${year}/${month}.`);
     console.error(e);

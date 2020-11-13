@@ -4,11 +4,25 @@ const playwright = require('playwright-core');
 const pug = require('pug');
 
 const config = require('../config');
-const { findRuleKey } = require('./data');
-const { getLeagueSchedule } = require('./query');
+const { findRuleKey, rankedRuleIds } = require('./data');
+const {
+  getLeagueSchedule, queryWeaponRanking, queryWeaponUsageDifference, queryWeaponTopPlayersForMonth,
+} = require('./query');
 const { getSplatnetApi } = require('./splatnet');
 const { postMediaTweet } = require('./twitter-client');
 const { dateToSqlTimestamp, i18nEn } = require('./util');
+
+/**
+ * @desc Add sign to number
+ * @param {Number} number
+ * @returns {String} Number with sign (e.g. +1, 0, -2)
+ */
+const addSign = (number) => {
+  if (number > 0) {
+    return `+${number}`;
+  }
+  return number;
+};
 
 /**
  * @desc Take screenshots of given HTMLs.
@@ -101,6 +115,64 @@ See full ranking on ${config.FRONTEND_ORIGIN}/rankings/league/${leagueId}`;
   return postMediaTweet(text, screenshots);
 };
 
+const generateXSummaryHTML = (data) => {
+  return pug.renderFile('./tweet-templates/x.pug', {
+    addSign,
+    imageBasePath: `http://localhost:${config.PORT}/static/images`,
+    splatoonStatsUrl: config.FRONTEND_ORIGIN,
+    ...data,
+  });
+};
+
+/**
+ * @param {moment.Moment} currentMonth
+ */
+const tweetXUpdates = async (currentMonth) => {
+  const month = moment(currentMonth).format('YYYY-MM');
+  const previousMonth = moment(currentMonth).clone().subtract(1, 'month');
+  const currentMonthTimestamp = currentMonth.format('YYYY-MM-DD');
+  const previousMonthTimestamp = previousMonth.format('YYYY-MM-DD');
+
+  const data = await Promise.all(rankedRuleIds.map(async (ruleId) => {
+    const ruleName = i18nEn(`rules.${findRuleKey(ruleId)}`).name;
+    const differences = await queryWeaponUsageDifference({
+      rankingType: 'x',
+      weaponType: 'weapons',
+      currentMonth: currentMonthTimestamp,
+      previousMonth: previousMonthTimestamp,
+      ruleId,
+      /* region, splatfestId, */
+    });
+    const weaponRanking = (await queryWeaponRanking({
+      rankingType: 'x',
+      ruleId,
+      startTime: currentMonthTimestamp,
+      weaponType: 'weapons',
+    })).slice(0, 10);
+    const top10Weapons = weaponRanking.map((weapon) => weapon.weapon_id);
+    const topPlayers = await queryWeaponTopPlayersForMonth(currentMonthTimestamp, ruleId, top10Weapons);
+
+    return {
+      title: `${month}   ${ruleName}`,
+      topPlayers,
+      weaponRanking,
+      differences: Object.fromEntries(differences.map((w) => [w.weapon_id, w])),
+    };
+  }));
+
+  const htmls = await Promise.all(data.map(generateXSummaryHTML));
+  const screenshots = await takeScreenshots(htmls, 'x');
+
+  const text = `X Rankings for ${month}
+
+See full ranking on ${config.FRONTEND_ORIGIN}/rankings/x/${month.replace('-', '/')}`;
+
+  if (!config.ENABLE_SCHEDULED_TWEETS) return;
+
+  return postMediaTweet(text, screenshots);
+};
+
 module.exports = {
   tweetLeagueUpdates,
+  tweetXUpdates,
 };
