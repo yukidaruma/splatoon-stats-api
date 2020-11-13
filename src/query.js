@@ -276,9 +276,11 @@ const queryWeaponRanking = (args) => new Promise((resolve, reject) => {
           if (rankingType === 'splatfest') {
             this.where(`${tableName}.region`, region)
               .andWhere(`${tableName}.splatfest_id`, splatfestId);
-          } else {
+          } else if (startTime && endTime) {
             this.where(`${tableName}.start_time`, '>=', startTime)
-              .andWhere(`${tableName}.start_time`, '<=', endTime);
+              .andWhere(`${tableName}.start_time`, '<', endTime);
+          } else {
+            this.where(`${tableName}.start_time`, startTime);
           }
         });
 
