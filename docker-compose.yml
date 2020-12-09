@@ -15,7 +15,7 @@ services:
       POSTGRES_DB: "sranking"
     container_name: sranking-postgres
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - pgdata13:/var/lib/postgresql/data
       - ./docker/pg_hba.conf:/var/lib/postgresql/data/pg_hba.conf
   app:
     build:
@@ -31,5 +31,5 @@ services:
       - ./cache:/app/cache
 
 volumes:
-  pgdata:
+  pgdata13:
     driver: "local"

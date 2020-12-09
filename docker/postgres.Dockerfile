@@ -1,4 +1,4 @@
-FROM postgres:11-alpine
+FROM postgres:13-alpine
 
 # See "How to extend this image" section in https://hub.docker.com/_/postgres/
 # for how this works.
