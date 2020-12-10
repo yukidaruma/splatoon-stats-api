@@ -167,7 +167,7 @@ const fetchLeagueRanking = async (leagueId) => {
     // ALL = global ranking
     const queries = [];
 
-    ranking.rankings.forEach((group) => {
+    ranking.rankings.forEach((/** @type RankingRecord */ group) => {
       if (group.cheater) {
         return;
       }
@@ -201,6 +201,35 @@ const fetchLeagueRanking = async (leagueId) => {
         group.rank,
         group.point,
       ]).transacting(trx)));
+
+      queries.push(...group.tag_members.map((member) => db.raw(`
+        INSERT
+          INTO league_rankings (start_time, group_type, group_id, player_id, weapon_id, rank, rating)
+          VALUES (to_timestamp(?), ?, ?, ?, ?, ?, ?)
+          ON CONFLICT DO NOTHING`,
+      [
+        ranking.start_time,
+        groupType,
+        group.tag_id,
+        member.principal_id,
+        member.weapon.id,
+        group.rank,
+        group.point,
+      ]).transacting(trx)));
+
+      queries.push(db.raw(`
+        INSERT
+          INTO league_group_rankings (start_time, group_type, group_id, rank, weapon_ids, rating)
+          VALUES (to_timestamp(?), ?, ?, ?, ?, ?)
+          ON CONFLICT DO NOTHING`,
+      [
+        ranking.start_time,
+        groupType,
+        group.tag_id,
+        group.rank,
+        group.tag_members.map((member) => member.weapon.id).sort(),
+        group.point,
+      ]).transacting(trx));
     });
 
     try {
