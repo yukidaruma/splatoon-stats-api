@@ -38,6 +38,21 @@ CREATE INDEX IF NOT EXISTS league_rankings_player_id_idx ON league_rankings (pla
 CREATE INDEX IF NOT EXISTS league_rankings_rating_idx ON league_rankings (rating);
 CREATE INDEX IF NOT EXISTS league_rankings_rating_weapon_id_idx ON league_rankings (rating, weapon_id);
 
+CREATE TABLE IF NOT EXISTS league_group_rankings /* (
+  start_time TIMESTAMP,
+  group_type CHAR(1),
+  group_id VARCHAR(16) NOT NULL,
+  rank SMALLINT NOT NULL,
+  weapon_ids SMALLINT[] NOT NULL,
+  rating numeric(5, 1) NOT NULL,
+  PRIMARY KEY (start_time, group_id)
+) */ AS SELECT start_time, group_type, group_id, ARRAY_AGG(weapon_id ORDER BY weapon_id) AS weapon_ids, rank, rating
+FROM league_rankings
+GROUP BY group_type, group_id, start_time, rank, rating;
+CREATE INDEX IF NOT EXISTS league_group_rankings_group_id_idx ON league_group_rankings (group_id);
+CREATE INDEX IF NOT EXISTS league_group_rankings_rating_idx ON league_group_rankings (rating);
+CREATE INDEX IF NOT EXISTS league_group_rankings_rating_weapon_ids_idx ON league_group_rankings (rating, weapon_id);
+
 -- This table is used to prevent fetch-league-rankings from fetching nonexistent league rankings.
 CREATE TABLE IF NOT EXISTS missing_league_rankings (
   start_time TIMESTAMP PRIMARY KEY
