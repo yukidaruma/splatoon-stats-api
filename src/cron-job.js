@@ -144,15 +144,21 @@ const fetchStageRotations = (forceFetch) => new Promise((resolve, reject) => {
  */
 // eslint-disable-next-line arrow-body-style
 const fetchLeagueRanking = async (leagueId) => {
-  /*
-    ranking.league_id '19021912T'
-    ranking.league_type ('team' or 'pair')
-    ranking.start_time
-    ranking.rankings[].tag_members[].weapon.id
-    ranking.rankings[].tag_members[].principal_id
-    ranking.rankings[].tag_id
-    ranking.rankings[].rank
-    ranking.rankings[].point
+  /** @typedef {{
+    cheater: boolean;
+    league_id: string; // '19021912T'
+    league_type: 'team' | 'pair';
+    start_time: number;
+    tag_members: {
+      weapon: {
+        id: number;
+      };
+      principal_id: string;
+    }[];
+    tag_id: string;
+    rank: number;
+    point: number;
+  }} RankingRecord
   */
 
   const ranking = await getSplatnetApi(`league_match_ranking/${leagueId}/ALL`);
