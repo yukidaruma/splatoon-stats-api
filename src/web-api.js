@@ -23,6 +23,7 @@ const {
   joinLatestName,
   queryLatestXRankingStartTime,
   queryLeagueWeaponRuleRecords,
+  queryLeagueWeaponsRuleRecords,
   queryWeaponRanking,
   queryWeaponUsageDifference,
   queryWeaponTopPlayers,
@@ -428,17 +429,21 @@ app.get('/records', wrap(async (req, res) => {
 }));
 
 app.get('/records/league-weapon', wrap(async (req, res) => {
-  let { group_type: groupType, weapon_id: weaponId } = req.query;
+  let { group_type: groupType, weapon_id: weaponId, weapon_ids: weaponIds } = req.query;
   weaponId = Number.parseInt(weaponId, 10);
-
-  if (Number.isNaN(weaponId)) {
-    res.status(400).send('Missing required parameter: weaponId.');
-    return;
-  }
-
   groupType = groupTypes.find((type) => type.query === groupType) || groupTypes[0];
 
-  const promises = rankedRuleIds.map((ruleId) => queryLeagueWeaponRuleRecords(ruleId, groupType, weaponId));
+  if (Number.isNaN(weaponId)) {
+    weaponIds = weaponIds.split(',').map((wid) => Number.parseInt(wid, 10));
+    if (weaponIds.some(Number.isNaN) || groupType.members !== weaponIds.length) {
+      res.status(400).send('Missing required parameter: weaponId / weaponIds.');
+      return;
+    }
+  }
+
+  const promises = rankedRuleIds.map((ruleId) => (weaponIds
+    ? queryLeagueWeaponsRuleRecords(ruleId, groupType, weaponIds)
+    : queryLeagueWeaponRuleRecords(ruleId, groupType, weaponId)));
   const records = await Promise.all(promises);
 
   res.json(Object.fromEntries(records.map((value, i) => [i + 1, value])));

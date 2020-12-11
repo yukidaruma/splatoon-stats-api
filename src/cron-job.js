@@ -3,7 +3,7 @@ const fetch = require('node-fetch');
 const moment = require('moment-timezone');
 const config = require('../config');
 const { db } = require('./db');
-const { findRuleId, rankedRules } = require('./data');
+const { findRuleId, rankedRules, getOriginalWeaponId } = require('./data');
 const { queryUnfetchedSplatfests } = require('./query');
 const { splatnetUrl, getSplatnetApi } = require('./splatnet');
 const { wait } = require('./util');
@@ -144,15 +144,21 @@ const fetchStageRotations = (forceFetch) => new Promise((resolve, reject) => {
  */
 // eslint-disable-next-line arrow-body-style
 const fetchLeagueRanking = async (leagueId) => {
-  /*
-    ranking.league_id '19021912T'
-    ranking.league_type ('team' or 'pair')
-    ranking.start_time
-    ranking.rankings[].tag_members[].weapon.id
-    ranking.rankings[].tag_members[].principal_id
-    ranking.rankings[].tag_id
-    ranking.rankings[].rank
-    ranking.rankings[].point
+  /** @typedef {{
+    cheater: boolean;
+    league_id: string; // '19021912T'
+    league_type: 'team' | 'pair';
+    start_time: number;
+    tag_members: {
+      weapon: {
+        id: number;
+      };
+      principal_id: string;
+    }[];
+    tag_id: string;
+    rank: number;
+    point: number;
+  }} RankingRecord
   */
 
   const ranking = await getSplatnetApi(`league_match_ranking/${leagueId}/ALL`);
@@ -161,7 +167,7 @@ const fetchLeagueRanking = async (leagueId) => {
     // ALL = global ranking
     const queries = [];
 
-    ranking.rankings.forEach((group) => {
+    ranking.rankings.forEach((/** @type RankingRecord */ group) => {
       if (group.cheater) {
         return;
       }
@@ -195,6 +201,38 @@ const fetchLeagueRanking = async (leagueId) => {
         group.rank,
         group.point,
       ]).transacting(trx)));
+
+      queries.push(...group.tag_members.map((member) => db.raw(`
+        INSERT
+          INTO league_rankings (start_time, group_type, group_id, player_id, weapon_id, rank, rating)
+          VALUES (to_timestamp(?), ?, ?, ?, ?, ?, ?)
+          ON CONFLICT DO NOTHING`,
+      [
+        ranking.start_time,
+        groupType,
+        group.tag_id,
+        member.principal_id,
+        member.weapon.id,
+        group.rank,
+        group.point,
+      ]).transacting(trx)));
+
+      const weaponIds = group.tag_members.map((member) => member.weapon.id).sort((a, b) => a - b);
+      const normalizedWeaponIds = weaponIds.map(getOriginalWeaponId).sort();
+      queries.push(db.raw(`
+        INSERT
+          INTO league_group_rankings (start_time, group_type, group_id, rank, weapon_ids, normalized_weapon_ids, rating)
+          VALUES (to_timestamp(?), ?, ?, ?, ?, ?, ?)
+          ON CONFLICT DO NOTHING`,
+      [
+        ranking.start_time,
+        groupType,
+        group.tag_id,
+        group.rank,
+        weaponIds,
+        weaponIds.join(',') === normalizedWeaponIds.join(',') ? null : normalizedWeaponIds,
+        group.point,
+      ]).transacting(trx));
     });
 
     try {
