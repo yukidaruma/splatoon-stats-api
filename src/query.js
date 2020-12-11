@@ -57,6 +57,7 @@ const queryLeagueWeaponRuleRecords = (ruleId, groupType, weaponId) => db.with(
   .leftJoin({ n: 'latest_player_names_mv' }, 'lr.player_id', 'n.player_id');
 
 const queryLeagueWeaponsRuleRecords = (ruleId, groupType, weaponIds) => {
+  const sortedWeaponIds = [...weaponIds].sort((a, b) => a - b);
   return db
     .with(
       'cte',
@@ -67,8 +68,12 @@ const queryLeagueWeaponsRuleRecords = (ruleId, groupType, weaponIds) => {
         .where({
           'ls.rule_id': ruleId,
           'lgr.group_type': groupType.query,
-          'lgr.weapon_ids': [...weaponIds].sort(),
         })
+        .andWhere(
+          (qb2) => qb2
+            .where('lgr.weapon_ids', sortedWeaponIds)
+            .orWhere('lgr.normalized_weapon_ids', sortedWeaponIds),
+        )
         .orderBy('lgr.rating', 'desc')
         .limit(LEAGUE_WEAPON_RECORD_COUNT),
     )

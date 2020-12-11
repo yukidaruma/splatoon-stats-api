@@ -3,7 +3,7 @@ const fetch = require('node-fetch');
 const moment = require('moment-timezone');
 const config = require('../config');
 const { db } = require('./db');
-const { findRuleId, rankedRules } = require('./data');
+const { findRuleId, rankedRules, getOriginalWeaponId } = require('./data');
 const { queryUnfetchedSplatfests } = require('./query');
 const { splatnetUrl, getSplatnetApi } = require('./splatnet');
 const { wait } = require('./util');
@@ -217,17 +217,20 @@ const fetchLeagueRanking = async (leagueId) => {
         group.point,
       ]).transacting(trx)));
 
+      const weaponIds = group.tag_members.map((member) => member.weapon.id).sort((a, b) => a - b);
+      const normalizedWeaponIds = weaponIds.map(getOriginalWeaponId).sort();
       queries.push(db.raw(`
         INSERT
-          INTO league_group_rankings (start_time, group_type, group_id, rank, weapon_ids, rating)
-          VALUES (to_timestamp(?), ?, ?, ?, ?, ?)
+          INTO league_group_rankings (start_time, group_type, group_id, rank, weapon_ids, normalized_weapon_ids, rating)
+          VALUES (to_timestamp(?), ?, ?, ?, ?, ?, ?)
           ON CONFLICT DO NOTHING`,
       [
         ranking.start_time,
         groupType,
         group.tag_id,
         group.rank,
-        group.tag_members.map((member) => member.weapon.id).sort(),
+        weaponIds,
+        weaponIds.join(',') === normalizedWeaponIds.join(',') ? null : normalizedWeaponIds,
         group.point,
       ]).transacting(trx));
     });
