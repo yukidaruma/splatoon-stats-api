@@ -65,7 +65,9 @@ INNER JOIN weapons w ON w.weapon_id = lr.weapon_id
 GROUP BY group_type, group_id, start_time, rank, rating;
 CREATE INDEX IF NOT EXISTS league_group_rankings_group_id_idx ON league_group_rankings (group_id);
 CREATE INDEX IF NOT EXISTS league_group_rankings_rating_idx ON league_group_rankings (rating);
-CREATE INDEX IF NOT EXISTS league_group_rankings_rating_normalized_weapon_ids_idx ON league_group_rankings (rating, normalized_weapon_ids);
+DROP INDEX IF EXISTS league_group_rankings_rating_normalized_weapon_ids_idx;
+CREATE INDEX IF NOT EXISTS league_group_rankings_normalized_weapon_ids_idx ON league_group_rankings (normalized_weapon_ids);
+CREATE INDEX IF NOT EXISTS league_group_rankings_weapon_ids_idx ON league_group_rankings (weapon_ids);
 
 -- This table is used to prevent fetch-league-rankings from fetching nonexistent league rankings.
 CREATE TABLE IF NOT EXISTS missing_league_rankings (
