@@ -56,6 +56,50 @@ const queryLeagueWeaponRuleRecords = (ruleId, groupType, weaponId) => db.with(
   .innerJoin({ ls: 'league_schedules' }, 'r.start_time', 'ls.start_time')
   .leftJoin({ n: 'latest_player_names_mv' }, 'lr.player_id', 'n.player_id');
 
+const queryLeagueWeaponsRuleRecords = (ruleId, groupType, weaponIds) => {
+  return db
+    .with(
+      'cte',
+      (qb) => qb
+        .select('lgr.*', 'ls.stage_ids')
+        .from({ lgr: 'league_group_rankings' })
+        .innerJoin({ ls: 'league_schedules' }, 'lgr.start_time', 'ls.start_time')
+        .where({
+          'ls.rule_id': ruleId,
+          'lgr.group_type': groupType.query,
+          'lgr.weapon_ids': [...weaponIds].sort(),
+        })
+        .orderBy('lgr.rating', 'desc')
+        .limit(LEAGUE_WEAPON_RECORD_COUNT),
+    )
+    .with(
+      'members',
+      (qb) => qb
+        .select('cte.group_id', 'cte.start_time', db.raw(`array_agg(array[
+          lr.player_id::varchar,
+          lr.weapon_id::varchar,
+          player_name::varchar
+        ]) as teammates`))
+        .from('cte')
+        .innerJoin(
+          { lr: 'league_rankings' }, (join) => join
+            .on('cte.group_id', 'lr.group_id')
+            .on('cte.start_time', 'lr.start_time')
+            .on('cte.rank', 'lr.rank'),
+        )
+        .leftJoin({ names: 'latest_player_names_mv' }, 'lr.player_id', 'names.player_id')
+        .groupBy('cte.group_id', 'cte.start_time'),
+    )
+    .select('*')
+    .from('cte')
+    .innerJoin(
+      'members',
+      (join) => join
+        .on('cte.group_id', 'members.group_id')
+        .on('cte.start_time', 'members.start_time'),
+    );
+};
+
 const xWeaponRuleRecordsQuery = (query, cols, ruleId, weaponId) => query.select(...cols)
   .from({ xr: 'x_rankings' })
   .where('rule_id', ruleId)
@@ -375,6 +419,7 @@ module.exports = {
   joinLatestName,
   queryLatestXRankingStartTime,
   queryLeagueWeaponRuleRecords,
+  queryLeagueWeaponsRuleRecords,
   queryXWeaponRuleRecords,
   queryXWeaponRuleRecordsCount,
   queryWeaponRanking,
