@@ -190,12 +190,24 @@ app.get('/players/search', wrap(async (req, res) => {
   const { name } = req.query;
 
   const rows = await db
-    .select(['player_id', 'player_name', 'last_used'])
-    .from('player_known_names')
-    .where('player_name', 'ilike', `%${escapeLikeQuery(name)}%`)
-    .orderBy('last_used', 'desc')
-    .orderBy('player_id', 'asc')
-    .limit(50);
+    .with('players', (cte) => {
+      cte.select(['player_id', 'player_name', 'last_used'])
+        .from('player_known_names')
+        .where('player_name', 'ilike', `%${escapeLikeQuery(name)}%`)
+        .orderBy('last_used', 'desc')
+        .orderBy('player_id', 'asc')
+        .limit(50);
+    })
+    .with('player_max_ratings', (cte) => {
+      cte
+        .select('xr.player_id', db.raw('MAX(xr.rating) as max_x_rating'))
+        .from('players')
+        .innerJoin({ xr: 'x_rankings' }, 'xr.player_id', 'players.player_id')
+        .groupBy('xr.player_id');
+    })
+    .select('*')
+    .from('players')
+    .innerJoin({ pmr: 'player_max_ratings' }, 'pmr.player_id', 'players.player_id');
   res.json(rows);
 }));
 
