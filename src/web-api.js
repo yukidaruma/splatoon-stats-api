@@ -116,6 +116,28 @@ app.get(
 );
 
 app.get(
+  '/players/:playerId([\\da-f]{16})',
+  wrapPromise(async (req, res) => {
+    const id = req.params.playerId;
+    const [names, x, league, splatfest] = await Promise.all([
+      getKnownNames(id),
+      ...['x', 'league', 'splatfest'].map((rankingType) => queryPlayerRankingRecords(rankingType, id)),
+    ]);
+
+    return res.json({
+      name: names?.[0]?.player_name ?? null,
+      id,
+      names,
+      rankings: {
+        x,
+        league,
+        splatfest,
+      },
+    });
+  }),
+);
+
+app.get(
   '/players/:playerId([\\da-f]{16})/known_names',
   wrapPromise(async (req, res) => {
     const names = await getKnownNames(req.params.playerId);
