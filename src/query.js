@@ -125,6 +125,14 @@ const queryXWeaponRuleRecords = (ruleId, weaponId) =>
 const queryXWeaponRuleRecordsCount = (ruleId, weaponId) =>
   xWeaponRuleRecordsQuery(db, [db.raw('count(*)')], ruleId, weaponId).then(([count]) => count.count);
 
+const getKnownNames = (playerId) =>
+  db
+    .select('player_name', 'last_used')
+    .from('player_known_names')
+    .where({ player_id: playerId })
+    .orderBy('last_used', 'desc')
+    .orderBy('player_name', 'asc');
+
 const getLeagueSchedule = async (startTime) =>
   (await db.select('*').from('league_schedules').where('start_time', startTime))[0];
 
@@ -139,6 +147,70 @@ const hasXRankingForMonth = async (year, month) => {
   ]);
 
   return rows[0].exists;
+};
+
+/** @returns Promise */
+const queryPlayerRankingRecords = (rankingType, playerId) => {
+  let query;
+  const tableName = `${rankingType}_rankings`;
+
+  if (rankingType === 'league') {
+    query = db
+      .raw(
+        `with target_player_league_rankings as (
+    select *
+      from league_rankings
+      where league_rankings.player_id = ?
+  )
+  select
+      *,
+      -- You can't create array consists of different types so it convert weapon_id into varchar
+      (
+        select array_agg(
+          array[peer_league_rankings.player_id, peer_league_rankings.weapon_id::varchar, player_names.player_name]
+        )
+        from league_rankings as peer_league_rankings
+        left outer join ??
+        where peer_league_rankings.group_id = target_player_league_rankings.group_id
+          AND peer_league_rankings.start_time = target_player_league_rankings.start_time
+          AND peer_league_rankings.player_id != target_player_league_rankings.player_id
+      ) as teammates
+    from target_player_league_rankings
+    inner join league_schedules on league_schedules.start_time = target_player_league_rankings.start_time
+    order by target_player_league_rankings.start_time desc`,
+        [playerId, joinLatestName('peer_league_rankings')],
+      )
+      .then((queryResult) =>
+        queryResult.rows.map((row) => {
+          if (row.teammates) {
+            // Sometimes data for every other member is missing
+            // eslint-disable-next-line no-param-reassign
+            row.teammates = row.teammates.map((teammate) => ({
+              player_id: teammate[0],
+              weapon_id: parseInt(teammate[1], 10), // Convert back to Int
+              player_name: teammate[2],
+            }));
+          }
+          return row;
+        }),
+      );
+  } else {
+    query = db.select('*').from(tableName).where('player_id', playerId);
+
+    if (rankingType === 'x') {
+      query = query.orderBy(`${tableName}.start_time`, 'desc').orderBy('rule_id', 'asc');
+    } else if (rankingType === 'splatfest') {
+      query = query
+        .join('splatfest_schedules', (knex) =>
+          knex
+            .on('splatfest_schedules.region', 'splatfest_rankings.region')
+            .on('splatfest_schedules.splatfest_id', 'splatfest_rankings.splatfest_id'),
+        )
+        .orderBy('splatfest_schedules.start_time', 'desc');
+    }
+  }
+
+  return query;
 };
 
 const queryWeaponUsageDifference = (args) =>
@@ -403,6 +475,7 @@ select * from past_splatfests
     .then((queryResult) => queryResult.rows);
 
 module.exports = {
+  getKnownNames,
   getLeagueSchedule,
   getWeaponIds,
   hasXRankingForMonth,
@@ -410,6 +483,7 @@ module.exports = {
   queryLatestXRankingStartTime,
   queryLeagueWeaponRuleRecords,
   queryLeagueWeaponsRuleRecords,
+  queryPlayerRankingRecords,
   queryXWeaponRuleRecords,
   queryXWeaponRuleRecordsCount,
   queryWeaponRanking,
