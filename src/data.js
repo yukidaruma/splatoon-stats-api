@@ -10,7 +10,9 @@ const getWeaponReskins = (weaponId) => weaponTable.reskins[weaponId] || [];
 
 const getOriginalWeaponId = memoize((weaponId) => {
   const reskins = Object.entries(weaponTable.reskins).find(([_, variants]) => variants.includes(weaponId));
-  if (reskins) { return Number(reskins[0]); }
+  if (reskins) {
+    return Number(reskins[0]);
+  }
   return weaponId;
 });
 

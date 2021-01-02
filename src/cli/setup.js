@@ -17,13 +17,14 @@ const downloadLocales = (statInkWeapons) => {
 
     const cachePath = `${cacheDir}/${lang}.json`;
     if (!fs.existsSync(cachePath)) {
-      const res = await fetch(`https://splatoon2.ink/data/locale/${lang}.json`,
-        { headers: { 'User-Agent': config.THIRDPARTY_API_USERAGENT } });
+      const res = await fetch(`https://splatoon2.ink/data/locale/${lang}.json`, {
+        headers: { 'User-Agent': config.THIRDPARTY_API_USERAGENT },
+      });
       const localeData = await res.json();
 
       // Find and complete missing translations
       statInkWeapons
-        .filter(weapon => !localeData.weapons[weapon.splatnet])
+        .filter((weapon) => !localeData.weapons[weapon.splatnet])
         .forEach((weapon) => {
           localeData.weapons[weapon.splatnet] = { name: weapon.name[locale] };
         });
@@ -64,7 +65,8 @@ const fetchSalmonAssets = () => {
   });
 };
 
-(async function () { // eslint-disable-line func-names
+(async function () {
+  // eslint-disable-line func-names
   // Can't set --arg=false due to command-line-args's limitation
   // c.f. https://github.com/75lb/command-line-args/issues/71
   const options = commandLineArgs([
@@ -85,8 +87,9 @@ const fetchSalmonAssets = () => {
     },
   ]);
 
-  const res = await fetch('https://stat.ink/api/v2/weapon',
-    { headers: { 'User-Agent': config.THIRDPARTY_API_USERAGENT } });
+  const res = await fetch('https://stat.ink/api/v2/weapon', {
+    headers: { 'User-Agent': config.THIRDPARTY_API_USERAGENT },
+  });
   const statInkWeapons = await res.json();
 
   if (!options['no-locale']) {
@@ -100,4 +103,4 @@ const fetchSalmonAssets = () => {
   if (options.salmon) {
     fetchSalmonAssets();
   }
-}());
+})();

@@ -6,7 +6,10 @@ const pug = require('pug');
 const config = require('../config');
 const { findRuleKey, rankedRuleIds } = require('./data');
 const {
-  getLeagueSchedule, queryWeaponRanking, queryWeaponUsageDifference, queryWeaponTopPlayersForMonth,
+  getLeagueSchedule,
+  queryWeaponRanking,
+  queryWeaponUsageDifference,
+  queryWeaponTopPlayersForMonth,
 } = require('./query');
 const { getSplatnetApi } = require('./splatnet');
 const { postMediaTweet } = require('./twitter-client');
@@ -40,17 +43,19 @@ const takeScreenshots = async (htmls, cachePrefix) => {
     const context = await browser.newContext({
       viewport: { height: 640, width: 480 },
     });
-    const screenshots = await Promise.all(htmls.map(async (html, i) => {
-      const page = await context.newPage();
-      await page.setContent(html);
+    const screenshots = await Promise.all(
+      htmls.map(async (html, i) => {
+        const page = await context.newPage();
+        await page.setContent(html);
 
-      // Saves image and html to file for easier debugging.
-      const filename = `${cachePrefix}-${i}`;
-      fs.writeFileSync(`cache/tweets/${filename}.html`, html);
-      const image = await page.screenshot({ path: `cache/tweets/${filename}.png` });
-      await page.close();
-      return image;
-    }));
+        // Saves image and html to file for easier debugging.
+        const filename = `${cachePrefix}-${i}`;
+        fs.writeFileSync(`cache/tweets/${filename}.html`, html);
+        const image = await page.screenshot({ path: `cache/tweets/${filename}.png` });
+        await page.close();
+        return image;
+      }),
+    );
 
     return screenshots;
   } catch (e) {
@@ -67,10 +72,14 @@ const takeScreenshots = async (htmls, cachePrefix) => {
 const generateLeagueResultHTML = async (leagueResult) => {
   const groupType = leagueResult.league_type.key;
   const playerNames = {};
-  const playerIds = leagueResult.rankings.slice(0, 5).flatMap((team) => team.tag_members.map((member) => member.principal_id));
+  const playerIds = leagueResult.rankings
+    .slice(0, 5)
+    .flatMap((team) => team.tag_members.map((member) => member.principal_id));
   const queryStrings = playerIds.map((id) => `id=${id}`).join('&');
   const namesRes = await getSplatnetApi(`nickname_and_icon?${queryStrings}`);
-  namesRes.nickname_and_icons.forEach((player) => { playerNames[player.nsa_id] = player.nickname; });
+  namesRes.nickname_and_icons.forEach((player) => {
+    playerNames[player.nsa_id] = player.nickname;
+  });
 
   return pug.renderFile('./tweet-templates/league.pug', {
     imageBasePath: `http://localhost:${config.PORT}/static/images`,
@@ -96,7 +105,9 @@ const tweetLeagueUpdates = async (leagueResults) => {
   }
 
   const startDate = moment(leagueResults[0].start_time * 1000).utc();
-  const endDate = moment(leagueResults[0].start_time * 1000).utc().add(2, 'h');
+  const endDate = moment(leagueResults[0].start_time * 1000)
+    .utc()
+    .add(2, 'h');
   const leagueId = leagueResults[0].league_id;
 
   const schedule = await getLeagueSchedule(dateToSqlTimestamp(leagueResults[0].start_time * 1000));
@@ -133,32 +144,36 @@ const tweetXUpdates = async (currentMonth) => {
   const currentMonthTimestamp = currentMonth.format('YYYY-MM-DD');
   const previousMonthTimestamp = previousMonth.format('YYYY-MM-DD');
 
-  const data = await Promise.all(rankedRuleIds.map(async (ruleId) => {
-    const ruleName = i18nEn(`rules.${findRuleKey(ruleId)}`).name;
-    const differences = await queryWeaponUsageDifference({
-      rankingType: 'x',
-      weaponType: 'weapons',
-      currentMonth: currentMonthTimestamp,
-      previousMonth: previousMonthTimestamp,
-      ruleId,
-      /* region, splatfestId, */
-    });
-    const weaponRanking = (await queryWeaponRanking({
-      rankingType: 'x',
-      ruleId,
-      startTime: currentMonthTimestamp,
-      weaponType: 'weapons',
-    })).slice(0, 10);
-    const top10Weapons = weaponRanking.map((weapon) => weapon.weapon_id);
-    const topPlayers = await queryWeaponTopPlayersForMonth(currentMonthTimestamp, ruleId, top10Weapons);
+  const data = await Promise.all(
+    rankedRuleIds.map(async (ruleId) => {
+      const ruleName = i18nEn(`rules.${findRuleKey(ruleId)}`).name;
+      const differences = await queryWeaponUsageDifference({
+        rankingType: 'x',
+        weaponType: 'weapons',
+        currentMonth: currentMonthTimestamp,
+        previousMonth: previousMonthTimestamp,
+        ruleId,
+        /* region, splatfestId, */
+      });
+      const weaponRanking = (
+        await queryWeaponRanking({
+          rankingType: 'x',
+          ruleId,
+          startTime: currentMonthTimestamp,
+          weaponType: 'weapons',
+        })
+      ).slice(0, 10);
+      const top10Weapons = weaponRanking.map((weapon) => weapon.weapon_id);
+      const topPlayers = await queryWeaponTopPlayersForMonth(currentMonthTimestamp, ruleId, top10Weapons);
 
-    return {
-      title: `${month}   ${ruleName}`,
-      topPlayers,
-      weaponRanking,
-      differences: Object.fromEntries(differences.map((w) => [w.weapon_id, w])),
-    };
-  }));
+      return {
+        title: `${month}   ${ruleName}`,
+        topPlayers,
+        weaponRanking,
+        differences: Object.fromEntries(differences.map((w) => [w.weapon_id, w])),
+      };
+    }),
+  );
 
   const htmls = await Promise.all(data.map(generateXSummaryHTML));
   const screenshots = await takeScreenshots(htmls, 'x');

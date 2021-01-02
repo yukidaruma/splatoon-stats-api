@@ -3,7 +3,7 @@
   align-items: center;
 }
 .flex :first-child {
-  margin-right: .5em;
+  margin-right: 0.5em;
 }
 
 .increased {
@@ -27,7 +27,7 @@ tr:nth-child(even) {
   background-color: var(--dark-color3);
 }
 tr td {
-  padding: .25em 0;
+  padding: 0.25em 0;
 }
 tr td:nth-child(1) {
   padding-left: 1.5em;
@@ -35,7 +35,8 @@ tr td:nth-child(1) {
 tr td:nth-child(4) {
   padding-left: 2em;
 }
-tr td:nth-child(2), tr td:nth-child(3) {
+tr td:nth-child(2),
+tr td:nth-child(3) {
   padding-left: 1em;
 }
 td {

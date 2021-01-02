@@ -7,7 +7,8 @@ const { fetchXRanking } = require('../cron-job');
 const { dateToSqlTimestamp, wait, randomBetween } = require('../util');
 
 /* eslint-disable no-restricted-syntax, no-await-in-loop */
-(async function () { // eslint-disable-line func-names
+(async function () {
+  // eslint-disable-line func-names
   const starting = moment.utc({ year: 2018, month: 4 });
   const ending = moment.utc().add({ month: -1 }).endOf('month');
   const time = starting.clone().add({ month: -1 });
@@ -44,9 +45,11 @@ const { dateToSqlTimestamp, wait, randomBetween } = require('../util');
 
     await wait(intervalBetweenMonth);
   }
-}())
-/* eslint-enable no-restricted-syntax */
-  .then(() => { console.log('Successfully fetched all missing X Ranked rankings.'); })
+})()
+  /* eslint-enable no-restricted-syntax */
+  .then(() => {
+    console.log('Successfully fetched all missing X Ranked rankings.');
+  })
   .finally(() => {
     db.destroy();
   });

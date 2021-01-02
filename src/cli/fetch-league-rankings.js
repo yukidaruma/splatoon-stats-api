@@ -6,13 +6,18 @@ const { db } = require('../db');
 const { fetchLeagueRanking } = require('../cron-job');
 const { randomBetween, dateToSqlTimestamp, wait } = require('../util');
 
-const ongoingSplatfestCount = async (time) => db.raw(`
+const ongoingSplatfestCount = async (time) =>
+  db
+    .raw(
+      `
   with ongoing_splatfests as (
     select splatfest_id from splatfest_schedules
       where start_time <= to_timestamp(:time) AND to_timestamp(:time) <= end_time
   )
-  select count(splatfest_id) from ongoing_splatfests`, { time: time.unix() })
-  .then((result) => (result.rows[0] && result.rows[0].count) || 0);
+  select count(splatfest_id) from ongoing_splatfests`,
+      { time: time.unix() },
+    )
+    .then((result) => (result.rows[0] && result.rows[0].count) || 0);
 
 const getMissingLeagueDatesIterator = (startTime, endTime) => ({
   [Symbol.iterator]() {
@@ -33,8 +38,11 @@ const getMissingLeagueDatesIterator = (startTime, endTime) => ({
 });
 
 /* eslint-disable no-restricted-syntax, no-await-in-loop */
-(async function () { // eslint-disable-line func-names
-  const gapsBetweenLeagueRankings = await db.raw(`
+(async function () {
+  // eslint-disable-line func-names
+  const gapsBetweenLeagueRankings = await db
+    .raw(
+      `
     with
     league_start_times as (
       select distinct(start_time)
@@ -57,7 +65,8 @@ const getMissingLeagueDatesIterator = (startTime, endTime) => ({
     )
     select start_time, next_start_time
       from league_start_times_with_gap_between
-      where gap_between != '2 hour'::interval`)
+      where gap_between != '2 hour'::interval`,
+    )
     .then((queryResult) => queryResult.rows);
 
   // Check gap between defaultDate and the first record of league_rankings
@@ -82,7 +91,7 @@ const getMissingLeagueDatesIterator = (startTime, endTime) => ({
     );
     for (const leagueDate of missingLeagueDates) {
       // Global Splatfest = 3 concurrent Splatfest across regions (na, eu, jp)
-      if (await ongoingSplatfestCount(leagueDate) === 3) {
+      if ((await ongoingSplatfestCount(leagueDate)) === 3) {
         // console.log(`There were global Splatfest at ${leagueDate.format('YYYY-MM-DD HH:mm')}. Skipped fetching.`);
         continue; // eslint-disable-line no-continue
       }
@@ -118,8 +127,7 @@ const getMissingLeagueDatesIterator = (startTime, endTime) => ({
             // There's a case pair ranking is available while team is unavailable.
             // However, there's little to no pairs in the situation so we just skip fetching pair ranking.
             console.log(`No team ranking found for ${leagueId}. Skipped fetching pair ranking.`);
-            await db('missing_league_rankings')
-              .insert({ start_time: dateToSqlTimestamp(leagueDate) });
+            await db('missing_league_rankings').insert({ start_time: dateToSqlTimestamp(leagueDate) });
             break;
           } else {
             console.error(err);
@@ -131,9 +139,11 @@ const getMissingLeagueDatesIterator = (startTime, endTime) => ({
       await wait(intervalBetweenDates);
     }
   }
-}())
-/* eslint-enable no-restricted-syntax */
-  .then(() => { console.log('Successfully fetched all missing league battle rankings.'); })
+})()
+  /* eslint-enable no-restricted-syntax */
+  .then(() => {
+    console.log('Successfully fetched all missing league battle rankings.');
+  })
   .finally(() => {
     db.destroy();
   });

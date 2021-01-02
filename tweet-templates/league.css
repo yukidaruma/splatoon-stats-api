@@ -6,8 +6,8 @@
   align-items: center;
   background-color: var(--dark-color-highlight);
   color: var(--light-color-highlight);
-  padding: .125em 1em;
-  margin-bottom: .5em;
+  padding: 0.125em 1em;
+  margin-bottom: 0.5em;
 }
 .group .heading .rank {
   font-size: 120%;

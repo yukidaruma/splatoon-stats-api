@@ -6,13 +6,13 @@ services:
       dockerfile: docker/postgres.Dockerfile
     # When running in production environment, use expose instead of ports.
     expose:
-      - "5432"
+      - '5432'
     # ports:
     #   - "5432:5432"
     environment:
-      POSTGRES_USER: "postgres"
-      POSTGRES_PASSWORD: "postgres"
-      POSTGRES_DB: "sranking"
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: 'postgres'
+      POSTGRES_DB: 'sranking'
     container_name: sranking-postgres
     volumes:
       - pgdata13:/var/lib/postgresql/data
@@ -25,11 +25,11 @@ services:
     depends_on:
       - postgres
     ports:
-      - "3000:3000"
+      - '3000:3000'
     volumes:
       - ./screenshots:/var/tmp/screenshots
       - ./cache:/app/cache
 
 volumes:
   pgdata13:
-    driver: "local"
+    driver: 'local'

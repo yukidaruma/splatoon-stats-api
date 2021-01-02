@@ -10,10 +10,7 @@ const moment = require('moment-timezone');
 const resolveObjectPath = (obj, path) => {
   if (!obj) return undefined;
 
-  return path.split('.').reduce(
-    (acc, e) => ((acc === undefined) ? undefined : acc[e]),
-    obj,
-  );
+  return path.split('.').reduce((acc, e) => (acc === undefined ? undefined : acc[e]), obj);
 };
 
 /**
@@ -69,21 +66,29 @@ const escapeLikeQuery = (query) => query.replace(/[%_]/g, (m) => `\\${m}`);
 const getWeaponClassById = (weaponId) => {
   if ((weaponId >= 0 && weaponId < 200) || (weaponId >= 300 && weaponId < 1000)) {
     return 'shooter';
-  } if (weaponId >= 200 && weaponId < 300) {
+  }
+  if (weaponId >= 200 && weaponId < 300) {
     return 'blaster';
-  } if (weaponId >= 1000 && weaponId < 1100) {
+  }
+  if (weaponId >= 1000 && weaponId < 1100) {
     return 'roller';
-  } if (weaponId >= 1100 && weaponId < 2000) {
+  }
+  if (weaponId >= 1100 && weaponId < 2000) {
     return 'brush';
-  } if (weaponId >= 2000 && weaponId < 3000) {
+  }
+  if (weaponId >= 2000 && weaponId < 3000) {
     return 'charger';
-  } if (weaponId >= 3000 && weaponId < 4000) {
+  }
+  if (weaponId >= 3000 && weaponId < 4000) {
     return 'slosher';
-  } if (weaponId >= 4000 && weaponId < 5000) {
+  }
+  if (weaponId >= 4000 && weaponId < 5000) {
     return 'splatling';
-  } if (weaponId >= 5000 && weaponId < 6000) {
+  }
+  if (weaponId >= 5000 && weaponId < 6000) {
     return 'maneuver';
-  } if (weaponId >= 6000 && weaponId < 7000) {
+  }
+  if (weaponId >= 6000 && weaponId < 7000) {
     return 'brella';
   }
 

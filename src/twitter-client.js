@@ -8,16 +8,19 @@ const client = new Twitter({
   access_token_secret: config.TWITTER_API_TOKEN_SECRET,
 });
 
-const postTweet = (text, params = {}) => client.post('statuses/update', {
-  ...params,
-  status: text,
-});
+const postTweet = (text, params = {}) =>
+  client.post('statuses/update', {
+    ...params,
+    status: text,
+  });
 
 const postMediaTweet = async (text, media) => {
-  const mediaIds = await Promise.all(media.map(async (medium) => {
-    const res = await client.post('media/upload', { media: medium });
-    return res.media_id_string;
-  }));
+  const mediaIds = await Promise.all(
+    media.map(async (medium) => {
+      const res = await client.post('media/upload', { media: medium });
+      return res.media_id_string;
+    }),
+  );
 
   return postTweet(text, { media_ids: mediaIds.join(',') });
 };

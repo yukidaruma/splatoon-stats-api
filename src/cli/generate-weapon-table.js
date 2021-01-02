@@ -3,9 +3,7 @@ const fs = require('fs');
 const { db } = require('../db');
 
 /** @type {{ out: string }} */
-const { stdout } = commandLineArgs([
-  { name: 'stdout', type: Boolean },
-]);
+const { stdout } = commandLineArgs([{ name: 'stdout', type: Boolean }]);
 const outPath = stdout ? null : 'cache/weapon-table.json';
 
 (async () => {
@@ -33,7 +31,8 @@ const outPath = stdout ? null : 'cache/weapon-table.json';
   // eslint-disable-next-line no-restricted-syntax
   for await (const columName of groupByColumnNames) {
     const exportKey = exportKeys[columName];
-    const rows = await db.select(columName, db.raw('array_agg(weapon_id) AS weapon_ids'))
+    const rows = await db
+      .select(columName, db.raw('array_agg(weapon_id) AS weapon_ids'))
       .from('weapons')
       .whereNull('reskin_of')
       .groupBy(columName);

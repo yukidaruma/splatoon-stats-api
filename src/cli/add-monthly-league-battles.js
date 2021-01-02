@@ -3,9 +3,7 @@ const { db } = require('../db');
 const { dateToSqlTimestamp } = require('../util');
 
 /** @type {{ startTimes: string[] }} */
-const { startTimes } = commandLineArgs([
-  { name: 'startTimes', multiple: true, defaultOption: true },
-]);
+const { startTimes } = commandLineArgs([{ name: 'startTimes', multiple: true, defaultOption: true }]);
 
 db.transaction(async (trx) => {
   try {

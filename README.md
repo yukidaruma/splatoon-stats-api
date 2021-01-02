@@ -1,16 +1,19 @@
 # splatoon-stats-api
 
 ## Overview
+
 - This project provides API used by [splatoon-stats-web](https://github.com/yukidaruma/splatoon-stats-web).
 - The app is available online at [https://splatoon-stats.yuki.games](https://splatoon-stats.yuki.games).
 - Updates are available on Twitter [@SplatoonStats](https://twitter.com/SplatoonStats).
 
 This program fetches
+
 - League Ranking every 2 hours.
 - Splatfest schedules every day. If there's unfetched splatfest rankings, fetch them too.
 - X Ranking at every first day of the month.
 
 ## Install
+
 ```sh
 git clone https://github.com/yukidaruma/splatoon-stats-api.git
 cd splatoon-stats-api
@@ -19,6 +22,7 @@ docker-compose build
 ```
 
 ## Start
+
 ```sh
 docker-compose up postgres -d
 
@@ -52,7 +56,9 @@ npm run fetch-x-rankings
 ```
 
 ## Third-party APIs
+
 This app is using following third-party APIs.
-* [Spatoon2.ink API](https://github.com/misenhower/splatoon2.ink/wiki/Data-access-policy) by [@mattisenhower](https://twitter.com/mattisenhower) for images, locales and future stage rotations.
-* [Spla2 API](https://spla2.yuu26.com/) by [@m_on_yu](https://twitter.com/m_on_yu) for past league battle stage rotations.
-* [Stat.ink API](https://github.com/fetus-hina/stat.ink/tree/master/doc/api-2) by [@fetus_hina](https://twitter.com/fetus_hina) for weapon names.
+
+- [Spatoon2.ink API](https://github.com/misenhower/splatoon2.ink/wiki/Data-access-policy) by [@mattisenhower](https://twitter.com/mattisenhower) for images, locales and future stage rotations.
+- [Spla2 API](https://spla2.yuu26.com/) by [@m_on_yu](https://twitter.com/m_on_yu) for past league battle stage rotations.
+- [Stat.ink API](https://github.com/fetus-hina/stat.ink/tree/master/doc/api-2) by [@fetus_hina](https://twitter.com/fetus_hina) for weapon names.

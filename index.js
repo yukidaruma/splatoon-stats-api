@@ -2,12 +2,7 @@ const { CronJob } = require('cron');
 const moment = require('moment-timezone');
 const app = require('./src/web-api');
 const config = require('./config');
-const {
-  fetchStageRotations,
-  fetchLeagueRanking,
-  fetchXRanking,
-  fetchSplatfestRankingsJob,
-} = require('./src/cron-job');
+const { fetchStageRotations, fetchLeagueRanking, fetchXRanking, fetchSplatfestRankingsJob } = require('./src/cron-job');
 const { tweetLeagueUpdates, tweetXUpdates } = require('./src/twitter-bot');
 const { calculateLeagueDate } = require('./src/util');
 const { NintendoAPIError } = require('./src/errors');
@@ -26,7 +21,8 @@ const fetchLeagueRankingsJob = () => {
   return Promise.all([fetchStageRotations(), fetchLeagueRankings().then(tweetLeagueUpdates)])
     .then(() => console.log(`Successfully completed cron job at ${moment().format('YYYY-MM-DD HH:mm:ss')}.`))
     .catch((err) => {
-      if (err instanceof NintendoAPIError) { // Expected errors
+      if (err instanceof NintendoAPIError) {
+        // Expected errors
         console.log(err);
       } else {
         // Unexpected error?
@@ -40,15 +36,22 @@ new CronJob('20 0-22/2 * * *', fetchLeagueRankingsJob, null, true, 'UTC'); // Se
 
 // Daily job
 // eslint-disable-next-line no-new
-new CronJob('23 0 * * *', async () => { // See https://crontab.guru/#23_0_*_*_*
-  if (config.DO_NOT_FETCH_SPLATFEST) {
-    return;
-  }
+new CronJob(
+  '23 0 * * *',
+  async () => {
+    // See https://crontab.guru/#23_0_*_*_*
+    if (config.DO_NOT_FETCH_SPLATFEST) {
+      return;
+    }
 
-  console.log('[Daily job] Running fetchSplatfestRankingsJob.');
-  await fetchSplatfestRankingsJob();
-  console.log(`[Daily job] Successfully completed daily cron job on ${moment().format('YYYY-MM-DD')}.`);
-}, null, true, 'UTC');
+    console.log('[Daily job] Running fetchSplatfestRankingsJob.');
+    await fetchSplatfestRankingsJob();
+    console.log(`[Daily job] Successfully completed daily cron job on ${moment().format('YYYY-MM-DD')}.`);
+  },
+  null,
+  true,
+  'UTC',
+);
 
 // Monthly job
 const fetchXRankingsJob = async () => {
