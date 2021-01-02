@@ -7,7 +7,7 @@
     "test": "jest",
     "lint": "eslint . --ext .js --ignore-path .gitignore",
     "start": "node -r dotenv/config index",
-    "start-dev": "cross-env NODE_ENV=development node -r dotenv/config index",
+    "dev": "cross-env NODE_ENV=development nodemon -r dotenv/config index --watch src",
     "setup": "node -r dotenv/config src/cli/setup",
     "update-locale": "npx rimraf cache/locale && node -r dotenv/config src/cli/setup --no-database",
     "migrate": "node -r dotenv/config src/cli/migrate",
@@ -49,6 +49,7 @@
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-jsx-a11y": "^6.3.1",
     "eslint-plugin-react": "^7.20.6",
-    "jest": "^26.4.2"
+    "jest": "^26.4.2",
+    "nodemon": "^2.0.6"
   }
 }
