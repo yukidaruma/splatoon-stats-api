@@ -123,6 +123,9 @@ const randomBetween = (min, max) => Math.random() * (max - min + 1) + min;
  */
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
+/** @type {AsyncRouteHandler} */
+const wrapPromise = (fn) => (req, res, next) => fn(req, res, next).catch(next);
+
 module.exports = {
   calculateLeagueDate,
   calculateStartTimeFromLeagueDate,
@@ -134,4 +137,5 @@ module.exports = {
   randomBetween,
   resolveObjectPath,
   wait,
+  wrapPromise,
 };

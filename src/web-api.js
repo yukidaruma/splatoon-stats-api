@@ -15,6 +15,7 @@ const {
   dateToSqlTimestamp,
   escapeLikeQuery,
   getWeaponClassById,
+  wrapPromise,
 } = require('./util');
 const {
   groupTypes, findRuleId, rankedRules, rankedRuleIds, getOriginalWeaponId,
@@ -66,9 +67,6 @@ if (config.SENTRY_DSN) {
   }
 }
 
-/** @type {AsyncRouteHandler} */
-const wrap = (fn) => (req, res, next) => fn(req, res, next).catch(next);
-
 app.use(cors(
   process.env.NODE_ENV === 'development'
     ? undefined
@@ -92,11 +90,14 @@ app.use(morgan(logFormat));
 // Serve static files
 app.use('/static', express.static('cache'));
 
+// V2 only endpoints
+app.use('/v2', require('./v2-api'));
+
 app.get('/', (req, res) => {
   res.send('It works.');
 });
 
-app.get('/data', wrap(async (req, res) => {
+app.get('/data', wrapPromise(async (req, res) => {
   const rows = await db
     .select('weapon_id', db.raw('main_reference != weapon_id as is_variant'))
     .from('weapons')
@@ -112,7 +113,7 @@ app.get('/data', wrap(async (req, res) => {
   });
 }));
 
-app.get('/players/:playerId([\\da-f]{16})/known_names', wrap(async (req, res) => {
+app.get('/players/:playerId([\\da-f]{16})/known_names', wrapPromise(async (req, res) => {
   const rows = await db
     .select('player_name', 'last_used')
     .from('player_known_names')
@@ -123,7 +124,7 @@ app.get('/players/:playerId([\\da-f]{16})/known_names', wrap(async (req, res) =>
   res.send(rows);
 }));
 
-app.get('/players/:playerId([\\da-f]{16})/rankings/:rankingType(league|x|splatfest)', wrap(async (req, res) => {
+app.get('/players/:playerId([\\da-f]{16})/rankings/:rankingType(league|x|splatfest)', wrapPromise(async (req, res) => {
   const { rankingType, playerId } = req.params;
 
   const tableName = `${rankingType}_rankings`;
@@ -186,7 +187,7 @@ app.get('/players/:playerId([\\da-f]{16})/rankings/:rankingType(league|x|splatfe
   res.json(rows);
 }));
 
-app.get('/players/search', wrap(async (req, res) => {
+app.get('/players/search', wrapPromise(async (req, res) => {
   const { name } = req.query;
 
   const rows = await db
@@ -211,7 +212,7 @@ app.get('/players/search', wrap(async (req, res) => {
   res.json(rows);
 }));
 
-app.get('/rankings/x/:year(\\d{4})/:month([1-9]|1[0-2])/:ruleKey([a-z_]+)', wrap(async (req, res) => {
+app.get('/rankings/x/:year(\\d{4})/:month([1-9]|1[0-2])/:ruleKey([a-z_]+)', wrapPromise(async (req, res) => {
   const { year, month, ruleKey } = req.params;
 
   const ruleId = findRuleId(ruleKey);
@@ -233,7 +234,7 @@ app.get('/rankings/x/:year(\\d{4})/:month([1-9]|1[0-2])/:ruleKey([a-z_]+)', wrap
 }));
 
 // eslint-disable-next-line
-app.get('/rankings/league/:leagueDate(\\d{8}):groupType([TP])', wrap(async (req, res) => {
+app.get('/rankings/league/:leagueDate(\\d{8}):groupType([TP])', wrapPromise(async (req, res) => {
   const { leagueDate, groupType } = req.params;
 
   const startTime = calculateStartTimeFromLeagueDate(leagueDate);
@@ -265,7 +266,7 @@ app.get('/rankings/league/:leagueDate(\\d{8}):groupType([TP])', wrap(async (req,
   res.json(result.rows);
 }));
 
-app.get('/rankings/splatfest/:region((na|eu|jp))/:splatfestId(\\d+)', wrap(async (req, res) => {
+app.get('/rankings/splatfest/:region((na|eu|jp))/:splatfestId(\\d+)', wrapPromise(async (req, res) => {
   const { region, splatfestId } = req.params;
 
   const rows = await db
@@ -281,7 +282,7 @@ app.get('/rankings/splatfest/:region((na|eu|jp))/:splatfestId(\\d+)', wrap(async
   res.json(rows);
 }));
 
-const weaponPopularityRouterCallback = wrap(async (req, res) => {
+const weaponPopularityRouterCallback = wrapPromise(async (req, res) => {
   const {
     rankingType, weaponType, year, month, rule, region, splatfestId,
   } = req.params;
@@ -306,7 +307,7 @@ const weaponPopularityRouterCallback = wrap(async (req, res) => {
   }
 });
 
-const weaponTrendRouterCallback = wrap(async (req, res) => {
+const weaponTrendRouterCallback = wrapPromise(async (req, res) => {
   const {
     rankingType, weaponType, rule, /* region, splatfestId, */
   } = req.params;
@@ -344,7 +345,7 @@ app.get('/weapons/:weaponType(weapons|mains|specials|subs)/:rankingType(splatfes
 app.get('/trends/:weaponType(weapons|mains|specials|subs)/:rankingType(x)/', weaponTrendRouterCallback);
 app.get(`/trends/:weaponType(weapons|mains|specials|subs)/:rankingType(x)/:rule(${rulesPattern})`, weaponTrendRouterCallback);
 
-app.get('/records', wrap(async (req, res) => {
+app.get('/records', wrapPromise(async (req, res) => {
   const latestXRankingTime = await queryLatestXRankingStartTime();
   const cachePath = `cache/weapons-x-top-players.${moment(latestXRankingTime).format('YYYY-MM')}.json`;
   let cacheHit = false;
@@ -440,7 +441,7 @@ app.get('/records', wrap(async (req, res) => {
   });
 }));
 
-app.get('/records/league-weapon', wrap(async (req, res) => {
+app.get('/records/league-weapon', wrapPromise(async (req, res) => {
   let { group_type: groupType, weapon_id: weaponId, weapon_ids: weaponIds } = req.query;
   weaponId = Number.parseInt(weaponId, 10);
   groupType = groupTypes.find((type) => type.query === groupType) || groupTypes[0];
@@ -461,7 +462,7 @@ app.get('/records/league-weapon', wrap(async (req, res) => {
   res.json(Object.fromEntries(records.map((value, i) => [i + 1, value])));
 }));
 
-app.get('/records/x-weapon', wrap(async (req, res) => {
+app.get('/records/x-weapon', wrapPromise(async (req, res) => {
   let { weapon_id: weaponId } = req.query;
   weaponId = Number.parseInt(weaponId, 10);
 
@@ -484,7 +485,7 @@ app.get('/records/x-weapon', wrap(async (req, res) => {
   res.json(Object.fromEntries(records.map((value, i) => [i + 1, value])));
 }));
 
-app.get('/splatfests', wrap(async (req, res) => {
+app.get('/splatfests', wrapPromise(async (req, res) => {
   const rows = await db
     .select('*')
     .from('splatfest_schedules')
@@ -493,7 +494,7 @@ app.get('/splatfests', wrap(async (req, res) => {
   res.json(rows);
 }));
 
-app.get('/stats', wrap(async (req, res) => {
+app.get('/stats', wrapPromise(async (req, res) => {
   const result = await db.raw(`
     select
         (select count(distinct(start_time)) from x_rankings) as x_rankings,
