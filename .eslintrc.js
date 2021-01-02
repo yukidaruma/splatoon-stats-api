@@ -2,6 +2,9 @@
 
 module.exports = {
   "extends": "airbnb-base",
+  "parserOptions": {
+    "ecmaVersion": 2020
+  },
   "rules": {
     "arrow-body-style": "off",
     "max-len": ['warn', 120, 2, {
