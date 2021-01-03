@@ -319,7 +319,13 @@ const queryWeaponUsageDifference = (args) =>
         ).from('weapon_appearances');
       });
 
-    cte.select('*').from('weapon_appearances_with_rank').then(resolve).catch(reject);
+    cte
+      .select('*')
+      .from('weapon_appearances_with_rank')
+      .orderBy('current_month_count', 'desc')
+      .orderBy('weapon_id')
+      .then(resolve)
+      .catch(reject);
   });
 
 const queryWeaponRanking = (args) =>
