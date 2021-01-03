@@ -7,6 +7,7 @@ const { tweetLeagueUpdates, tweetXUpdates } = require('./src/twitter-bot');
 const { calculateLeagueDate } = require('./src/util');
 const { NintendoAPIError } = require('./src/errors');
 const { hasXRankingForMonth } = require('./src/query');
+const Cache = require('./src/cache');
 
 // Fetch League Rankings every 2 hours
 const fetchLeagueRankingsJob = () => {
@@ -39,6 +40,8 @@ new CronJob('20 0-22/2 * * *', fetchLeagueRankingsJob, null, true, 'UTC'); // Se
 new CronJob(
   '23 0 * * *',
   async () => {
+    Cache.del(Cache.keys.distributions_league);
+
     // See https://crontab.guru/#23_0_*_*_*
     if (config.DO_NOT_FETCH_SPLATFEST) {
       return;

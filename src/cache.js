@@ -2,9 +2,11 @@
 const cacheManager = require('cache-manager');
 const fsStore = require('cache-manager-fs');
 
-const distributions = 'distributions';
+const distributionsLeague = 'distributions_league';
+const distributionsX = 'distributions_x';
 const cacheKeys = {
-  [distributions]: distributions,
+  [distributionsLeague]: distributionsLeague,
+  [distributionsX]: distributionsX,
 };
 
 const MAX_SAFE_DATE = 8.64e15;

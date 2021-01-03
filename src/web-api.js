@@ -538,9 +538,9 @@ app.get(
 );
 
 app.get(
-  '/distributions',
+  '/distributions/x',
   wrapPromise(async (req, res) => {
-    const cache = await Cache.wrap(Cache.keys.distributions, async () => {
+    const cache = await Cache.wrap(Cache.keys.distributions_x, async () => {
       const start = 2600;
       const end = 3100;
       const interval = 10;
@@ -551,17 +551,18 @@ app.get(
         })
         .join(',');
       const query = `
-    WITH cte AS (
-      SELECT MAX(rating) AS rating, rule_id from x_rankings
-      GROUP BY player_id, rule_id
-    )
-    SELECT
-      COUNT(*) AS count,
-      rule_id,
-      ${classesQuery}
-      FROM cte
-      GROUP by rule_id
-    `;
+      WITH cte AS (
+        SELECT MAX(rating) AS rating, rule_id
+        FROM x_rankings
+        GROUP BY player_id, rule_id
+      )
+      SELECT
+        COUNT(*) AS count,
+        rule_id,
+        ${classesQuery}
+        FROM cte
+        GROUP by rule_id
+      `;
       const { rows } = await db.raw(query);
       const data = {};
       rows.forEach((row) => {
@@ -580,6 +581,68 @@ app.get(
       });
 
       return data;
+    });
+
+    res.json(cache);
+  }),
+);
+
+app.get(
+  '/distributions/league',
+  wrapPromise(async (req, res) => {
+    const cache = await Cache.wrap(Cache.keys.distributions_league, async () => {
+      const start = 2100;
+      const end = 2900;
+      const interval = 10;
+      const classes = range(start, end, interval);
+      const classesQuery = classes
+        .map((rating) => {
+          return `SUM(CASE WHEN rating >= ${rating} THEN 1 ELSE 0 END) AS over${rating}`;
+        })
+        .join(',');
+
+      const [team, pair] = await Promise.all(
+        groupTypes.map(async ({ query: queryKey }) => {
+          const query = `
+          WITH cte AS (
+            SELECT MAX(rating) AS rating, rule_id
+            FROM league_rankings lr
+            INNER JOIN league_schedules ls ON lr.start_time = ls.start_time
+            WHERE group_type = '${queryKey}'
+            GROUP BY player_id, rule_id
+          )
+          SELECT
+            COUNT(*) AS count,
+            rule_id,
+            ${classesQuery}
+            FROM cte
+            GROUP by rule_id
+          `;
+          const { rows } = await db.raw(query);
+          const data = {};
+          rows.forEach((row) => {
+            Object.entries(row).forEach(([key, value]) => {
+              if (!data[row.rule_id]) {
+                data[row.rule_id] = {
+                  count: row.count,
+                  distributions: {},
+                };
+              }
+
+              if (key.startsWith('over')) {
+                data[row.rule_id].distributions[key.replace('over', '')] = value;
+              }
+            });
+          });
+
+          return data;
+        }),
+      );
+
+      return {
+        team,
+        pair,
+      };
     });
 
     res.json(cache);
