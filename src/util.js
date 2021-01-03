@@ -122,6 +122,17 @@ const i18nEn = (key) => i18n('en', key);
 const randomBetween = (min, max) => Math.random() * (max - min + 1) + min;
 
 /**
+ * @param {Number} start
+ * @param {Number} stop
+ * @param {Number} step
+ * @returns {Number[]}
+ */
+const range = (start, stop, step = 1) =>
+  Array(Math.ceil((stop - start) / step))
+    .fill(start)
+    .map((x, y) => x + y * step);
+
+/**
  * @desc Convert Date object to SQL timestamp string.
  * @param {Number} ms Duration in milliseconds
  * @example await wait(1000); // Wait for 1 second
@@ -140,6 +151,7 @@ module.exports = {
   i18n,
   i18nEn,
   randomBetween,
+  range,
   resolveObjectPath,
   wait,
   wrapPromise,

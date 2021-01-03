@@ -15,6 +15,7 @@ const {
   dateToSqlTimestamp,
   escapeLikeQuery,
   getWeaponClassById,
+  range,
   wrapPromise,
 } = require('./util');
 const { groupTypes, findRuleId, rankedRules, rankedRuleIds, getOriginalWeaponId } = require('./data');
@@ -532,6 +533,51 @@ app.get(
         (select reltuples::bigint from pg_class where relname='league_rankings') as league_rankings_estimate,
         (select count(*) from splatfest_schedules) as splatfests`);
     res.json(result.rows[0]);
+  }),
+);
+
+app.get(
+  '/distributions',
+  wrapPromise(async (req, res) => {
+    const start = 2600;
+    const end = 3100;
+    const interval = 10;
+    const classes = range(start, end, interval);
+    const classesQuery = classes
+      .map((rating) => {
+        return `SUM(CASE WHEN rating >= ${rating} THEN 1 ELSE 0 END) AS over${rating}`;
+      })
+      .join(',');
+    const query = `
+    WITH cte AS (
+      SELECT MAX(rating) AS rating, rule_id from x_rankings
+      GROUP BY player_id, rule_id
+    )
+    SELECT
+      COUNT(*) AS count,
+      rule_id,
+      ${classesQuery}
+      FROM cte
+      GROUP by rule_id
+    `;
+    const { rows } = await db.raw(query);
+    const data = {};
+    rows.forEach((row) => {
+      Object.entries(row).forEach(([key, value]) => {
+        if (!data[row.rule_id]) {
+          data[row.rule_id] = {
+            count: row.count,
+            distributions: {},
+          };
+        }
+
+        if (key.startsWith('over')) {
+          data[row.rule_id].distributions[key.replace('over', '')] = value;
+        }
+      });
+    });
+
+    res.json(data);
   }),
 );
 
