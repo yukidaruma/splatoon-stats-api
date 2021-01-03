@@ -591,9 +591,9 @@ app.get(
   '/distributions/league',
   wrapPromise(async (req, res) => {
     const cache = await Cache.wrap(Cache.keys.distributions_league, async () => {
-      const start = 2100;
+      const start = 2200;
       const end = 2900;
-      const interval = 10;
+      const interval = 20;
       const classes = range(start, end, interval);
       const classesQuery = classes
         .map((rating) => {
