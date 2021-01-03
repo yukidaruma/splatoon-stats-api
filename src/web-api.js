@@ -8,6 +8,7 @@ const moment = require('moment-timezone');
 const Sentry = require('@sentry/node');
 const Tracing = require('@sentry/tracing');
 
+const Cache = require('./cache');
 const config = require('../config');
 const { db } = require('./db');
 const {
@@ -539,16 +540,17 @@ app.get(
 app.get(
   '/distributions',
   wrapPromise(async (req, res) => {
-    const start = 2600;
-    const end = 3100;
-    const interval = 10;
-    const classes = range(start, end, interval);
-    const classesQuery = classes
-      .map((rating) => {
-        return `SUM(CASE WHEN rating >= ${rating} THEN 1 ELSE 0 END) AS over${rating}`;
-      })
-      .join(',');
-    const query = `
+    const cache = await Cache.wrap(Cache.keys.distributions, async () => {
+      const start = 2600;
+      const end = 3100;
+      const interval = 10;
+      const classes = range(start, end, interval);
+      const classesQuery = classes
+        .map((rating) => {
+          return `SUM(CASE WHEN rating >= ${rating} THEN 1 ELSE 0 END) AS over${rating}`;
+        })
+        .join(',');
+      const query = `
     WITH cte AS (
       SELECT MAX(rating) AS rating, rule_id from x_rankings
       GROUP BY player_id, rule_id
@@ -560,24 +562,27 @@ app.get(
       FROM cte
       GROUP by rule_id
     `;
-    const { rows } = await db.raw(query);
-    const data = {};
-    rows.forEach((row) => {
-      Object.entries(row).forEach(([key, value]) => {
-        if (!data[row.rule_id]) {
-          data[row.rule_id] = {
-            count: row.count,
-            distributions: {},
-          };
-        }
+      const { rows } = await db.raw(query);
+      const data = {};
+      rows.forEach((row) => {
+        Object.entries(row).forEach(([key, value]) => {
+          if (!data[row.rule_id]) {
+            data[row.rule_id] = {
+              count: row.count,
+              distributions: {},
+            };
+          }
 
-        if (key.startsWith('over')) {
-          data[row.rule_id].distributions[key.replace('over', '')] = value;
-        }
+          if (key.startsWith('over')) {
+            data[row.rule_id].distributions[key.replace('over', '')] = value;
+          }
+        });
       });
+
+      return data;
     });
 
-    res.json(data);
+    res.json(cache);
   }),
 );
 

@@ -7,6 +7,7 @@ const { findRuleId, rankedRules, getOriginalWeaponId } = require('./data');
 const { queryUnfetchedSplatfests } = require('./query');
 const { splatnetUrl, getSplatnetApi } = require('./splatnet');
 const { wait } = require('./util');
+const Cache = require('./cache');
 
 /**
  * @desc Fallback function for cacheImageFromSplatoon2Ink.
@@ -285,6 +286,8 @@ const fetchLeagueRanking = async (leagueId) => {
 const fetchXRanking = (year, month) =>
   new Promise((resolve, reject) => {
     let duration = 1;
+
+    Cache.del(Cache.keys.distributions);
 
     if (year === 2018 && (month === 4 || month === 5)) {
       month = 4; // eslint-disable-line no-param-reassign
