@@ -6,8 +6,7 @@ const { populateDatabase } = require('../populate_database');
 const { cacheImageFromNintendoAPI } = require('../cron-job');
 
 const downloadLocales = (statInkWeapons) => {
-  const languages = ['ja', 'en'];
-  languages.forEach(async (lang) => {
+  return Promise.all(async (lang) => {
     const locale = { ja: 'ja_JP', en: 'en_US' }[lang];
     const cacheDir = 'cache/locale';
 
@@ -152,10 +151,10 @@ const downloadImages = async (useSalmon) => {
   }
 
   if (!options['no-locale']) {
-    downloadLocales(statInkWeapons);
+    await downloadLocales(statInkWeapons);
   }
 
   if (!options['no-database']) {
-    populateDatabase(statInkWeapons);
+    await populateDatabase(statInkWeapons);
   }
 })();

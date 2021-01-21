@@ -64,7 +64,7 @@ const addWeapons = (statInkWeapons) => {
 };
 
 const populateDatabase = (statInkWeapons) => {
-  async.series(
+  return async.series(
     {
       _addWeaponClasses(next) {
         const queries = weaponClasses.map((weaponClass) =>
