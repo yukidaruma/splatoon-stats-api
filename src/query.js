@@ -104,19 +104,21 @@ const queryLeagueWeaponsRuleRecords = (ruleId, groupType, weaponIds) => {
     );
 };
 
-const xWeaponRuleRecordsQuery = (query, cols, ruleId, weaponId) =>
-  query
+const xWeaponRuleRecordsQuery = (qb, cols, ruleId, weaponId) => {
+  const query = qb
     .select(...cols)
     .from({ xr: 'x_rankings' })
-    .where('rule_id', ruleId)
     .whereIn('xr.weapon_id', [weaponId, ...getWeaponReskins(weaponId)]);
+
+  return ruleId ? query.where('rule_id', ruleId) : query;
+};
 
 const queryXWeaponRuleRecords = (ruleId, weaponId) =>
   db
     .with('weapon_top_ratings', (cte) =>
-      xWeaponRuleRecordsQuery(cte, ['player_id', 'xr.weapon_id', 'rating', 'start_time'], ruleId, weaponId)
+      xWeaponRuleRecordsQuery(cte, ['rule_id', 'player_id', 'xr.weapon_id', 'rating', 'start_time'], ruleId, weaponId)
         .orderBy('rating', 'desc')
-        .limit(LEAGUE_WEAPON_RECORD_COUNT),
+        .limit(ruleId ? LEAGUE_WEAPON_RECORD_COUNT : 30),
     )
     .select('*')
     .from({ r: 'weapon_top_ratings' })

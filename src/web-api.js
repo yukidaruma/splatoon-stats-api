@@ -498,7 +498,7 @@ app.get(
       return;
     }
 
-    const promises = rankedRuleIds.map(async (ruleId) => {
+    const promises = [0, ...rankedRuleIds].map(async (ruleId) => {
       const count = await queryXWeaponRuleRecordsCount(ruleId, weaponId);
       const records = await queryXWeaponRuleRecords(ruleId, weaponId);
 
@@ -509,7 +509,7 @@ app.get(
     });
     const records = await Promise.all(promises);
 
-    res.json(Object.fromEntries(records.map((value, i) => [i + 1, value])));
+    res.json(Object.fromEntries(records.map((value, i) => [i, value])));
   }),
 );
 
