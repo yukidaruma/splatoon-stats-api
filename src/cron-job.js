@@ -279,11 +279,12 @@ const fetchLeagueRanking = async (leagueId) => {
 /**
  * @param {Number} year
  * @param {Number} month 1-12
+ * @param {Boolean} shouldWait If true, add 10 seconds delay between every fetch
  * @example
  * // Fetch X Ranking of 2019-01
  * fetchXRanking(2019, 1)
  */
-const fetchXRanking = (year, month) =>
+const fetchXRanking = (year, month, shouldWait = true) =>
   new Promise((resolve, reject) => {
     let duration = 1;
 
@@ -336,7 +337,9 @@ const fetchXRanking = (year, month) =>
             .flat();
 
           await Promise.all(queries);
-          await wait(10000);
+          if (shouldWait) {
+            await wait(10000);
+          }
         }
       }
       /* eslint-enable no-restricted-syntax, no-await-in-loop */

@@ -70,7 +70,7 @@ const fetchXRankingsJob = async () => {
   console.log(`Fetching X Ranking for ${year}/${month}.`);
 
   try {
-    await fetchXRanking(year, month);
+    await fetchXRanking(year, month, false);
     console.log(`Successfully fetched X Ranking for ${year}/${month}.`);
 
     await tweetXUpdates(lastMonth);
@@ -83,7 +83,7 @@ const fetchXRankingsJob = async () => {
 // X Ranking is updated indeterminately (because of National holiday(s) in Japan)
 // See https://crontab.guru/#20_0-22%2F2_*_*_*
 // eslint-disable-next-line no-new
-new CronJob('20 0-22/2 * * *', fetchXRankingsJob, null, true, 'UTC');
+new CronJob('1 0-22/2 * * *', fetchXRankingsJob, null, true, 'UTC');
 
 // Web interface
 app.listen(config.PORT, () => {
