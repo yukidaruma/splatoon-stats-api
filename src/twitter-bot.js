@@ -180,7 +180,12 @@ const tweetXUpdates = async (currentMonth) => {
 
   const text = `X Rankings for ${month}
 
-See full ranking on ${config.FRONTEND_ORIGIN}/rankings/x/${month.replace('-', '/')}`;
+Full rankings: ${config.FRONTEND_ORIGIN}/rankings/x/${month.replace('-', '/')}
+
+Popular weapons: ${config.FRONTEND_ORIGIN}/weapons/weapons/x/${month.replace('-', '/')}
+Weapon trends: ${config.FRONTEND_ORIGIN}/trends/weapons/x/?previous_month=${previousMonth.format(
+    'YYYY-MM',
+  )}&current_month=${month}`;
 
   if (!config.ENABLE_SCHEDULED_TWEETS) return;
 
