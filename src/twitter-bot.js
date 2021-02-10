@@ -12,7 +12,7 @@ const {
   queryWeaponTopPlayersForMonth,
 } = require('./query');
 const { getSplatnetApi } = require('./splatnet');
-const { postMediaTweet } = require('./twitter-client');
+const { createTwitterBot, leagueClient } = require('./twitter-client');
 const { dateToSqlTimestamp, i18nEn } = require('./util');
 
 /**
@@ -120,10 +120,10 @@ Stage: ${stageNames.join(' / ')}
 
 See full ranking on ${config.FRONTEND_ORIGIN}/rankings/league/${leagueId}`;
 
-  if (!config.ENABLE_SCHEDULED_TWEETS) return;
+  if (!config.ENABLE_SCHEDULED_TWEETS) return false;
 
-  // eslint-disable-next-line consistent-return
-  return postMediaTweet(text, screenshots);
+  const leagueBot = createTwitterBot(leagueClient);
+  return leagueBot.postMediaTweet(text, screenshots);
 };
 
 const generateXSummaryHTML = (data) => {
@@ -187,9 +187,10 @@ Weapon trends: ${config.FRONTEND_ORIGIN}/trends/weapons/x/?previous_month=${prev
     'YYYY-MM',
   )}&current_month=${month}`;
 
-  if (!config.ENABLE_SCHEDULED_TWEETS) return;
+  if (!config.ENABLE_SCHEDULED_TWEETS) return false;
 
-  return postMediaTweet(text, screenshots);
+  const bot = createTwitterBot();
+  return bot.postMediaTweet(text, screenshots);
 };
 
 module.exports = {
