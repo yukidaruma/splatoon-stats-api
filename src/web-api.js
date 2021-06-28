@@ -581,7 +581,7 @@ app.get(
       });
 
       return data;
-    });
+    }, { ttl: 86400 });
 
     res.json(cache);
   }),
@@ -643,7 +643,7 @@ app.get(
         team,
         pair,
       };
-    });
+    }, { ttl: 86400 });
 
     res.json(cache);
   }),
