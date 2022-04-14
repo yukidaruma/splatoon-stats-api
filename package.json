@@ -26,7 +26,7 @@
   "dependencies": {
     "@sentry/node": "^5.29.2",
     "@sentry/tracing": "^5.29.2",
-    "async": "^3.2.0",
+    "async": "^3.2.2",
     "cache-manager": "^3.4.0",
     "cache-manager-fs": "^1.0.8",
     "command-line-args": "^5.1.1",
