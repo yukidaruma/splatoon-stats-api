@@ -37,7 +37,7 @@
     "extensible-custom-error": "0.0.7",
     "knex": "^0.21.15",
     "memoizee": "^0.4.14",
-    "moment-timezone": "^0.5.32",
+    "moment-timezone": "^0.5.35",
     "morgan": "^1.10.0",
     "node-fetch": "^2.6.1",
     "pg": "^8.5.1",
