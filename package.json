@@ -33,7 +33,7 @@
     "cors": "^2.8.5",
     "cron": "^1.8.2",
     "dotenv": "^8.2.0",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "extensible-custom-error": "0.0.7",
     "knex": "^0.21.15",
     "memoizee": "^0.4.14",
