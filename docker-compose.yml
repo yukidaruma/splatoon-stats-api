@@ -16,7 +16,7 @@ services:
     container_name: sranking-postgres
     volumes:
       - pgdata13:/var/lib/postgresql/data
-      - ./docker/pg_hba.conf:/var/lib/postgresql/data/pg_hba.conf
+      # - ./docker/pg_hba.conf:/var/lib/postgresql/data/pg_hba.conf
   app:
     build:
       context: .
@@ -25,7 +25,7 @@ services:
     depends_on:
       - postgres
     ports:
-      - '3000:3000'
+      - '7000:3000'
     volumes:
       - ./screenshots:/var/tmp/screenshots
       - ./cache:/app/cache

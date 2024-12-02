@@ -95,6 +95,17 @@ const getWeaponClassById = (weaponId) => {
   return 'shooter';
 };
 
+const groupBy = (array, getKey) =>
+  Array.from(
+    array.reduce((map, cur, idx, src) => {
+      const key = getKey(cur, idx, src);
+      const list = map.get(key);
+      if (list) list.push(cur);
+      else map.set(key, [cur]);
+      return map;
+    }, new Map()),
+  );
+
 const i18nCache = new Map();
 
 /**
@@ -148,6 +159,7 @@ module.exports = {
   dateToSqlTimestamp,
   escapeLikeQuery,
   getWeaponClassById,
+  groupBy,
   i18n,
   i18nEn,
   randomBetween,

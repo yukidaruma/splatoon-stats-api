@@ -86,6 +86,6 @@ const fetchXRankingsJob = async () => {
 new CronJob('1 0-22/2 * * *', fetchXRankingsJob, null, true, 'UTC');
 
 // Web interface
-app.listen(config.PORT, () => {
+app.listen(7000, () => {
   console.log(`Web server is listening on ${config.PORT} (NODE_ENV=${process.env.NODE_ENV}).`);
 });

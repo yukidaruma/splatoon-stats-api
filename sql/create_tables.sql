@@ -48,21 +48,6 @@ CREATE INDEX IF NOT EXISTS league_rankings_rating_weapon_id_idx ON league_rankin
   rating numeric(5, 1) NOT NULL,
   PRIMARY KEY (start_time, group_id)
 ) */
-CREATE TABLE IF NOT EXISTS league_group_rankings
-AS SELECT
-  start_time,
-  group_type,
-  group_id,
-  ARRAY_AGG(lr.weapon_id ORDER BY lr.weapon_id) AS weapon_ids,
-  CASE
-    WHEN ARRAY_AGG(lr.weapon_id ORDER BY lr.weapon_id) <> ARRAY_AGG(COALESCE(w.reskin_of, lr.weapon_id) ORDER BY COALESCE(w.reskin_of, lr.weapon_id)) THEN ARRAY_AGG(COALESCE(w.reskin_of, lr.weapon_id) ORDER BY COALESCE(w.reskin_of, lr.weapon_id))
-    ELSE NULL
-  END AS normalized_weapon_ids,
-  rank,
-  rating
-FROM league_rankings lr
-INNER JOIN weapons w ON w.weapon_id = lr.weapon_id
-GROUP BY group_type, group_id, start_time, rank, rating;
 CREATE INDEX IF NOT EXISTS league_group_rankings_group_id_idx ON league_group_rankings (group_id);
 CREATE INDEX IF NOT EXISTS league_group_rankings_rating_idx ON league_group_rankings (rating);
 DROP INDEX IF EXISTS league_group_rankings_rating_normalized_weapon_ids_idx;
@@ -163,3 +148,19 @@ CREATE TABLE IF NOT EXISTS monthly_league_battle_schedules (
   start_time TIMESTAMP PRIMARY KEY,
   FOREIGN KEY (start_time) REFERENCES league_schedules (start_time)
 );
+
+CREATE TABLE IF NOT EXISTS league_group_rankings
+AS SELECT
+  start_time,
+  group_type,
+  group_id,
+  ARRAY_AGG(lr.weapon_id ORDER BY lr.weapon_id) AS weapon_ids,
+  CASE
+    WHEN ARRAY_AGG(lr.weapon_id ORDER BY lr.weapon_id) <> ARRAY_AGG(COALESCE(w.reskin_of, lr.weapon_id) ORDER BY COALESCE(w.reskin_of, lr.weapon_id)) THEN ARRAY_AGG(COALESCE(w.reskin_of, lr.weapon_id) ORDER BY COALESCE(w.reskin_of, lr.weapon_id))
+    ELSE NULL
+  END AS normalized_weapon_ids,
+  rank,
+  rating
+FROM league_rankings lr
+INNER JOIN weapons w ON w.weapon_id = lr.weapon_id
+GROUP BY group_type, group_id, start_time, rank, rating;
